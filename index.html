@@ -160,6 +160,37 @@ svg.spark{width:100%;height:64px;display:block}
 .hedit .min{grid-column:1/3}
 .hedit input,.hedit select{padding:9px 10px;font-size:15px}
 .hedit .del{border:1px solid var(--line);background:transparent;border-radius:10px;height:42px;color:var(--danger)}
+.goalbtn{display:flex;align-items:center;gap:8px;width:100%;background:transparent;border:none;padding:0;text-align:left;font-size:13px;color:var(--muted);min-height:28px}
+.goalbtn b{color:var(--ink);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.goalbtn .ed{flex:none;font-size:12px;color:var(--slate);font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.stage{display:block;width:100%;height:auto;aspect-ratio:200/130;max-width:100%}
+.hero-info{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px 12px}
+.hero-info .t{display:flex;flex-direction:column;min-width:0}
+.hero-info .t b{font-size:15px}
+.hero-info .t span{font-size:12px;color:var(--muted)}
+.hero-info .btn{padding:8px 12px;min-height:38px;font-size:13px}
+.gear{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gi{border:1px solid var(--line);border-radius:12px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0}
+.gi .gl{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.gi b{font-size:12.5px;font-weight:600;word-break:keep-all;line-height:1.3}
+.gi span{font-size:10.5px;color:var(--muted);word-break:keep-all;line-height:1.3}
+.gi.off{opacity:.45}
+.gi.on{background:var(--slate-soft);border-color:transparent}
+.gi.next{border:1.5px dashed var(--chalk);opacity:1}
+.pop{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--scrim);padding:24px max(20px,env(safe-area-inset-right,0px)) 24px max(20px,env(safe-area-inset-left,0px))}
+.popc{background:var(--surface);border-radius:20px;width:100%;max-width:340px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;animation:popin .35s ease-out}
+.popc .k{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--chalk-ink);background:var(--chalk);border-radius:999px;padding:3px 12px;margin-top:16px}
+.popc h3{font-family:var(--f-display);font-size:24px;font-weight:800;margin:8px 16px 2px}
+.popc p{margin:0 18px;font-size:14px;color:var(--muted)}
+.popc .medal{width:84px;height:84px;border-radius:50%;background:var(--chalk);color:var(--chalk-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:22px;margin-top:14px;box-shadow:0 0 0 8px var(--slate-soft)}
+.popc .btn{margin:16px;align-self:stretch}
+.hist{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.hist div{display:flex;gap:10px;border-top:1px solid var(--line);padding-top:6px}
+.hist div span:first-child{flex:none;color:var(--muted);font-family:var(--f-mono);font-size:12px}
+@keyframes popin{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:.95}}
+.glow{animation:glow 2.4s ease-in-out infinite}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
 .toast.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
 .sync{font-size:11.5px;color:var(--muted);text-align:center}
@@ -180,12 +211,17 @@ svg.spark{width:100%;height:64px;display:block}
       <div class="srow"><span class="pill" id="streak">연속 0일</span><span class="pill chalk" id="mileTag" hidden></span><span class="pill" id="ratio">0/0</span></div>
       <div class="lv"><b id="lvName">Lv.1</b><div class="xpbar"><i id="xpbar"></i></div><span class="mono" id="xpText">0 XP</span></div>
     </div>
+    <button class="goalbtn" id="goalBtn"><span>목표</span><b id="goalText"></b><span class="ed">수정</span></button>
     <button class="banner" id="catchup" hidden></button>
     <div class="tiles" id="tiles"></div>
     <div class="stack" style="gap:8px">
       <div class="moodrow" id="moods" role="group" aria-label="오늘 기분"></div>
       <button class="logbtn" id="openLog"><span class="lb">감사·한 줄</span><span class="pv" id="logPv">탭해서 기록</span></button>
     </div>
+    <section class="hero" aria-label="나의 캐릭터">
+      <svg class="stage" id="stage" viewBox="0 0 200 130" role="img" aria-label="레벨에 따라 성장하는 캐릭터"></svg>
+      <div class="hero-info"><div class="t"><b id="heroTitle">Lv.1</b><span id="heroNext"></span></div><button class="btn ghost" id="openGear">성장 도감</button></div>
+    </section>
     <div class="sync" id="sync"></div>
   </main>
 
@@ -233,6 +269,7 @@ svg.spark{width:100%;height:64px;display:block}
       <h2 style="font-size:15px">프로젝트</h2>
       <label class="fl" for="sStart">시작일 (DAY 1)<input type="date" id="sStart"></label>
       <label class="fl" for="sGoal">100일 뒤의 나<input type="text" id="sGoal" maxlength="60"></label>
+      <p class="note">습관을 바꾸거나 추가해도 지난 날의 달성률은 그날의 습관 기준으로 유지됩니다.</p>
     </section>
     <section class="card">
       <div class="sec-h"><h2>습관</h2><span class="note">최소 기준은 안 되는 날의 하한선</span></div>
@@ -259,6 +296,25 @@ svg.spark{width:100%;height:64px;display:block}
   </main>
 </div>
 
+<!-- goal sheet -->
+<div class="sheet" id="goalSheet" hidden role="dialog" aria-modal="true" aria-labelledby="goalTitle">
+  <div class="grab"></div>
+  <div class="sec-h"><h2 id="goalTitle">목표 바꾸기</h2><span class="muted" style="font-size:12px">언제든 다시 바꿀 수 있어요</span></div>
+  <label class="fl" for="gGoal">100일 뒤의 나<input type="text" id="gGoal" maxlength="60" placeholder="예: 더 건강하고 단단하고 여유 있는 나"></label>
+  <label class="fl" for="gWhy">이 목표가 중요한 이유<textarea id="gWhy" rows="2" placeholder="힘든 날 다시 읽게 될 한 문장"></textarea></label>
+  <div class="row"><button class="btn" id="gSave" style="flex:1">저장</button><a class="btn ghost" href="#setup" id="gHabits" style="text-decoration:none;display:grid;place-items:center">습관 바꾸기</a></div>
+  <div class="hist" id="gHist"></div>
+</div>
+<!-- gear sheet -->
+<div class="sheet" id="gearSheet" hidden role="dialog" aria-modal="true" aria-labelledby="gearTitle">
+  <div class="grab"></div>
+  <div class="sec-h"><h2 id="gearTitle">성장 도감</h2><span class="mono muted" id="gearSum" style="font-size:12px"></span></div>
+  <p class="note">레벨이 오를 때마다 새로운 모습이 하나씩 열립니다.</p>
+  <div class="gear" id="gearGrid"></div>
+  <button class="btn" id="closeGear">닫기</button>
+</div>
+<!-- popup -->
+<div class="pop" id="pop" hidden role="alertdialog" aria-modal="true" aria-labelledby="popTitle"><div class="popc" id="popc"></div></div>
 <!-- log sheet -->
 <div class="scrim" id="scrim" hidden></div>
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
@@ -288,7 +344,7 @@ const MOOD=[["1","힘듦"],["2","처짐"],["3","보통"],["4","괜찮음"],["5",
 const MILES={1:"출발",7:"첫 일주일",21:"3주 돌파",30:"한 달",50:"절반",66:"습관 정착",100:"완주"};
 const MIN_DEFAULT={run:"최소 10분 걷기",str:"최소 1세트",sleep:"최소 자정 전",scalp:"최소 샴푸 꼼꼼히",teeth:"최소 치실 1번",skin:"최소 로션만",talk:"최소 5분",write:"최소 한 문단",read:"최소 5쪽",grat:"한 줄이면 끝"};
 const XP={habit:10,bonus:10,allClear:30,mood:5,log:5,week:20};
-const TITLES=[[1,"리부트 견습생"],[3,"루틴 수련생"],[5,"습관 기사"],[8,"꾸준함의 장인"],[11,"단단한 사람"],[15,"100일의 주인공"]];
+const TITLES=[[1,"평범한 하루"],[3,"달라지는 남자"],[5,"자기관리의 남자"],[7,"품격 있는 남자"],[9,"존경받는 선생님"],[11,"여유로운 어른"],[13,"행복한 가장"],[15,"100일의 주인공"]];
 const pad=n=>String(n).padStart(2,"0");
 const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 function today(){const d=new Date();if(d.getHours()<4)d.setDate(d.getDate()-1);return ymd(d)}
@@ -317,7 +373,9 @@ const todayNo=()=>dayNo(TODAY);
 
 /* ---------- scoring (all derived from records, nothing counted separately) ---------- */
 function bonusId(date){const hs=cfg.habits;if(!hs.length)return null;let x=0;for(const c of date)x=(x*31+c.charCodeAt(0))>>>0;return hs[x%hs.length].id}
-function ratioOf(date){const d=days[date];const hs=cfg.habits;if(!d||!d.checks||!hs.length)return 0;return hs.filter(h=>d.checks[h.id]).length/hs.length}
+function hidsOf(date){const d=days[date];return (d&&Array.isArray(d.hids)&&d.hids.length)?d.hids:cfg.habits.map(h=>h.id)}
+function ratioOf(date){const d=days[date];if(!d||!d.checks)return 0;const ids=hidsOf(date);if(!ids.length)return 0;return ids.filter(id=>d.checks[id]).length/ids.length}
+const allClear=date=>{const d=days[date];if(!d||!d.checks)return false;const ids=hidsOf(date);return ids.length>0&&ids.every(id=>d.checks[id])};
 const level=r=>r<=0?0:r<.4?1:r<.7?2:r<1?3:4;
 const good=n=>n>=1&&ratioOf(dateOf(n))>=.6;
 function streakInfo(){ // a single missed day is forgiven (쉼표) when the day after it was achieved; two misses in a row break it
@@ -331,7 +389,7 @@ function bestStreak(){const t=Math.min(todayNo(),100);let best=0,run=0;for(let i
 function habitStreak(hid,n){let s=0;for(let i=n;i>=1;i--){const d=days[dateOf(i)];if(d&&d.checks&&d.checks[hid])s++;else break}return s}
 function dayXP(date){const d=days[date];if(!d)return 0;let x=0;const hs=cfg.habits,c=d.checks||{},b=bonusId(date);
   hs.forEach(h=>{if(c[h.id])x+=XP.habit+(h.id===b?XP.bonus:0)});
-  if(hs.length&&hs.every(h=>c[h.id]))x+=XP.allClear;
+  if(allClear(date))x+=XP.allClear;
   if(d.mood)x+=XP.mood;if((d.grat||"").trim()||(d.memo||"").trim())x+=XP.log;return x}
 function totalXP(){let x=0;const t=Math.min(todayNo(),100);for(let i=1;i<=t;i++)x+=dayXP(dateOf(i));
   Object.values(weeks).forEach(w=>{if(w&&((w.good||"").trim()||(w.bad||"").trim()||(w.next||"").trim()))x+=XP.week});return x}
@@ -398,20 +456,19 @@ function renderToday(){
   const mb=$("moods");mb.innerHTML="";
   MOOD.forEach(([v,l])=>{const bt=document.createElement("button");bt.type="button";bt.disabled=!ed;
     bt.setAttribute("aria-pressed",String(d.mood)===v?"true":"false");bt.setAttribute("aria-label","기분 "+v+" "+l);bt.innerHTML="<b>"+v+"</b>"+l;
-    bt.onclick=()=>{const dd=edit(viewDate);const was=dd.mood;dd.mood=String(was)===v?null:Number(v);saveDay(viewDate);buzz(8);if(!was)toast("기분 기록 +"+XP.mood+" XP");renderToday()};
+    bt.onclick=()=>{const dd=edit(viewDate);const was=dd.mood;dd.mood=String(was)===v?null:Number(v);saveDay(viewDate);buzz(8);if(!was)toast("기분 기록 +"+XP.mood+" XP");renderToday();announce()};
     mb.appendChild(bt)});
   const pv=[(d.grat||"").trim(),(d.memo||"").trim()].filter(Boolean).join(" · ");
   $("logPv").textContent=pv||"탭해서 기록 (+5 XP)";$("logPv").classList.toggle("has",!!pv);$("openLog").disabled=!ed;
+  $("goalText").textContent=cfg.goal||"목표를 정해 주세요";renderHero();
 }
-function edit(date){const dd=days[date]=Object.assign({},days[date]||{});dd.checks=Object.assign({},dd.checks||{});dd.updated=Date.now();return dd}
+function edit(date){const dd=days[date]=Object.assign({},days[date]||{});dd.checks=Object.assign({},dd.checks||{});if(date===TODAY||!Array.isArray(dd.hids))dd.hids=cfg.habits.map(h=>h.id);dd.updated=Date.now();return dd}
 function toggle(h){const before=totalXP(),lvB=lvOf(before);const dd=edit(viewDate);
   if(dd.checks[h.id])delete dd.checks[h.id];else dd.checks[h.id]=true;
   saveDay(viewDate);buzz(dd.checks[h.id]?12:6);
-  if(dd.checks[h.id]){const all=cfg.habits.every(x=>dd.checks[x.id]);const gain=totalXP()-before;const lvA=lvOf(totalXP());
-    if(lvA>lvB){toast("레벨 업! Lv."+lvA+" "+titleOf(lvA));buzz([20,60,30])}
-    else if(all)toast("올클리어 +"+gain+" XP");
-    else toast("+"+gain+" XP"+(h.id===bonusId(viewDate)?" (보너스)":""))}
-  renderToday()}
+  if(dd.checks[h.id]){const all=cfg.habits.every(x=>dd.checks[x.id]);const gain=totalXP()-before;
+    if(all)toast("올클리어 +"+gain+" XP");else toast("+"+gain+" XP"+(h.id===bonusId(viewDate)?" (보너스)":""))}
+  renderToday();announce()}
 $("prev").onclick=()=>{viewDate=dateOf(dayNo(viewDate)-1);renderToday()};
 $("next").onclick=()=>{viewDate=dateOf(dayNo(viewDate)+1);renderToday()};
 $("toToday").onclick=()=>{viewDate=TODAY;renderToday()};
@@ -425,14 +482,14 @@ function closeLog(){if(logDate){const dd=edit(logDate);const hadLog=!!((dd.grat|
     dd.grat=$("grat").value;dd.memo=$("memo").value;
     const g=cfg.habits.find(h=>h.id==="grat");if(g&&dd.grat.trim()&&!dd.checks.grat)dd.checks.grat=true;
     saveDay(logDate);if(!hadLog&&(dd.grat.trim()||dd.memo.trim()))toast("기록 완료 +"+XP.log+" XP")}
-  logDate=null;$("scrim").hidden=true;$("sheet").hidden=true;renderToday()}
-$("openLog").onclick=openLog;$("closeLog").onclick=closeLog;$("scrim").onclick=closeLog;
+  logDate=null;$("scrim").hidden=true;$("sheet").hidden=true;renderToday();announce()}
+$("openLog").onclick=openLog;$("closeLog").onclick=closeLog;$("scrim").onclick=()=>{if(!$("sheet").hidden)closeLog();else closeSheets()};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("sheet").hidden)closeLog()});
 
 /* ---- map ---- */
 function badgesList(){const t=Math.min(todayNo(),100);let any=false,clears=0,moods=0,grats=0;
   for(let i=1;i<=t;i++){const d=days[dateOf(i)];if(!d)continue;const c=d.checks||{};if(Object.keys(c).length)any=true;
-    if(cfg.habits.length&&cfg.habits.every(h=>c[h.id]))clears++;if(d.mood)moods++;if((d.grat||"").trim())grats++}
+    if(allClear(dateOf(i)))clears++;if(d.mood)moods++;if((d.grat||"").trim())grats++}
   const best=bestStreak(),wk=Object.values(weeks).some(w=>w&&((w.good||"").trim()||(w.bad||"").trim()||(w.next||"").trim()));
   return [["첫 체크","첫 습관 완료",any],["올클리어","하루 전부 완료",clears>=1],["3일 연속","작심삼일 돌파",best>=3],["7일 연속","첫 일주일",best>=7],
    ["21일 연속","3주의 벽",best>=21],["66일 연속","습관 정착",best>=66],["기분 7회","마음 살피기",moods>=7],["감사 30회","감사 습관",grats>=30],
@@ -478,7 +535,7 @@ $("wPrev").onclick=()=>{week--;renderReview()};$("wNext").onclick=()=>{week++;re
 let wT=null;
 [["wGood","good"],["wBad","bad"],["wNextOne","next"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{const n=week,val=e.target.value;clearTimeout(wT);
   wT=setTimeout(()=>{const key="w"+n,had=weeks[key]&&((weeks[key].good||"").trim()||(weeks[key].bad||"").trim()||(weeks[key].next||"").trim());
-    weeks[key]=Object.assign({},weeks[key]||{},{[k]:val});saveWeek(n);if(!had&&val.trim())toast("주간 회고 +"+XP.week+" XP")},700)}));
+    weeks[key]=Object.assign({},weeks[key]||{},{[k]:val});saveWeek(n);if(!had&&val.trim())toast("주간 회고 +"+XP.week+" XP");announce()},700)}));
 
 /* ---- setup ---- */
 let draft=null;
@@ -495,6 +552,7 @@ $("sStart").onchange=e=>{if(e.target.value)draft.startDate=e.target.value};
 $("sGoal").oninput=e=>{draft.goal=e.target.value};
 $("addH").onclick=()=>{draft.habits.push({id:"h"+Date.now().toString(36),name:"",cat:"growth",min:""});renderSetup();const l=$("hEdit").lastElementChild;if(l)l.querySelector("input").focus()};
 $("saveSetup").onclick=async()=>{draft.habits=draft.habits.filter(h=>(h.name||"").trim()).map(h=>Object.assign({},h,{name:h.name.trim(),min:(h.min||"").trim()}));
+  if((draft.goal||"")!==(cfg.goal||""))draft.goalHistory=(cfg.goalHistory||[]).concat([{d:TODAY,goal:cfg.goal||""}]).slice(-30);
   cfg=clone(draft);await saveCfg();toast("설정을 저장했어요");draft=null;renderSetup()};
 $("bkCopy").onclick=()=>{const txt=JSON.stringify({v:1,cfg,days,weeks});
   const done=()=>toast("백업을 복사했어요. 메모장 등에 붙여 두세요");
@@ -507,6 +565,113 @@ $("bkApply").onclick=async()=>{try{const o=JSON.parse($("bkArea").value);if(!o||
     $("bkArea").hidden=true;$("bkApply").hidden=true;draft=null;toast("백업을 불러왔어요");renderSetup()}
   catch(e){toast("백업 글자가 올바르지 않아요")}};
 
+
+/* ---------- character: an ordinary guy who grows with every level ---------- */
+const GEAR=[[1,"평범한 시작","누구나 여기서 시작"],[2,"깔끔한 헤어","첫인상이 달라짐"],[3,"러닝화·워치","몸이 깨어나는 중"],[4,"핏한 셔츠","옷태가 살아남"],
+ [5,"넓어진 어깨","자세와 자신감"],[6,"맞춤 수트","어디서든 당당하게"],[7,"명품 시계","부의 시작"],[8,"베스트셀러","저자로서의 명예"],
+ [9,"올해의 교사상","존경받는 선생님"],[10,"드림카","노력의 결실"],[11,"우리 집","편히 쉴 곳"],[12,"소중한 인연","곁에 선 사람"],
+ [13,"결혼","함께하는 약속"],[14,"반려견","웃음이 많은 집"],[15,"빛나는 주인공","100일을 해낸 사람"]];
+function sceneSVG(lv){
+ const S="#f1c8a0",SK="#2b2420",o=[];const has=n=>lv>=n;
+ const broad=has(5),tw=broad?34:27,tx=88-tw/2;
+ o.push('<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe3ef"/><stop offset="1" stop-color="#f4efe4"/></linearGradient>'+
+  '<radialGradient id="halo"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".95"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient></defs>');
+ o.push('<rect width="200" height="130" fill="url(#sky)"/><circle cx="176" cy="22" r="9" fill="#f6d36b"/>');
+ o.push('<path d="M14 26q6-7 14-2q6-5 12 1q6 0 6 5H12q-3-4 2-4z" fill="#fff" opacity=".85"/><path d="M118 16q5-5 11-1q5-3 9 1q5 1 4 4h-27q-2-3 3-4z" fill="#fff" opacity=".75"/>');
+ if(has(11)){o.push('<g><rect x="134" y="66" width="48" height="40" fill="#f3e6d0" stroke="#8a6d4b" stroke-width="1"/><path d="M129 68L158 46L187 68Z" fill="#b5523b"/><rect x="170" y="48" width="6" height="12" fill="#8a4a36"/>'+
+  '<rect x="153" y="86" width="10" height="20" fill="#6b4a2e"/><rect x="139" y="74" width="10" height="9" fill="#f6d36b" stroke="#8a6d4b" stroke-width=".8"/><rect x="167" y="74" width="10" height="9" fill="#f6d36b" stroke="#8a6d4b" stroke-width=".8"/></g>')}
+ o.push('<path d="M0 104Q50 98 100 103T200 101V130H0Z" fill="#cfe0c4"/><path d="M0 112Q60 107 120 111T200 110V130H0Z" fill="#b9d3ad"/>');
+ if(has(10)){o.push('<g><path d="M6 106q2-9 12-10l8-7h18l10 7q9 1 9 10z" fill="#2f4f7a"/><path d="M28 90h14l7 6H22z" fill="#cfe3ef"/><circle cx="18" cy="107" r="5" fill="#222"/><circle cx="18" cy="107" r="2" fill="#bbb"/><circle cx="52" cy="107" r="5" fill="#222"/><circle cx="52" cy="107" r="2" fill="#bbb"/><rect x="58" y="99" width="4" height="2" fill="#f6d36b"/></g>')}
+ if(has(15))o.push('<circle class="glow" cx="88" cy="70" r="46" fill="url(#halo)"/>');
+ o.push('<ellipse cx="88" cy="119" rx="17" ry="3" fill="#000" opacity=".12"/>');
+ if(has(9)){o.push('<g><rect x="60" y="114" width="12" height="4" fill="#8a6d4b"/><rect x="63" y="110" width="6" height="4" fill="#d4a73a"/><path d="M60 96h12q0 12-6 13q-6-1-6-13z" fill="#e8bd45"/><path d="M60 98q-4 0-4 4t5 4M72 98q4 0 4 4t-5 4" fill="none" stroke="#e8bd45" stroke-width="1.6"/></g>')}
+ if(has(8)){o.push('<g><rect x="104" y="112" width="15" height="5" fill="#2f4f7a"/><rect x="105" y="107" width="14" height="5" fill="#b5523b"/><rect x="104" y="102" width="15" height="5" fill="#3f7a5d"/><rect x="106" y="103.5" width="9" height="1" fill="#f6d36b"/></g>')}
+ // partner (behind joined hands)
+ if(has(12)){const wed=has(13),dr=wed?"#fbf8f3":"#e7a3b0";
+  o.push('<g><path d="M122 54q-4 20 2 26h14q6-6 2-26z" fill="#4a2f24"/>'+
+   '<rect x="125.5" y="104" width="3" height="13" fill="'+S+'"/><rect x="131.5" y="104" width="3" height="13" fill="'+S+'"/><ellipse cx="127" cy="117.5" rx="3.5" ry="2" fill="#7a3b46"/><ellipse cx="133" cy="117.5" rx="3.5" ry="2" fill="#7a3b46"/>'+
+   '<path d="M122 72h16l6 34h-28z" fill="'+dr+'" stroke="'+(wed?"#d9cfc2":"none")+'" stroke-width=".8"/>'+
+   '<path d="M122 74q-6 10-9 20" stroke="'+S+'" stroke-width="4" stroke-linecap="round" fill="none"/>'+
+   '<rect x="127" y="64" width="6" height="9" fill="'+S+'"/><circle cx="130" cy="57" r="12" fill="'+S+'"/>'+
+   '<path d="M118 57q0-14 12-14t12 14q-3-7-12-8q-9 1-12 8z" fill="#4a2f24"/>'+
+   '<path d="M125.5 58q1.5 1.5 3 0M131 58q1.5 1.5 3 0" stroke="'+SK+'" stroke-width="1.2" fill="none" stroke-linecap="round"/><ellipse cx="124.5" cy="62" rx="2" ry="1.2" fill="#f2a0a0" opacity=".7"/><ellipse cx="135.5" cy="62" rx="2" ry="1.2" fill="#f2a0a0" opacity=".7"/><path d="M128 64q2 1.6 4 0" stroke="#b5523b" stroke-width="1" fill="none"/>'+
+   (wed?'<path d="M119 50q11-12 22 0l4 30q-4-6-6-20z" fill="#fff" opacity=".7"/><circle cx="121" cy="52" r="2" fill="#f2c14e"/>':'')+'</g>')}
+ if(has(13))o.push('<path d="M106 34q0-4 4-4t4 4q0-4 4-4t4 4q0 5-8 10q-8-5-8-10z" fill="#e0607a"/><path d="M98 24q0-2.5 2.5-2.5T103 24q0-2.5 2.5-2.5T108 24q0 3-5 6q-5-3-5-6z" fill="#f08aa0"/>');
+ // man: legs + shoes
+ const pant=has(6)?"#1f2a44":has(4)?"#2b3550":"#56657f";
+ o.push('<rect x="80" y="100" width="7.5" height="18" rx="2" fill="'+pant+'"/><rect x="88.5" y="100" width="7.5" height="18" rx="2" fill="'+pant+'"/>');
+ const shoe=has(6)?"#5a3a22":has(3)?"#f08a3c":"#9aa0a6";
+ o.push('<ellipse cx="83" cy="118.5" rx="5.5" ry="2.6" fill="'+shoe+'"/><ellipse cx="93" cy="118.5" rx="5.5" ry="2.6" fill="'+shoe+'"/>');
+ // torso
+ const top=has(6)?"#24324f":has(4)?"#cfe0f2":"#9aa3ab";
+ o.push('<path d="M'+tx+' 76q0-6 7-7h'+(tw-14)+'q7 1 7 7v26H'+tx+'z" fill="'+top+'"/>');
+ if(!has(4))o.push('<path d="M84 70l4 6l4-6" stroke="#7d868e" stroke-width="1.4" fill="none"/><line x1="86" y1="76" x2="86" y2="82" stroke="#eee" stroke-width="1"/><line x1="90" y1="76" x2="90" y2="82" stroke="#eee" stroke-width="1"/><rect x="81" y="88" width="14" height="7" rx="2" fill="none" stroke="#7d868e" stroke-width="1"/>');
+ else if(!has(6))o.push('<path d="M83 69l5 7l5-7" fill="#fff"/><line x1="88" y1="76" x2="88" y2="101" stroke="#a9bfd6" stroke-width=".8"/><circle cx="88" cy="83" r=".8" fill="#7d93ab"/><circle cx="88" cy="90" r=".8" fill="#7d93ab"/>');
+ else{o.push('<path d="M82 69l6 14l6-14z" fill="#fff"/><path d="M82 69l6 14l-4 18M94 69l-6 14l4 18" stroke="#16203a" stroke-width="1.2" fill="none"/>');
+  o.push(has(13)?'<circle cx="'+(tx+tw-7)+'" cy="77" r="2.6" fill="#fff"/><circle cx="'+(tx+tw-7)+'" cy="77" r="1" fill="#f2c14e"/>':'<path d="M88 72l-1.8 3l1.8 9l1.8-9z" fill="#a3343a"/>')}
+ // arms
+ const sl=top, lx=tx-5;
+ o.push('<rect x="'+lx+'" y="72" width="7" height="24" rx="3.5" fill="'+sl+'"/><circle cx="'+(lx+3.5)+'" cy="98" r="3.6" fill="'+S+'"/>');
+ if(has(3))o.push('<rect x="'+(lx+.5)+'" y="92" width="6" height="3" rx="1" fill="'+(has(7)?"#d4a73a":"#222")+'"/>'+(has(7)?'<circle cx="'+(lx+3.5)+'" cy="93.5" r="1.1" fill="#fff6d6"/>':''));
+ const rx=tx+tw-2;
+ if(has(12))o.push('<path d="M'+(rx+2)+' 74q8 10 22 20" stroke="'+sl+'" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="'+(rx+25)+'" cy="95" r="3.6" fill="'+S+'"/>');
+ else{o.push('<rect x="'+rx+'" y="72" width="7" height="24" rx="3.5" fill="'+sl+'"/><circle cx="'+(rx+3.5)+'" cy="98" r="3.6" fill="'+S+'"/>');
+  if(has(5)&&!has(8))o.push('<rect x="'+(rx-1)+'" y="94" width="10" height="8" rx="1" fill="#3f7a5d" transform="rotate(-12 '+(rx+4)+' 98)"/>')}
+ // head
+ o.push('<rect x="85" y="64" width="6" height="7" fill="'+S+'"/><circle cx="88" cy="56" r="14" fill="'+S+'"/>');
+ if(has(2))o.push('<path d="M74 55q-1-16 14-16q15 0 14 15q-4-8-10-9q-6 4-18 10z" fill="'+SK+'"/>');
+ else o.push('<path d="M74 56q-2-17 14-17q16 0 14 17l-3-6l-2 4l-3-7l-3 5l-3-6l-3 6l-3-5l-3 6l-2-4z" fill="'+SK+'"/>');
+ if(has(5))o.push('<path d="M80 51.5h5M91 51.5h5" stroke="'+SK+'" stroke-width="1.4" stroke-linecap="round"/>');
+ o.push('<circle cx="82.5" cy="56" r="1.7" fill="'+SK+'"/><circle cx="93.5" cy="56" r="1.7" fill="'+SK+'"/>');
+ if(has(2))o.push('<ellipse cx="79.5" cy="61" rx="2" ry="1.1" fill="#f2a0a0" opacity=".6"/><ellipse cx="96.5" cy="61" rx="2" ry="1.1" fill="#f2a0a0" opacity=".6"/>');
+ o.push(has(5)?'<path d="M84 61.5q4 4 8 0" stroke="#8a3b2e" stroke-width="1.3" fill="#fff" stroke-linejoin="round"/>':has(2)?'<path d="M84.5 62q3.5 2.6 7 0" stroke="#8a3b2e" stroke-width="1.2" fill="none" stroke-linecap="round"/>':'<path d="M85 62.5h6" stroke="#8a3b2e" stroke-width="1.2" stroke-linecap="round"/>');
+ if(has(14))o.push('<g><ellipse cx="160" cy="113" rx="10" ry="5.5" fill="#d9a86c"/><circle cx="170" cy="106" r="5.5" fill="#d9a86c"/><path d="M167 102q-2-5 1-5l2 4z" fill="#a8743f"/><circle cx="172" cy="105.5" r=".9" fill="#222"/><circle cx="175" cy="107" r="1" fill="#222"/><path d="M150 110q-6-6-3-9" stroke="#d9a86c" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="153" y="116" width="2.4" height="4" fill="#c08e55"/><rect x="164" y="116" width="2.4" height="4" fill="#c08e55"/></g>');
+ if(has(15))o.push('<g fill="#f2c14e"><path d="M60 40l1.4 3.6l3.6 1.4l-3.6 1.4l-1.4 3.6l-1.4-3.6l-3.6-1.4l3.6-1.4z"/><path d="M114 22l1 2.6l2.6 1l-2.6 1l-1 2.6l-1-2.6l-2.6-1l2.6-1z"/><path d="M104 60l1 2.4l2.4 1l-2.4 1l-1 2.4l-1-2.4l-2.4-1l2.4-1z"/></g><path d="M80 37l3-8l5 5l5-5l3 8z" fill="#e8bd45" stroke="#b8901f" stroke-width=".8"/>');
+ return o.join("")}
+function renderHero(){const x=totalXP(),lv=lvOf(x);$("stage").innerHTML=sceneSVG(lv);
+ $("heroTitle").textContent="Lv."+lv+" "+titleOf(lv);
+ const nx=GEAR.find(g=>g[0]>lv);$("heroNext").textContent=nx?"다음: "+nx[1]+" · "+(lvNeed(nx[0])-x)+" XP 남음":"모든 성장을 열었어요";
+ $("stage").setAttribute("aria-label","Lv."+lv+" 캐릭터: "+GEAR.filter(g=>g[0]<=lv).map(g=>g[1]).join(", "))}
+function openGear(){const lv=lvOf(totalXP()),el=$("gearGrid");el.innerHTML="";let on=0;
+ GEAR.forEach(([n,t,d])=>{const ok=lv>=n;if(ok)on++;const g=document.createElement("div");g.className="gi "+(ok?"on":n===lv+1?"next":"off");
+  g.innerHTML='<span class="gl">Lv.'+n+'</span><b></b><span></span>';g.querySelector("b").textContent=ok||n===lv+1?t:"???";g.querySelector("span:last-child").textContent=ok?d:n===lv+1?(lvNeed(n)-totalXP())+" XP 남음":"잠김";el.appendChild(g)});
+ $("gearSum").textContent=on+"/"+GEAR.length;openSheet("gearSheet")}
+$("openGear").onclick=openGear;$("closeGear").onclick=closeSheets;
+
+/* ---------- sheets ---------- */
+function openSheet(id){$("scrim").hidden=false;$(id).hidden=false}
+function closeSheets(){["goalSheet","gearSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSheets()}});
+
+/* ---------- goal editing ---------- */
+function openGoal(){$("gGoal").value=cfg.goal||"";$("gWhy").value=cfg.goalWhy||"";
+ const h=(cfg.goalHistory||[]).slice().reverse();const el=$("gHist");el.innerHTML="";
+ if(h.length){const t=document.createElement("div");t.style.border="none";t.innerHTML='<b style="font-size:13px">지난 목표</b>';el.appendChild(t);
+  h.forEach(x=>{const r=document.createElement("div");const a=document.createElement("span");a.textContent=fmt(x.d)+" 까지";const b=document.createElement("span");b.textContent=x.goal||"(비어 있음)";r.append(a,b);el.appendChild(r)})}
+ openSheet("goalSheet");setTimeout(()=>$("gGoal").focus(),60)}
+$("goalBtn").onclick=openGoal;
+$("gHabits").onclick=()=>{closeSheets()};
+$("gSave").onclick=async()=>{const g=$("gGoal").value.trim(),w=$("gWhy").value.trim();
+ if(g!==(cfg.goal||""))cfg.goalHistory=(cfg.goalHistory||[]).concat([{d:TODAY,goal:cfg.goal||""}]).slice(-30);
+ cfg.goal=g;cfg.goalWhy=w;draft=null;await saveCfg();closeSheets();toast("목표를 저장했어요");renderToday()};
+
+/* ---------- level-up & achievement popups ---------- */
+const SEENK="reboot100.seen";let seen=null,popQ=[],popOpen=false;
+function snapshot(){return {lv:lvOf(totalXP()),badges:badgesList().filter(b=>b[2]).map(b=>b[0])}}
+function loadSeen(){try{seen=JSON.parse(localStorage.getItem(SEENK)||"null")}catch(e){}if(!seen){seen=snapshot();saveSeen()}}
+function saveSeen(){try{localStorage.setItem(SEENK,JSON.stringify(seen))}catch(e){}}
+function announce(){if(!seen)return;const now=snapshot();
+ if(now.lv>seen.lv){for(let l=seen.lv+1;l<=now.lv;l++)popQ.push({t:"lv",lv:l});seen.lv=now.lv}
+ now.badges.forEach(b=>{if(!seen.badges.includes(b)){const bd=badgesList().find(x=>x[0]===b);popQ.push({t:"badge",name:b,desc:bd?bd[1]:""});seen.badges.push(b)}});
+ saveSeen();if(!popOpen)nextPop()}
+function nextPop(){const it=popQ.shift();if(!it){popOpen=false;$("pop").hidden=true;return}popOpen=true;const c=$("popc");
+ if(it.t==="lv"){const g=GEAR.find(x=>x[0]===it.lv);
+  c.innerHTML='<span class="k">LEVEL UP</span><h3>Lv.'+it.lv+' '+titleOf(it.lv)+'</h3><svg viewBox="0 0 200 130" style="width:100%;display:block;margin-top:10px" role="img" aria-label="성장한 캐릭터">'+sceneSVG(it.lv)+'</svg><p style="margin-top:10px"></p><button class="btn" id="popOk">좋아!</button>';
+  c.querySelector("p").textContent=g?"새로 얻음: "+g[1]+" · "+g[2]:"한 단계 더 성장했어요";buzz([20,60,30])}
+ else{c.innerHTML='<span class="k">업적 달성</span><div class="medal">✓</div><h3></h3><p></p><button class="btn" id="popOk">확인</button>';
+  c.querySelector("h3").textContent=it.name;c.querySelector("p").textContent=it.desc;buzz([15,40,15])}
+ $("pop").hidden=false;$("popOk").focus();$("popOk").onclick=()=>{c.innerHTML="";nextPop()}}
+$("pop").addEventListener("click",e=>{if(e.target.id==="pop"){$("popc").innerHTML="";nextPop()}});
 
 /* ---------- GitHub auto-backup (home-screen app only) ---------- */
 const GHK="reboot100.gh";let gh={repo:"kg4909-design/reboot100-data",token:""},ghT=null,ghLast="",ghBusy=false;
@@ -543,14 +708,14 @@ if(window.__PWA__){$("ghCard").hidden=false;$("ghRepo").value=gh.repo;$("ghTok")
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){const t=today();if(t!==TODAY){if(viewDate===TODAY)viewDate=t;TODAY=t;render()}}});
 
 /* ---------- boot ---------- */
-lsLoad();route();sync("이 폰에 저장 중 · 설정에서 백업할 수 있어요");
+lsLoad();route();if(window.__PWA__||!window.claude)loadSeen();sync("이 폰에 저장 중 · 설정에서 백업할 수 있어요");
 (async()=>{try{if(!window.claude||!window.claude.use)return;db=await window.claude.use("db");if(!db)return;
   mode="db";sync("동기화 연결 중…");let got=0;const timer=setTimeout(()=>{if(got<2)sync("서버에 아직 연결되지 않았어요",1)},10000);
-  const ok=()=>{got++;if(got>=2){clearTimeout(timer);sync("모든 기기에 자동 저장")}};
+  const ok=()=>{got++;if(got>=2){clearTimeout(timer);sync("모든 기기에 자동 저장");if(!seen)loadSeen()}};
   db.doc("reboot/config").onSnapshot(s=>{if(s.exists){cfg=Object.assign(clone(DEFAULT_CFG),s.data());if(cur()!=="setup")draft=null}if(!s.metadata.fromCache)ok();render()},()=>{clearTimeout(timer);sync("설정을 불러오지 못했어요",1)});
   db.collection("days").onSnapshot(s=>{const o={};s.docs.forEach(d=>{o[d.id]=d.data()});days=o;if(!s.metadata.fromCache)ok();if($("sheet").hidden)render()},()=>{clearTimeout(timer);sync("기록을 불러오지 못했어요",1)});
   db.collection("weeks").onSnapshot(s=>{const o={};s.docs.forEach(d=>{o[d.id]=d.data()});weeks=o;render()},()=>{});
-}catch(e){mode="local"}})();
+}catch(e){mode="local"}finally{if(mode!=="db"&&!seen)loadSeen()}})();
 if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 })();
