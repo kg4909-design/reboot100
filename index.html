@@ -370,14 +370,14 @@ svg.spark{width:100%;height:64px;display:block}
 <div class="sheet" id="woSheet" hidden role="dialog" aria-modal="true" aria-labelledby="woTitle">
   <div class="grab"></div>
   <div class="sec-h"><h2 id="woTitle">어깨 넓히기 10분</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
-  <p class="note">왕초보용입니다. 시작을 누르면 운동, 휴식, 다음 운동이 타이머로 자동 진행돼요. 따라 하기만 하면 됩니다.</p>
+  <div class="opt"><span>코스</span><div class="seg" id="optCourse"><button data-v="dip">치닝디핑 기초</button><button data-v="bottle">생수병 포함</button></div></div>
+  <p class="note"><span id="shNote"></span>. 시작을 누르면 운동, 휴식, 다음 운동이 타이머로 자동 진행돼요.</p>
   <div class="sh-list" id="shList"></div>
-  <div class="opt"><span>생수병 2개 (500ml~2L)</span><div class="seg" id="optBottle"><button data-v="1">있음</button><button data-v="0">없음</button></div></div>
   <div class="opt"><span>라운드</span><div class="seg" id="optRounds"><button data-v="2">2회</button><button data-v="3">3회</button></div></div>
   <div class="opt"><span>운동 시간</span><div class="seg" id="optWork"><button data-v="30">30초</button><button data-v="40">40초</button><button data-v="45">45초</button></div></div>
   <button class="btn bigstart" id="shStart">시작!</button>
   <details class="note"><summary style="font-weight:600;cursor:pointer">왜 이 운동들인가요?</summary>
-    <p class="note" style="margin-top:6px">어깨를 옆으로 넓어 보이게 하는 건 <b>측면 삼각근</b>입니다. 측면 삼각근에 가장 잘 들어가는 동작은 <b>사이드 레이즈</b>라서 생수병 레이즈를 핵심으로 넣었습니다. 맨몸으로는 <b>벽 사이드 레이즈</b>가 같은 방향의 힘을 씁니다. <b>파이크 푸시업</b>은 머리 위로 미는 동작이라 어깨 전체를 키우고, <b>발 딛고 견갑 당기기</b>는 말린 어깨를 펴서 같은 근육이라도 더 넓어 보이게 합니다. 매달리기 10초는 처음 시작할 때 흔한 수준이고, 발로 체중을 나누면 손가락 부담이 줄어듭니다.</p>
+    <p class="note" style="margin-top:6px">어깨를 옆으로 넓어 보이게 하는 건 <b>측면 삼각근</b>입니다. 측면 삼각근에 가장 잘 들어가는 동작은 <b>사이드 레이즈</b>라서 생수병 레이즈를 핵심으로 넣었습니다. 맨몸으로는 <b>벽 사이드 레이즈</b>가 같은 방향의 힘을 씁니다. <b>파이크 푸시업</b>은 머리 위로 미는 동작이라 어깨 전체를 키우고, <b>딥스바 로우</b>는 팔꿈치를 옆으로 벌려 당겨서 뒤쪽 어깨를 채워 옆에서 봐도 두툼하게 만들고, <b>발 딛고 견갑 당기기</b>는 말린 어깨를 펴서 같은 근육이라도 더 넓어 보이게 합니다. 매달리기 10초는 처음 시작할 때 흔한 수준이고, 발로 체중을 나누면 손가락 부담이 줄어듭니다.</p>
     <p class="note">쉬워지면 순서대로 바꿔 보세요: 운동 시간 30→40→45초, 그다음 라운드 3회, 그다음 생수병을 무겁게.</p>
     <p class="wo-src">참고: <a href="https://builtwithscience.com/shoulder" target="_blank" rel="noopener">삼각근 근전도 비교 (Built With Science)</a>, <a href="https://red.bismuth.it/r/bodyweightfitness/comments/1g8pm3f/lateral_raise_alternatives" target="_blank" rel="noopener">맨몸 사이드 레이즈 대안 (r/bodyweightfitness)</a>, <a href="https://deadhangs-com.pages.dev/beginner-deadhang" target="_blank" rel="noopener">초보 매달리기 가이드</a>, <a href="https://www.unm.edu/~lkravitz/Article%20folder/ACSMGuidelinesUNM.pdf" target="_blank" rel="noopener">ACSM 가이드라인</a>. 어깨에 날카로운 통증이 오면 멈추고 전문가와 상의하세요.</p>
   </details>
@@ -727,6 +727,7 @@ const PROPS={
  floor:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
  dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="22" y1="62" x2="40" y2="62" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="30" y1="62" x2="30" y2="92" stroke="var(--muted)" stroke-width="3"/>',
  bar:'<line x1="14" y1="8" x2="106" y2="8" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
+ rowbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="28" y1="48" x2="50" y2="48" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="48" x2="40" y2="92" stroke="var(--muted)" stroke-width="3"/>',
  door:'<line x1="62" y1="4" x2="62" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>'};
 const SH=[
  {k:"warm",n:"팔 크게 돌리기",sub:"워밍업",fixed:30,tempo:"천천히 큰 원",view:"circle",props:"floor",
@@ -748,6 +749,14 @@ const SH=[
   A:{h:[60,24],sl:[50,24],sr:[70,24],el:[49,16],hl:[48,8],er:[71,16],hr:[72,8],p:[60,54],kl:[52,68],kr:[68,68],fl:[54,80],fr:[66,80]},
   B:{h:[60,30],sl:[50,32],sr:[70,32],el:[49,20],hl:[48,8],er:[71,20],hr:[72,8],p:[60,60],kl:[52,72],kr:[68,72],fl:[54,80],fr:[66,80]},
   c:["의자에 발을 올려 체중 절반은 발로 받친다","팔은 편 채로 날개뼈만 아래로 당겨 가슴을 연다","손가락이 아프면 엄지까지 감싸 쥐고 발에 더 기대기"]},
+ {k:"row",n:"딥스바 로우 (무릎 굽혀)",sub:"뒤쪽 어깨 · 입체감",tempo:"당기기 1초 · 내리기 2초",t:[1,.6,2,.4],props:"rowbar",
+  A:{h:[34,70],sl:[42,68],sr:[42,68],el:[41,58],hl:[40,48],er:[41,58],hr:[40,48],p:[64,75],kl:[80,70],kr:[80,70],fl:[88,92],fr:[88,92]},
+  B:{h:[33,56],sl:[42,56],sr:[42,56],el:[55,49],hl:[40,48],er:[55,49],hr:[40,48],p:[64,66],kl:[80,66],kr:[80,66],fl:[88,92],fr:[88,92]},
+  c:["딥스 손잡이 아래로 들어가 손잡이를 잡고 무릎을 세운다","팔꿈치를 양옆으로 벌리며 가슴을 손잡이 쪽으로","어려우면 발을 몸 쪽으로 당겨 상체를 더 세운다"]},
+ {k:"support",n:"서포트 홀드 (발끝 보조)",sub:"어깨 안정 · 자세",tempo:"어깨 내리고 버티기",t:[1.5,2,1.5,.5],props:"dipbar",fixedMax:20,
+  A:{h:[31,40],sl:[31,46],sr:[31,46],el:[31,54],hl:[31,62],er:[31,54],hr:[31,62],p:[33,68],kl:[38,80],kr:[38,80],fl:[30,92],fr:[30,92]},
+  B:{h:[31,34],sl:[31,44],sr:[31,44],el:[31,53],hl:[31,62],er:[31,53],hr:[31,62],p:[33,66],kl:[38,79],kr:[38,79],fl:[30,91],fr:[30,91]},
+  c:["딥스 손잡이를 짚고 팔을 편다","발끝은 바닥에 살짝 대고 체중 일부만 싣는다","어깨를 귀에서 멀리 내리고 목을 길게"]},
  {k:"stretch",n:"문틀 가슴 스트레칭",sub:"마무리",fixed:40,tempo:"천천히 숨 쉬며",t:[2,3,2,1],props:"door",
   A:{h:[47,20],sl:[50,30],sr:[50,30],el:[62,30],hl:[62,14],er:[46,44],hr:[48,56],p:[48,58],kl:[54,74],kr:[42,75],fl:[58,92],fr:[38,92]},
   B:{h:[60,22],sl:[60,32],sr:[60,32],el:[62,30],hl:[62,14],er:[56,46],hr:[58,58],p:[54,58],kl:[64,74],kr:[46,76],fl:[68,92],fr:[40,92]},
@@ -771,22 +780,25 @@ function drawFig(ex,P,mini){const L='stroke="var(--ink)" stroke-width="'+(mini?3
  // target muscle glow on the working shoulder(s)
  if(!mini&&ex.k!=="warm"&&ex.k!=="stretch"){const on=P._k>.5;[ex.k==="wallL"?[P.sl]:ex.k==="wallR"?[P.sr]:[P.sl,P.sr]][0].forEach(s=>{g+='<circle cx="'+s[0].toFixed(1)+'" cy="'+s[1].toFixed(1)+'" r="'+(on?6:4.5)+'" fill="var(--chalk)" opacity="'+(on?.75:.4)+'"/>'})}
  return g}
-function shCfg(){return Object.assign({bottle:1,rounds:2,work:30},cfg.sh||{})}
+const COURSES={dip:{n:"치닝디핑 기초",keys:["wallL","wallR","pike","row","scap","support"],note:"치닝디핑과 벽만 있으면 됩니다"},
+ bottle:{n:"생수병 포함",keys:["wallL","wallR","pike","raise","scap"],note:"생수병 2개가 있으면 측면 어깨에 가장 효과적"}};
+function shCfg(){const o=Object.assign({course:"dip",rounds:2,work:30},cfg.sh||{});if(!COURSES[o.course])o.course="dip";return o}
 function shPlan(){const o=shCfg(),q=[];const W=SH.find(x=>x.k==="warm"),S=SH.find(x=>x.k==="stretch");
- const round=SH.filter(x=>!["warm","stretch"].includes(x.k)&&(!x.bottle||o.bottle));
+ const round=COURSES[o.course].keys.map(k=>SH.find(x=>x.k===k));
  q.push({ex:W,ph:"prep",d:5},{ex:W,ph:"work",d:W.fixed});
  for(let r=1;r<=o.rounds;r++)round.forEach((ex,i)=>{const d=ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work;
   q.push({ex,ph:"rest",d:i===0&&r===1?10:(ex.k==="wallR"?10:20),r});q.push({ex,ph:"work",d,r})});
  q.push({ex:S,ph:"rest",d:10},{ex:S,ph:"work",d:S.fixed});return q}
 function renderShList(){const o=shCfg(),el=$("shList");el.innerHTML="";const tot=shPlan().reduce((a,b)=>a+b.d,0);
- SH.forEach(ex=>{const off=ex.bottle&&!o.bottle;const it=document.createElement("div");it.className="sh-it"+(off?" off":"");
+ $("shNote").textContent=COURSES[o.course].note;
+ ["warm"].concat(COURSES[o.course].keys,["stretch"]).map(k=>SH.find(x=>x.k===k)).forEach(ex=>{const off=false;const it=document.createElement("div");it.className="sh-it";
   const P=ex.A?ex.A:poseAt(ex,0.3);const P2=ex.B?Object.assign({},ex.B,{_k:1}):poseAt(ex,1);
   it.innerHTML='<svg viewBox="0 0 120 96" aria-hidden="true">'+drawFig(ex,ex.A?P2:P,1)+'</svg><div><b></b><span></span></div><span class="d"></span>';
   it.querySelector("b").textContent=ex.n;it.querySelector("div span").textContent=off?"생수병 없음: 건너뜀":ex.sub;
   it.querySelector(".d").textContent=ex.fixed?ex.fixed+"초":(ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work)+"초"+(["warm","stretch"].includes(ex.k)?"":" ×"+o.rounds);el.appendChild(it)});
  $("shStart").textContent="시작!  ("+Math.round(tot/60)+"분)";
- [["optBottle","bottle"],["optRounds","rounds"],["optWork","work"]].forEach(([id,k])=>{$(id).querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(o[k])===b.dataset.v?"true":"false");
-  b.onclick=()=>{cfg.sh=Object.assign(shCfg(),{[k]:Number(b.dataset.v)});saveCfg();renderShList()}})})}
+ [["optCourse","course"],["optRounds","rounds"],["optWork","work"]].forEach(([id,k])=>{$(id).querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(o[k])===b.dataset.v?"true":"false");
+  b.onclick=()=>{const v=k==="course"?b.dataset.v:Number(b.dataset.v);cfg.sh=Object.assign(shCfg(),{[k]:v});saveCfg();renderShList()}})})}
 // ---- player engine ----
 let PL=null,actx=null,wake=null;
 function beep(f,ms){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.18,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+ms/1000);o.start();o.stop(actx.currentTime+ms/1000)}catch(e){}}
