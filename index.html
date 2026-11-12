@@ -191,6 +191,31 @@ svg.spark{width:100%;height:64px;display:block}
 @keyframes popin{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
 @keyframes glow{0%,100%{opacity:.55}50%{opacity:.95}}
 .glow{animation:glow 2.4s ease-in-out infinite}
+.linkbtn{align-self:flex-end;background:transparent;border:none;color:var(--muted);font-size:12.5px;font-weight:600;padding:2px 2px;margin-top:-6px;min-height:28px}
+.linkbtn b{color:var(--slate)}
+.wo-top{position:sticky;top:-10px;z-index:2;background:var(--surface);display:flex;align-items:center;gap:8px;padding:6px 0 8px;border-bottom:1px solid var(--line)}
+.wo-top .tm{flex:1;font-family:var(--f-mono);font-size:20px;font-weight:600}
+.wo-top .tm.run{color:var(--slate)}
+.wo-top button{border:1px solid var(--line);background:var(--bg);border-radius:999px;height:34px;padding:0 12px;font-size:13px;font-weight:600}
+.wo-meta{display:flex;flex-wrap:wrap;gap:6px}
+.ex{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.ex-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.ex-h b{font-size:14.5px}
+.ex-h span{font-size:12px;color:var(--muted);white-space:nowrap}
+.chips{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px}
+.chips button{flex:none;border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 10px;font-size:12px;color:var(--muted);white-space:nowrap}
+.chips button[aria-pressed="true"]{background:var(--slate);border-color:var(--slate);color:var(--bg);font-weight:600}
+.ex-b{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:start}
+.fig{width:96px;height:72px;background:var(--bg);border-radius:10px;display:block}
+.ex-b .nm{font-weight:700;font-size:14px}
+.ex-b .rx{font-family:var(--f-mono);font-size:12.5px;color:var(--slate);font-weight:600}
+.ex-b ul{margin:4px 0 0;padding-left:16px;font-size:12.5px;color:var(--ink);line-height:1.45}
+.sets{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.sets button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.sets button[aria-pressed="true"]{background:var(--slate);border-color:var(--slate);color:var(--bg)}
+.wo-list{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
+.wo-src{font-size:11.5px;color:var(--muted);line-height:1.5}
+.wo-src a{color:var(--slate)}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
 .toast.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
 .sync{font-size:11.5px;color:var(--muted);text-align:center}
@@ -214,6 +239,7 @@ svg.spark{width:100%;height:64px;display:block}
     <button class="goalbtn" id="goalBtn"><span>목표</span><b id="goalText"></b><span class="ed">수정</span></button>
     <button class="banner" id="catchup" hidden></button>
     <div class="tiles" id="tiles"></div>
+    <button class="linkbtn" id="openWo" hidden>근력 루틴 보기 <b>›</b></button>
     <div class="stack" style="gap:8px">
       <div class="moodrow" id="moods" role="group" aria-label="오늘 기분"></div>
       <button class="logbtn" id="openLog"><span class="lb">감사·한 줄</span><span class="pv" id="logPv">탭해서 기록</span></button>
@@ -312,6 +338,28 @@ svg.spark{width:100%;height:64px;display:block}
   <p class="note">레벨이 오를 때마다 새로운 모습이 하나씩 열립니다.</p>
   <div class="gear" id="gearGrid"></div>
   <button class="btn" id="closeGear">닫기</button>
+</div>
+<!-- workout sheet -->
+<div class="sheet" id="woSheet" hidden role="dialog" aria-modal="true" aria-labelledby="woTitle">
+  <div class="grab"></div>
+  <div class="sec-h"><h2 id="woTitle">치닝디핑 왕초보 루틴</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
+  <div class="wo-meta"><span class="pill">주 3회 · 하루 쉬고</span><span class="pill">약 25분</span><span class="pill chalk">최소: 운동마다 1세트</span></div>
+  <div class="wo-top"><span class="tm" id="woTm">휴식 타이머</span><button id="woT60">60초</button><button id="woT90">90초</button><button id="woTx" hidden>멈춤</button></div>
+  <div class="ex"><div class="ex-h"><b>워밍업</b><span>3분</span></div>
+    <ol class="wo-list"><li>팔 크게 돌리기 앞뒤 10회</li><li>문틀 가슴 스트레칭 30초 × 2 (굽은 등 풀기)</li><li>바에 그냥 매달리기 10~20초</li></ol></div>
+  <div id="woEx" class="stack" style="gap:10px"></div>
+  <div class="ex"><div class="ex-h"><b>마무리</b><span>2분</span></div>
+    <ol class="wo-list"><li>문틀 가슴 스트레칭 30초 × 2</li><li>천천히 숨 고르기</li></ol></div>
+  <div class="ex"><div class="ex-h"><b>진행 규칙</b></div>
+    <ul class="wo-list">
+      <li>①②, ③④는 번갈아 하고, 그 사이 <b>90초</b> 쉽니다.</li>
+      <li>3세트 모두 <b>8회</b>(버티기는 <b>30초</b>)가 되면 다음 단계로 올리고 5회부터 다시 시작합니다.</li>
+      <li>매 세트 <b>1회 정도 여유</b>를 남기고 멈춥니다. 끝까지 쥐어짜지 않아도 됩니다.</li>
+      <li>딥스는 <b>팔꿈치 90°</b>보다 깊이 내려가지 않습니다. 날카로운 통증이 오면 그날은 멈추세요.</li>
+      <li>바쁜 날은 운동마다 1세트만 해도 됩니다. 초보에게는 1세트도 효과가 있습니다.</li>
+    </ul></div>
+  <button class="btn" id="woDone">오늘 근력 루틴 완료 체크</button>
+  <p class="wo-src">참고: <a href="https://redditbwf.github.io/wiki/recommended_routine.html" target="_blank" rel="noopener">r/bodyweightfitness 추천 루틴</a>(단계 진행·3×5~8회·90초 휴식), <a href="https://www.calisthenics-101.co.uk/wp-content/uploads/2020/05/Bodyweight-Fitness-Progressions-Version-5.4.pdf" target="_blank" rel="noopener">맨몸운동 진행표</a>, <a href="https://www.unm.edu/~lkravitz/Article%20folder/ACSMGuidelinesUNM.pdf" target="_blank" rel="noopener">ACSM 근력운동 가이드라인</a>(주 2~3회, 같은 부위 48시간 휴식, 초보 1세트). 통증이나 질환이 있으면 전문가와 상의하세요.</p>
 </div>
 <!-- popup -->
 <div class="pop" id="pop" hidden role="alertdialog" aria-modal="true" aria-labelledby="popTitle"><div class="popc" id="popc"></div></div>
@@ -461,6 +509,7 @@ function renderToday(){
   const pv=[(d.grat||"").trim(),(d.memo||"").trim()].filter(Boolean).join(" · ");
   $("logPv").textContent=pv||"탭해서 기록 (+5 XP)";$("logPv").classList.toggle("has",!!pv);$("openLog").disabled=!ed;
   $("goalText").textContent=cfg.goal||"목표를 정해 주세요";renderHero();
+  $("openWo").hidden=!cfg.habits.some(x=>x.id==="str"||/근력/.test(x.name));
 }
 function edit(date){const dd=days[date]=Object.assign({},days[date]||{});dd.checks=Object.assign({},dd.checks||{});if(date===TODAY||!Array.isArray(dd.hids))dd.hids=cfg.habits.map(h=>h.id);dd.updated=Date.now();return dd}
 function toggle(h){const before=totalXP(),lvB=lvOf(before);const dd=edit(viewDate);
@@ -638,9 +687,78 @@ function openGear(){const lv=lvOf(totalXP()),el=$("gearGrid");el.innerHTML="";le
  $("gearSum").textContent=on+"/"+GEAR.length;openSheet("gearSheet")}
 $("openGear").onclick=openGear;$("closeGear").onclick=closeSheets;
 
+/* ---------- strength routine (chin-dip station, beginner) ---------- */
+const WO=[
+ {k:"pull",t:"① 당기기",sub:"등 넓이·어깨 프레임",steps:[
+  {n:"견갑 풀업",rx:"3세트 × 5~8회",f:"hang",a:"down",c:["팔을 편 채 매달린다","팔은 굽히지 말고 날개뼈만 아래로 내려 가슴을 연다","1초 멈췄다 천천히 원위치"]},
+  {n:"아치 행",rx:"3세트 × 10~30초",f:"arch",c:["날개뼈를 내린 채 가슴을 바 쪽으로 내민다","팔은 끝까지 편 상태","30초씩 3세트가 되면 다음 단계"]},
+  {n:"네거티브 풀업",rx:"3세트 × 5~8회",f:"top",a:"down",c:["의자를 딛고 턱이 바 위에 있는 자세로 시작","3~5초에 걸쳐 천천히 내려온다","다시 의자로 올라가서 반복"]},
+  {n:"풀업 · 친업",rx:"3세트 × 5~8회",f:"top",a:"up",c:["손바닥이 나를 보면 친업(더 쉬움)","쇄골을 바에 가까이 당긴다","반동 없이 천천히 내려온다"]}]},
+ {k:"legs",t:"② 하체",sub:"허벅지·엉덩이",steps:[
+  {n:"보조 스쿼트",rx:"3세트 × 5~8회",f:"squatA",c:["기구 기둥을 가볍게 잡고 균형","엉덩이를 뒤로 빼며 앉는다","무릎은 발끝 방향으로"]},
+  {n:"스쿼트",rx:"3세트 × 5~8회",f:"squat",c:["허벅지가 바닥과 평행할 때까지","발뒤꿈치가 뜨지 않게","가슴을 세운 채 일어난다"]},
+  {n:"풀 스쿼트",rx:"3세트 × 5~8회",f:"squatD",c:["편하게 내려갈 수 있는 만큼 깊이","허리가 말리기 전까지만","일어날 때 발바닥 전체로 민다"]}]},
+ {k:"dip",t:"③ 밀기",sub:"가슴·어깨·팔 뒤쪽",steps:[
+  {n:"서포트 홀드",rx:"3세트 × 10~30초",f:"supp",c:["딥스 손잡이를 짚고 팔을 편 채 버틴다","어깨를 귀에서 멀리 내린다","30초씩 3세트가 되면 다음 단계"]},
+  {n:"네거티브 딥스",rx:"3세트 × 5~8회",f:"dip",a:"down",c:["팔을 편 자세에서 3~5초 동안 내려간다","팔꿈치 90°까지만","발로 딛고 다시 올라가서 반복"]},
+  {n:"딥스",rx:"3세트 × 5~8회",f:"dip",a:"up",c:["상체를 15~20° 앞으로 숙인다","팔꿈치 90°까지만 내려간다","어깨가 아프면 즉시 중단"]}]},
+ {k:"push",t:"④ 밀기 보조",sub:"가슴·코어 연결",steps:[
+  {n:"인클라인 푸시업",rx:"3세트 × 5~8회",f:"incl",c:["딥스 손잡이나 책상을 짚는다","머리부터 발끝까지 일직선","가슴이 손 높이에 닿게"]},
+  {n:"푸시업",rx:"3세트 × 5~8회",f:"push",c:["손은 어깨너비보다 약간 넓게","팔꿈치는 몸통에서 45° 정도","엉덩이가 처지지 않게"]}]},
+ {k:"core",t:"⑤ 코어",sub:"배·허리 안정",steps:[
+  {n:"플랭크",rx:"3세트 × 20~30초",f:"plank",c:["팔꿈치는 어깨 바로 아래","엉덩이를 조이고 배에 힘","허리가 꺾이면 바로 쉬기"]},
+  {n:"행잉 니레이즈",rx:"3세트 × 5~8회",f:"knee",c:["매달려 날개뼈를 내린다","무릎을 배꼽 높이까지 올린다","반동 없이 천천히 내린다"]}]}];
+function fig(f,a){const L='stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"',B='stroke="var(--muted)" stroke-width="2.4" stroke-linecap="round"',H=(x,y)=>'<circle cx="'+x+'" cy="'+y+'" r="4.6" fill="var(--ink)"/>';
+ const ar=(x,y1,y2)=>'<path d="M'+x+' '+y1+'V'+y2+'M'+(x-3.5)+' '+(y2+(y2>y1?-4:4))+'L'+x+' '+y2+'L'+(x+3.5)+' '+(y2+(y2>y1?-4:4))+'" stroke="var(--chalk)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+ let g='';
+ if(f==="hang"||f==="arch"||f==="knee"){g='<line x1="16" y1="7" x2="64" y2="7" '+B+'/>';
+  if(f==="arch")g+=H(41,17)+'<path d="M34 7L38 22M46 7L42 22M40 22Q47 31 40 40L36 55M40 40L41 56" '+L+'/>';
+  else if(f==="knee")g+=H(40,17)+'<path d="M33 7L37 22M47 7L43 22M40 22V40L52 41L51 54" '+L+'/>';
+  else g+=H(40,17)+'<path d="M33 7L37 22M47 7L43 22M40 22V40L37 56M40 40L43 56" '+L+'/>';
+  if(a==="down")g+=ar(58,18,30)}
+ else if(f==="top"){g='<line x1="16" y1="20" x2="64" y2="20" '+B+'/>'+H(40,14)+'<path d="M32 20L28 30L36 27M48 20L52 30L44 27M40 26V44L38 58M40 44L42 58" '+L+'/>';g+=a==="down"?ar(60,26,42):ar(60,42,26)}
+ else if(f==="supp"||f==="dip"){g='<line x1="14" y1="34" x2="66" y2="34" '+B+'/><line x1="20" y1="34" x2="20" y2="70" '+B+'/><line x1="60" y1="34" x2="60" y2="70" '+B+'/>';
+  if(f==="supp")g+=H(41,9)+'<path d="M40 15V34M40 15L41 37L40 48L33 52" '+L+'/>';
+  else g+=H(50,17)+'<path d="M38 34V24H47M47 23L41 41L40 51L32 54" '+L+'/>';
+  if(a)g+=a==="down"?ar(62,10,24):ar(62,24,10)}
+ else if(f==="squat"||f==="squatA"||f==="squatD"){g='<line x1="8" y1="62" x2="72" y2="62" '+B+'/>';
+  if(f==="squatA")g+='<line x1="64" y1="14" x2="64" y2="62" '+B+'/>';
+  const hy=f==="squatD"?48:42,ky=f==="squatD"?44:42;
+  g+=H(44,24)+'<path d="M43 29L33 '+hy+'L47 '+ky+'L44 61M43 31L'+(f==="squatA"?'63 32':'58 33')+'" '+L+'/>'}
+ else if(f==="incl"){g='<line x1="8" y1="62" x2="72" y2="62" '+B+'/><line x1="58" y1="36" x2="70" y2="36" '+B+'/><line x1="64" y1="36" x2="64" y2="62" '+B+'/>'+H(60,24)+'<path d="M55 29L60 36M55 29L14 60" '+L+'/>'}
+ else if(f==="push"){g='<line x1="6" y1="62" x2="74" y2="62" '+B+'/>'+H(64,42)+'<path d="M58 46L60 61M58 46L12 58" '+L+'/>'}
+ else if(f==="plank"){g='<line x1="6" y1="62" x2="74" y2="62" '+B+'/>'+H(64,46)+'<path d="M57 50L57 61L68 61M57 50L12 58" '+L+'/>'}
+ return '<svg class="fig" viewBox="0 0 80 72" aria-hidden="true">'+g+'</svg>'}
+let woSets={};
+function woStep(k){const st=(cfg.wsteps||{})[k];const ex=WO.find(e=>e.k===k);return Math.min(Math.max(st|0,0),ex.steps.length-1)}
+function renderWo(){const el=$("woEx");el.innerHTML="";
+ WO.forEach(ex=>{const si=woStep(ex.k),s=ex.steps[si];const box=document.createElement("div");box.className="ex";
+  const hd=document.createElement("div");hd.className="ex-h";hd.innerHTML="<b></b><span></span>";hd.querySelector("b").textContent=ex.t;hd.querySelector("span").textContent=ex.sub;
+  const ch=document.createElement("div");ch.className="chips";ch.setAttribute("role","group");ch.setAttribute("aria-label",ex.t+" 단계");
+  ex.steps.forEach((x,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(i+1)+"단계 "+x.n;b.setAttribute("aria-pressed",i===si?"true":"false");
+   b.onclick=()=>{cfg.wsteps=Object.assign({},cfg.wsteps||{},{[ex.k]:i});woSets[ex.k]=0;saveCfg();renderWo()};ch.appendChild(b)});
+  const bd=document.createElement("div");bd.className="ex-b";bd.innerHTML=fig(s.f,s.a)+'<div><div class="nm"></div><div class="rx"></div><ul></ul></div>';
+  bd.querySelector(".nm").textContent=s.n;bd.querySelector(".rx").textContent=s.rx;const ul=bd.querySelector("ul");s.c.forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)});
+  const sets=document.createElement("div");sets.className="sets";sets.innerHTML="<span>세트</span>";const done=woSets[ex.k]||0;
+  [1,2,3].forEach(n=>{const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed",n<=done?"true":"false");b.setAttribute("aria-label",n+"세트 완료");
+   b.onclick=()=>{woSets[ex.k]=(woSets[ex.k]||0)>=n?n-1:n;buzz(10);if(woSets[ex.k]>=n&&n<3)startTimer(90);renderWo()};sets.appendChild(b)});
+  box.append(hd,ch,bd,sets);el.appendChild(box)})}
+let tmEnd=0,tmInt=null;
+function startTimer(sec){tmEnd=Date.now()+sec*1000;clearInterval(tmInt);$("woTx").hidden=false;tick();tmInt=setInterval(tick,250)}
+function stopTimer(msg){clearInterval(tmInt);tmInt=null;$("woTx").hidden=true;const t=$("woTm");t.classList.remove("run");t.textContent=msg||"휴식 타이머"}
+function tick(){const left=Math.ceil((tmEnd-Date.now())/1000),t=$("woTm");if(left<=0){stopTimer("휴식 끝! 다음 세트");buzz([30,80,30,80,30]);return}
+ t.classList.add("run");t.textContent="휴식 "+Math.floor(left/60)+":"+pad(left%60)}
+$("woT60").onclick=()=>startTimer(60);$("woT90").onclick=()=>startTimer(90);$("woTx").onclick=()=>stopTimer();
+$("openWo").onclick=()=>{renderWo();openSheet("woSheet");$("woSheet").scrollTop=0};
+$("closeWo").onclick=()=>{closeSheets()};
+$("woDone").onclick=()=>{const h=cfg.habits.find(x=>x.id==="str")||cfg.habits.find(x=>/근력/.test(x.name));if(!h){toast("'근력' 습관이 없어요. 설정에서 추가해 주세요");return}
+ if(!editableDay(TODAY)){toast("100일 기간 밖이에요");return}
+ const before=totalXP();const dd=edit(TODAY);if(!dd.checks[h.id]){dd.checks[h.id]=true;saveDay(TODAY);toast(h.name+" 완료 +"+(totalXP()-before)+" XP")}else toast("이미 체크되어 있어요");
+ stopTimer();closeSheets();viewDate=TODAY;renderToday();announce()};
+
 /* ---------- sheets ---------- */
 function openSheet(id){$("scrim").hidden=false;$(id).hidden=false}
-function closeSheets(){["goalSheet","gearSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
+function closeSheets(){["goalSheet","gearSheet","woSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSheets()}});
 
 /* ---------- goal editing ---------- */
