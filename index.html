@@ -216,6 +216,33 @@ svg.spark{width:100%;height:64px;display:block}
 .wo-list{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
 .wo-src{font-size:11.5px;color:var(--muted);line-height:1.5}
 .wo-src a{color:var(--slate)}
+.sh-list{display:flex;flex-direction:column;gap:6px}
+.sh-it{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:6px 10px 6px 6px}
+.sh-it svg{width:64px;height:52px;background:var(--bg);border-radius:8px}
+.sh-it b{font-size:13.5px;display:block}
+.sh-it span{font-size:11.5px;color:var(--muted)}
+.sh-it .d{font-family:var(--f-mono);font-size:12px;color:var(--slate);font-weight:600}
+.sh-it.off{opacity:.45}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:transparent;padding:6px 12px;font-size:13px;color:var(--muted);min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--slate);color:var(--bg);font-weight:600}
+.bigstart{font-size:18px;min-height:56px;border-radius:16px}
+.player{position:fixed;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;
+  padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));gap:10px;overflow:auto}
+.pl-top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+.pl-prog{height:5px;background:var(--c0);border-radius:999px;overflow:hidden}
+.pl-prog i{display:block;height:100%;background:var(--slate);transition:width .3s}
+.pl-anim{width:100%;max-width:420px;align-self:center;aspect-ratio:120/96;height:auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;display:block}
+.pl-phase{align-self:center;font-size:12px;font-weight:700;letter-spacing:.08em;padding:3px 12px;border-radius:999px;background:var(--slate-soft);color:var(--slate)}
+.pl-phase.work{background:var(--chalk);color:var(--chalk-ink)}
+.pl-name{font-size:20px;font-weight:700;text-align:center;margin:0}
+.pl-tempo{text-align:center;font-size:13px;color:var(--slate);font-weight:600;font-family:var(--f-mono)}
+.pl-cue{margin:0 auto;padding-left:18px;font-size:13.5px;line-height:1.5;max-width:420px}
+.pl-time{display:flex;align-items:center;justify-content:center;gap:14px}
+.pl-time .n{font-family:var(--f-mono);font-size:56px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;min-width:2.2ch;text-align:center}
+.pl-ring{width:72px;height:72px}
+.pl-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
 .toast.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
 .sync{font-size:11.5px;color:var(--muted);text-align:center}
@@ -239,7 +266,7 @@ svg.spark{width:100%;height:64px;display:block}
     <button class="goalbtn" id="goalBtn"><span>목표</span><b id="goalText"></b><span class="ed">수정</span></button>
     <button class="banner" id="catchup" hidden></button>
     <div class="tiles" id="tiles"></div>
-    <button class="linkbtn" id="openWo" hidden>근력 루틴 보기 <b>›</b></button>
+    <button class="linkbtn" id="openWo" hidden>어깨 루틴 10분 <b>›</b></button>
     <div class="stack" style="gap:8px">
       <div class="moodrow" id="moods" role="group" aria-label="오늘 기분"></div>
       <button class="logbtn" id="openLog"><span class="lb">감사·한 줄</span><span class="pv" id="logPv">탭해서 기록</span></button>
@@ -339,29 +366,35 @@ svg.spark{width:100%;height:64px;display:block}
   <div class="gear" id="gearGrid"></div>
   <button class="btn" id="closeGear">닫기</button>
 </div>
-<!-- workout sheet -->
+<!-- shoulder routine sheet -->
 <div class="sheet" id="woSheet" hidden role="dialog" aria-modal="true" aria-labelledby="woTitle">
   <div class="grab"></div>
-  <div class="sec-h"><h2 id="woTitle">치닝디핑 왕초보 루틴</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
-  <div class="wo-meta"><span class="pill">주 3회 · 하루 쉬고</span><span class="pill">약 25분</span><span class="pill chalk">최소: 운동마다 1세트</span></div>
-  <div class="wo-top"><span class="tm" id="woTm">휴식 타이머</span><button id="woT60">60초</button><button id="woT90">90초</button><button id="woTx" hidden>멈춤</button></div>
-  <div class="ex"><div class="ex-h"><b>워밍업</b><span>3분</span></div>
-    <ol class="wo-list"><li>팔 크게 돌리기 앞뒤 10회</li><li>문틀 가슴 스트레칭 30초 × 2 (굽은 등 풀기)</li><li>바에 그냥 매달리기 10~20초</li></ol></div>
-  <div id="woEx" class="stack" style="gap:10px"></div>
-  <div class="ex"><div class="ex-h"><b>마무리</b><span>2분</span></div>
-    <ol class="wo-list"><li>문틀 가슴 스트레칭 30초 × 2</li><li>천천히 숨 고르기</li></ol></div>
-  <div class="ex"><div class="ex-h"><b>진행 규칙</b></div>
-    <ul class="wo-list">
-      <li>①②, ③④는 번갈아 하고, 그 사이 <b>90초</b> 쉽니다.</li>
-      <li>3세트 모두 <b>8회</b>(버티기는 <b>30초</b>)가 되면 다음 단계로 올리고 5회부터 다시 시작합니다.</li>
-      <li>매 세트 <b>1회 정도 여유</b>를 남기고 멈춥니다. 끝까지 쥐어짜지 않아도 됩니다.</li>
-      <li>딥스는 <b>팔꿈치 90°</b>보다 깊이 내려가지 않습니다. 날카로운 통증이 오면 그날은 멈추세요.</li>
-      <li>바쁜 날은 운동마다 1세트만 해도 됩니다. 초보에게는 1세트도 효과가 있습니다.</li>
-    </ul></div>
-  <button class="btn" id="woDone">오늘 근력 루틴 완료 체크</button>
-  <p class="wo-src">참고: <a href="https://redditbwf.github.io/wiki/recommended_routine.html" target="_blank" rel="noopener">r/bodyweightfitness 추천 루틴</a>(단계 진행·3×5~8회·90초 휴식), <a href="https://www.calisthenics-101.co.uk/wp-content/uploads/2020/05/Bodyweight-Fitness-Progressions-Version-5.4.pdf" target="_blank" rel="noopener">맨몸운동 진행표</a>, <a href="https://www.unm.edu/~lkravitz/Article%20folder/ACSMGuidelinesUNM.pdf" target="_blank" rel="noopener">ACSM 근력운동 가이드라인</a>(주 2~3회, 같은 부위 48시간 휴식, 초보 1세트). 통증이나 질환이 있으면 전문가와 상의하세요.</p>
+  <div class="sec-h"><h2 id="woTitle">어깨 넓히기 10분</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
+  <p class="note">왕초보용입니다. 시작을 누르면 운동, 휴식, 다음 운동이 타이머로 자동 진행돼요. 따라 하기만 하면 됩니다.</p>
+  <div class="sh-list" id="shList"></div>
+  <div class="opt"><span>생수병 2개 (500ml~2L)</span><div class="seg" id="optBottle"><button data-v="1">있음</button><button data-v="0">없음</button></div></div>
+  <div class="opt"><span>라운드</span><div class="seg" id="optRounds"><button data-v="2">2회</button><button data-v="3">3회</button></div></div>
+  <div class="opt"><span>운동 시간</span><div class="seg" id="optWork"><button data-v="30">30초</button><button data-v="40">40초</button><button data-v="45">45초</button></div></div>
+  <button class="btn bigstart" id="shStart">시작!</button>
+  <details class="note"><summary style="font-weight:600;cursor:pointer">왜 이 운동들인가요?</summary>
+    <p class="note" style="margin-top:6px">어깨를 옆으로 넓어 보이게 하는 건 <b>측면 삼각근</b>입니다. 측면 삼각근에 가장 잘 들어가는 동작은 <b>사이드 레이즈</b>라서 생수병 레이즈를 핵심으로 넣었습니다. 맨몸으로는 <b>벽 사이드 레이즈</b>가 같은 방향의 힘을 씁니다. <b>파이크 푸시업</b>은 머리 위로 미는 동작이라 어깨 전체를 키우고, <b>발 딛고 견갑 당기기</b>는 말린 어깨를 펴서 같은 근육이라도 더 넓어 보이게 합니다. 매달리기 10초는 처음 시작할 때 흔한 수준이고, 발로 체중을 나누면 손가락 부담이 줄어듭니다.</p>
+    <p class="note">쉬워지면 순서대로 바꿔 보세요: 운동 시간 30→40→45초, 그다음 라운드 3회, 그다음 생수병을 무겁게.</p>
+    <p class="wo-src">참고: <a href="https://builtwithscience.com/shoulder" target="_blank" rel="noopener">삼각근 근전도 비교 (Built With Science)</a>, <a href="https://red.bismuth.it/r/bodyweightfitness/comments/1g8pm3f/lateral_raise_alternatives" target="_blank" rel="noopener">맨몸 사이드 레이즈 대안 (r/bodyweightfitness)</a>, <a href="https://deadhangs-com.pages.dev/beginner-deadhang" target="_blank" rel="noopener">초보 매달리기 가이드</a>, <a href="https://www.unm.edu/~lkravitz/Article%20folder/ACSMGuidelinesUNM.pdf" target="_blank" rel="noopener">ACSM 가이드라인</a>. 어깨에 날카로운 통증이 오면 멈추고 전문가와 상의하세요.</p>
+  </details>
 </div>
-<!-- popup -->
+<!-- player -->
+<div class="player" id="player" hidden role="dialog" aria-modal="true" aria-labelledby="plName">
+  <div class="pl-top"><span id="plStep">1/10</span><button class="daybtn" id="plClose" aria-label="운동 그만하기">✕</button></div>
+  <div class="pl-prog"><i id="plProg"></i></div>
+  <svg class="pl-anim" id="plAnim" viewBox="0 0 120 96" role="img" aria-label="동작 시범"></svg>
+  <span class="pl-phase" id="plPhase">준비</span>
+  <h2 class="pl-name" id="plName"></h2>
+  <div class="pl-tempo" id="plTempo"></div>
+  <ul class="pl-cue" id="plCue"></ul>
+  <div class="pl-time"><svg class="pl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="var(--c0)" stroke-width="4"/><circle id="plRing" cx="20" cy="20" r="17" fill="none" stroke="var(--slate)" stroke-width="4" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="0" transform="rotate(-90 20 20)"/></svg><span class="n" id="plNum">5</span></div>
+  <div class="pl-btns"><button class="btn ghost" id="plPause">일시정지</button><button class="btn ghost" id="plSkip">건너뛰기</button></div>
+</div>
+<!-- popup --><!-- popup -->
 <div class="pop" id="pop" hidden role="alertdialog" aria-modal="true" aria-labelledby="popTitle"><div class="popc" id="popc"></div></div>
 <!-- log sheet -->
 <div class="scrim" id="scrim" hidden></div>
@@ -390,7 +423,7 @@ const CATS={body:{n:"몸",c:"var(--body)"},care:{n:"관리",c:"var(--care)"},min
 const CAT_ORDER=["body","care","growth","mind"];
 const MOOD=[["1","힘듦"],["2","처짐"],["3","보통"],["4","괜찮음"],["5","좋음"]];
 const MILES={1:"출발",7:"첫 일주일",21:"3주 돌파",30:"한 달",50:"절반",66:"습관 정착",100:"완주"};
-const MIN_DEFAULT={run:"최소 10분 걷기",str:"최소 1세트",sleep:"최소 자정 전",scalp:"최소 샴푸 꼼꼼히",teeth:"최소 치실 1번",skin:"최소 로션만",talk:"최소 5분",write:"최소 한 문단",read:"최소 5쪽",grat:"한 줄이면 끝"};
+const MIN_DEFAULT={run:"최소 10분 걷기",str:"최소 1라운드",sleep:"최소 자정 전",scalp:"최소 샴푸 꼼꼼히",teeth:"최소 치실 1번",skin:"최소 로션만",talk:"최소 5분",write:"최소 한 문단",read:"최소 5쪽",grat:"한 줄이면 끝"};
 const XP={habit:10,bonus:10,allClear:30,mood:5,log:5,week:20};
 const TITLES=[[1,"평범한 하루"],[3,"달라지는 남자"],[5,"자기관리의 남자"],[7,"품격 있는 남자"],[9,"존경받는 선생님"],[11,"여유로운 어른"],[13,"행복한 가장"],[15,"100일의 주인공"]];
 const pad=n=>String(n).padStart(2,"0");
@@ -398,7 +431,7 @@ const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 function today(){const d=new Date();if(d.getHours()<4)d.setDate(d.getDate()-1);return ymd(d)}
 let TODAY=today();
 const DEFAULT_CFG={startDate:TODAY,goal:"더 건강하고, 단단하고, 여유 있는 나",habits:[
-  {id:"run",name:"슬로우 러닝 30분",cat:"body"},{id:"str",name:"왕초보 근력 루틴",cat:"body"},
+  {id:"run",name:"슬로우 러닝 30분",cat:"body"},{id:"str",name:"어깨 루틴 10분",cat:"body"},
   {id:"sleep",name:"밤 11시 전 잠자리",cat:"body"},{id:"scalp",name:"두피·헤어 관리",cat:"care"},
   {id:"teeth",name:"치실·혀클리너",cat:"care"},{id:"skin",name:"세안 후 스킨·로션",cat:"care"},
   {id:"talk",name:"대화 연습 1회",cat:"growth"},{id:"write",name:"글쓰기 30분",cat:"growth"},
@@ -509,7 +542,7 @@ function renderToday(){
   const pv=[(d.grat||"").trim(),(d.memo||"").trim()].filter(Boolean).join(" · ");
   $("logPv").textContent=pv||"탭해서 기록 (+5 XP)";$("logPv").classList.toggle("has",!!pv);$("openLog").disabled=!ed;
   $("goalText").textContent=cfg.goal||"목표를 정해 주세요";renderHero();
-  $("openWo").hidden=!cfg.habits.some(x=>x.id==="str"||/근력/.test(x.name));
+  $("openWo").hidden=!cfg.habits.some(x=>x.id==="str"||/근력|어깨/.test(x.name));
 }
 function edit(date){const dd=days[date]=Object.assign({},days[date]||{});dd.checks=Object.assign({},dd.checks||{});if(date===TODAY||!Array.isArray(dd.hids))dd.hids=cfg.habits.map(h=>h.id);dd.updated=Date.now();return dd}
 function toggle(h){const before=totalXP(),lvB=lvOf(before);const dd=edit(viewDate);
@@ -687,74 +720,108 @@ function openGear(){const lv=lvOf(totalXP()),el=$("gearGrid");el.innerHTML="";le
  $("gearSum").textContent=on+"/"+GEAR.length;openSheet("gearSheet")}
 $("openGear").onclick=openGear;$("closeGear").onclick=closeSheets;
 
-/* ---------- strength routine (chin-dip station, beginner) ---------- */
-const WO=[
- {k:"pull",t:"① 당기기",sub:"등 넓이·어깨 프레임",steps:[
-  {n:"견갑 풀업",rx:"3세트 × 5~8회",f:"hang",a:"down",c:["팔을 편 채 매달린다","팔은 굽히지 말고 날개뼈만 아래로 내려 가슴을 연다","1초 멈췄다 천천히 원위치"]},
-  {n:"아치 행",rx:"3세트 × 10~30초",f:"arch",c:["날개뼈를 내린 채 가슴을 바 쪽으로 내민다","팔은 끝까지 편 상태","30초씩 3세트가 되면 다음 단계"]},
-  {n:"네거티브 풀업",rx:"3세트 × 5~8회",f:"top",a:"down",c:["의자를 딛고 턱이 바 위에 있는 자세로 시작","3~5초에 걸쳐 천천히 내려온다","다시 의자로 올라가서 반복"]},
-  {n:"풀업 · 친업",rx:"3세트 × 5~8회",f:"top",a:"up",c:["손바닥이 나를 보면 친업(더 쉬움)","쇄골을 바에 가까이 당긴다","반동 없이 천천히 내려온다"]}]},
- {k:"legs",t:"② 하체",sub:"허벅지·엉덩이",steps:[
-  {n:"보조 스쿼트",rx:"3세트 × 5~8회",f:"squatA",c:["기구 기둥을 가볍게 잡고 균형","엉덩이를 뒤로 빼며 앉는다","무릎은 발끝 방향으로"]},
-  {n:"스쿼트",rx:"3세트 × 5~8회",f:"squat",c:["허벅지가 바닥과 평행할 때까지","발뒤꿈치가 뜨지 않게","가슴을 세운 채 일어난다"]},
-  {n:"풀 스쿼트",rx:"3세트 × 5~8회",f:"squatD",c:["편하게 내려갈 수 있는 만큼 깊이","허리가 말리기 전까지만","일어날 때 발바닥 전체로 민다"]}]},
- {k:"dip",t:"③ 밀기",sub:"가슴·어깨·팔 뒤쪽",steps:[
-  {n:"서포트 홀드",rx:"3세트 × 10~30초",f:"supp",c:["딥스 손잡이를 짚고 팔을 편 채 버틴다","어깨를 귀에서 멀리 내린다","30초씩 3세트가 되면 다음 단계"]},
-  {n:"네거티브 딥스",rx:"3세트 × 5~8회",f:"dip",a:"down",c:["팔을 편 자세에서 3~5초 동안 내려간다","팔꿈치 90°까지만","발로 딛고 다시 올라가서 반복"]},
-  {n:"딥스",rx:"3세트 × 5~8회",f:"dip",a:"up",c:["상체를 15~20° 앞으로 숙인다","팔꿈치 90°까지만 내려간다","어깨가 아프면 즉시 중단"]}]},
- {k:"push",t:"④ 밀기 보조",sub:"가슴·코어 연결",steps:[
-  {n:"인클라인 푸시업",rx:"3세트 × 5~8회",f:"incl",c:["딥스 손잡이나 책상을 짚는다","머리부터 발끝까지 일직선","가슴이 손 높이에 닿게"]},
-  {n:"푸시업",rx:"3세트 × 5~8회",f:"push",c:["손은 어깨너비보다 약간 넓게","팔꿈치는 몸통에서 45° 정도","엉덩이가 처지지 않게"]}]},
- {k:"core",t:"⑤ 코어",sub:"배·허리 안정",steps:[
-  {n:"플랭크",rx:"3세트 × 20~30초",f:"plank",c:["팔꿈치는 어깨 바로 아래","엉덩이를 조이고 배에 힘","허리가 꺾이면 바로 쉬기"]},
-  {n:"행잉 니레이즈",rx:"3세트 × 5~8회",f:"knee",c:["매달려 날개뼈를 내린다","무릎을 배꼽 높이까지 올린다","반동 없이 천천히 내린다"]}]}];
-function fig(f,a){const L='stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"',B='stroke="var(--muted)" stroke-width="2.4" stroke-linecap="round"',H=(x,y)=>'<circle cx="'+x+'" cy="'+y+'" r="4.6" fill="var(--ink)"/>';
- const ar=(x,y1,y2)=>'<path d="M'+x+' '+y1+'V'+y2+'M'+(x-3.5)+' '+(y2+(y2>y1?-4:4))+'L'+x+' '+y2+'L'+(x+3.5)+' '+(y2+(y2>y1?-4:4))+'" stroke="var(--chalk)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
- let g='';
- if(f==="hang"||f==="arch"||f==="knee"){g='<line x1="16" y1="7" x2="64" y2="7" '+B+'/>';
-  if(f==="arch")g+=H(41,17)+'<path d="M34 7L38 22M46 7L42 22M40 22Q47 31 40 40L36 55M40 40L41 56" '+L+'/>';
-  else if(f==="knee")g+=H(40,17)+'<path d="M33 7L37 22M47 7L43 22M40 22V40L52 41L51 54" '+L+'/>';
-  else g+=H(40,17)+'<path d="M33 7L37 22M47 7L43 22M40 22V40L37 56M40 40L43 56" '+L+'/>';
-  if(a==="down")g+=ar(58,18,30)}
- else if(f==="top"){g='<line x1="16" y1="20" x2="64" y2="20" '+B+'/>'+H(40,14)+'<path d="M32 20L28 30L36 27M48 20L52 30L44 27M40 26V44L38 58M40 44L42 58" '+L+'/>';g+=a==="down"?ar(60,26,42):ar(60,42,26)}
- else if(f==="supp"||f==="dip"){g='<line x1="14" y1="34" x2="66" y2="34" '+B+'/><line x1="20" y1="34" x2="20" y2="70" '+B+'/><line x1="60" y1="34" x2="60" y2="70" '+B+'/>';
-  if(f==="supp")g+=H(41,9)+'<path d="M40 15V34M40 15L41 37L40 48L33 52" '+L+'/>';
-  else g+=H(50,17)+'<path d="M38 34V24H47M47 23L41 41L40 51L32 54" '+L+'/>';
-  if(a)g+=a==="down"?ar(62,10,24):ar(62,24,10)}
- else if(f==="squat"||f==="squatA"||f==="squatD"){g='<line x1="8" y1="62" x2="72" y2="62" '+B+'/>';
-  if(f==="squatA")g+='<line x1="64" y1="14" x2="64" y2="62" '+B+'/>';
-  const hy=f==="squatD"?48:42,ky=f==="squatD"?44:42;
-  g+=H(44,24)+'<path d="M43 29L33 '+hy+'L47 '+ky+'L44 61M43 31L'+(f==="squatA"?'63 32':'58 33')+'" '+L+'/>'}
- else if(f==="incl"){g='<line x1="8" y1="62" x2="72" y2="62" '+B+'/><line x1="58" y1="36" x2="70" y2="36" '+B+'/><line x1="64" y1="36" x2="64" y2="62" '+B+'/>'+H(60,24)+'<path d="M55 29L60 36M55 29L14 60" '+L+'/>'}
- else if(f==="push"){g='<line x1="6" y1="62" x2="74" y2="62" '+B+'/>'+H(64,42)+'<path d="M58 46L60 61M58 46L12 58" '+L+'/>'}
- else if(f==="plank"){g='<line x1="6" y1="62" x2="74" y2="62" '+B+'/>'+H(64,46)+'<path d="M57 50L57 61L68 61M57 50L12 58" '+L+'/>'}
- return '<svg class="fig" viewBox="0 0 80 72" aria-hidden="true">'+g+'</svg>'}
-let woSets={};
-function woStep(k){const st=(cfg.wsteps||{})[k];const ex=WO.find(e=>e.k===k);return Math.min(Math.max(st|0,0),ex.steps.length-1)}
-function renderWo(){const el=$("woEx");el.innerHTML="";
- WO.forEach(ex=>{const si=woStep(ex.k),s=ex.steps[si];const box=document.createElement("div");box.className="ex";
-  const hd=document.createElement("div");hd.className="ex-h";hd.innerHTML="<b></b><span></span>";hd.querySelector("b").textContent=ex.t;hd.querySelector("span").textContent=ex.sub;
-  const ch=document.createElement("div");ch.className="chips";ch.setAttribute("role","group");ch.setAttribute("aria-label",ex.t+" 단계");
-  ex.steps.forEach((x,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(i+1)+"단계 "+x.n;b.setAttribute("aria-pressed",i===si?"true":"false");
-   b.onclick=()=>{cfg.wsteps=Object.assign({},cfg.wsteps||{},{[ex.k]:i});woSets[ex.k]=0;saveCfg();renderWo()};ch.appendChild(b)});
-  const bd=document.createElement("div");bd.className="ex-b";bd.innerHTML=fig(s.f,s.a)+'<div><div class="nm"></div><div class="rx"></div><ul></ul></div>';
-  bd.querySelector(".nm").textContent=s.n;bd.querySelector(".rx").textContent=s.rx;const ul=bd.querySelector("ul");s.c.forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)});
-  const sets=document.createElement("div");sets.className="sets";sets.innerHTML="<span>세트</span>";const done=woSets[ex.k]||0;
-  [1,2,3].forEach(n=>{const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed",n<=done?"true":"false");b.setAttribute("aria-label",n+"세트 완료");
-   b.onclick=()=>{woSets[ex.k]=(woSets[ex.k]||0)>=n?n-1:n;buzz(10);if(woSets[ex.k]>=n&&n<3)startTimer(90);renderWo()};sets.appendChild(b)});
-  box.append(hd,ch,bd,sets);el.appendChild(box)})}
-let tmEnd=0,tmInt=null;
-function startTimer(sec){tmEnd=Date.now()+sec*1000;clearInterval(tmInt);$("woTx").hidden=false;tick();tmInt=setInterval(tick,250)}
-function stopTimer(msg){clearInterval(tmInt);tmInt=null;$("woTx").hidden=true;const t=$("woTm");t.classList.remove("run");t.textContent=msg||"휴식 타이머"}
-function tick(){const left=Math.ceil((tmEnd-Date.now())/1000),t=$("woTm");if(left<=0){stopTimer("휴식 끝! 다음 세트");buzz([30,80,30,80,30]);return}
- t.classList.add("run");t.textContent="휴식 "+Math.floor(left/60)+":"+pad(left%60)}
-$("woT60").onclick=()=>startTimer(60);$("woT90").onclick=()=>startTimer(90);$("woTx").onclick=()=>stopTimer();
-$("openWo").onclick=()=>{renderWo();openSheet("woSheet");$("woSheet").scrollTop=0};
+/* ---------- shoulder-width routine with guided player ---------- */
+// poses: joints in a 120x96 box. h=head, n=neck/shoulder centre, sl/sr shoulders, el/er elbows, hl/hr hands, p=hip, kl/kr knees, fl/fr feet
+const PROPS={
+ wall:'<line x1="22" y1="4" x2="22" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
+ floor:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
+ dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="22" y1="62" x2="40" y2="62" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="30" y1="62" x2="30" y2="92" stroke="var(--muted)" stroke-width="3"/>',
+ bar:'<line x1="14" y1="8" x2="106" y2="8" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
+ door:'<line x1="62" y1="4" x2="62" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>'};
+const SH=[
+ {k:"warm",n:"팔 크게 돌리기",sub:"워밍업",fixed:30,tempo:"천천히 큰 원",view:"circle",props:"floor",
+  c:["팔을 쭉 펴고 큰 원을 그린다","앞으로 15초, 뒤로 15초","어깨가 따뜻해지면 준비 끝"]},
+ {k:"wallL",n:"벽 사이드 레이즈 · 왼쪽",sub:"측면 삼각근 (맨몸)",tempo:"밀기 1초 · 내려가기 3초",t:[1,.6,3,.4],props:"wall",
+  A:{h:[47,22],sl:[42,32],sr:[60,34],el:[24,34],hl:[24,18],er:[64,50],hr:[66,62],p:[56,60],kl:[56,76],kr:[63,76],fl:[58,92],fr:[66,92]},
+  B:{h:[38,30],sl:[34,40],sr:[52,40],el:[24,46],hl:[24,30],er:[56,56],hr:[59,66],p:[53,62],kl:[56,77],kr:[63,77],fl:[58,92],fr:[66,92]},
+  c:["벽 옆에 서서 팔꿈치를 90°로 굽혀 아래팔을 벽에 댄다","몸을 벽 쪽으로 기울였다가","팔 윗부분으로 벽을 밀어 몸을 세운다 (허리 말고 어깨로)"]},
+ {k:"wallR",n:"벽 사이드 레이즈 · 오른쪽",sub:"반대쪽도 똑같이",tempo:"밀기 1초 · 내려가기 3초",t:[1,.6,3,.4],props:"wall",mirror:1,c:["반대편 팔을 벽에 대고 같은 방법으로","발은 벽에서 한 걸음 떨어진 곳에","멀리 설수록 어려워져요"]},
+ {k:"pike",n:"인클라인 파이크 푸시업",sub:"어깨 전체",tempo:"내려가기 2초 · 밀기 1초",t:[2,.3,1,.6],props:"dipbar",
+  A:{h:[36,50],sl:[40,44],sr:[40,44],el:[35,53],hl:[30,62],er:[35,53],hr:[30,62],p:[72,28],kl:[86,60],kr:[86,60],fl:[100,92],fr:[100,92]},
+  B:{h:[25,60],sl:[33,54],sr:[33,54],el:[43,55],hl:[30,62],er:[43,55],hr:[30,62],p:[68,32],kl:[85,61],kr:[85,61],fl:[100,92],fr:[100,92]},
+  c:["딥스 손잡이(또는 의자)를 짚고 엉덩이를 높이 든다","머리를 손 앞쪽으로 천천히 내린다","된 만큼만 내려가도 OK. 힘들면 무릎을 굽혀도 돼요"]},
+ {k:"raise",n:"생수병 사이드 레이즈",sub:"측면 삼각근 (핵심)",bottle:1,tempo:"올리기 1초 · 내리기 3초",t:[1,.4,3,.3],props:"floor",
+  A:{h:[60,16],sl:[51,28],sr:[69,28],el:[47,44],hl:[46,57],er:[73,44],hr:[74,57],p:[60,56],kl:[56,74],kr:[64,74],fl:[55,92],fr:[65,92]},
+  B:{h:[60,16],sl:[51,28],sr:[69,28],el:[37,30],hl:[25,33],er:[83,30],hr:[95,33],p:[60,56],kl:[56,74],kr:[64,74],fl:[55,92],fr:[65,92]},
+  c:["팔꿈치를 살짝 굽힌 채 옆으로 어깨 높이까지","새끼손가락 쪽이 살짝 위로 가게","내릴 때 3초, 끝까지 떨어뜨리지 말기"]},
+ {k:"scap",n:"발 딛고 견갑 당기기",sub:"말린 어깨 펴기",tempo:"내리기 1초 · 버티기 2초",t:[1,2,1.5,.5],props:"bar",chair:1,fixedMax:30,
+  A:{h:[60,24],sl:[50,24],sr:[70,24],el:[49,16],hl:[48,8],er:[71,16],hr:[72,8],p:[60,54],kl:[52,68],kr:[68,68],fl:[54,80],fr:[66,80]},
+  B:{h:[60,30],sl:[50,32],sr:[70,32],el:[49,20],hl:[48,8],er:[71,20],hr:[72,8],p:[60,60],kl:[52,72],kr:[68,72],fl:[54,80],fr:[66,80]},
+  c:["의자에 발을 올려 체중 절반은 발로 받친다","팔은 편 채로 날개뼈만 아래로 당겨 가슴을 연다","손가락이 아프면 엄지까지 감싸 쥐고 발에 더 기대기"]},
+ {k:"stretch",n:"문틀 가슴 스트레칭",sub:"마무리",fixed:40,tempo:"천천히 숨 쉬며",t:[2,3,2,1],props:"door",
+  A:{h:[47,20],sl:[50,30],sr:[50,30],el:[62,30],hl:[62,14],er:[46,44],hr:[48,56],p:[48,58],kl:[54,74],kr:[42,75],fl:[58,92],fr:[38,92]},
+  B:{h:[60,22],sl:[60,32],sr:[60,32],el:[62,30],hl:[62,14],er:[56,46],hr:[58,58],p:[54,58],kl:[64,74],kr:[46,76],fl:[68,92],fr:[40,92]},
+  c:["문틀에 팔을 ㄴ자로 대고 한 발 앞으로","가슴이 문 안으로 들어가게 천천히 기댄다","20초 후 반대쪽 팔"]}];
+SH.find(x=>x.k==="wallR").A=mirrorPose(SH.find(x=>x.k==="wallL").A);SH.find(x=>x.k==="wallR").B=mirrorPose(SH.find(x=>x.k==="wallL").B);SH.find(x=>x.k==="wallR").t=[1,.6,3,.4];
+function mirrorPose(P){const o={};const sw={sl:"sr",sr:"sl",el:"er",er:"el",hl:"hr",hr:"hl",kl:"kr",kr:"kl",fl:"fr",fr:"fl"};for(const k in P){o[sw[k]||k]=[120-P[k][0],P[k][1]]}return o}
+const lerp=(a,b,t)=>a+(b-a)*t, ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function poseAt(ex,sec){if(ex.view==="circle"){const a=sec*Math.PI*1.2;const sl=[50,30],sr=[70,30],r=24;
+  return {h:[60,18],sl,sr,el:[sl[0]-Math.cos(a)*r*.5,sl[1]+Math.sin(a)*r*.5],hl:[sl[0]-Math.cos(a)*r,sl[1]+Math.sin(a)*r],er:[sr[0]+Math.cos(a)*r*.5,sr[1]+Math.sin(a)*r*.5],hr:[sr[0]+Math.cos(a)*r,sr[1]+Math.sin(a)*r],p:[60,58],kl:[56,75],kr:[64,75],fl:[55,92],fr:[65,92]}}
+ const [u,ht,d,hb]=ex.t,T=u+ht+d+hb;let x=sec%T,k;
+ if(x<u)k=ease(x/u);else if(x<u+ht)k=1;else if(x<u+ht+d)k=1-ease((x-u-ht)/d);else k=0;
+ const P={};for(const j in ex.A)P[j]=[lerp(ex.A[j][0],ex.B[j][0],k),lerp(ex.A[j][1],ex.B[j][1],k)];P._k=k;return P}
+function drawFig(ex,P,mini){const L='stroke="var(--ink)" stroke-width="'+(mini?3.4:3)+'" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+ const pt=a=>a[0].toFixed(1)+" "+a[1].toFixed(1);const nk=[(P.sl[0]+P.sr[0])/2,(P.sl[1]+P.sr[1])/2];
+ let g=PROPS[ex.props]||"";
+ if(ex.chair)g+='<rect x="44" y="80" width="32" height="5" rx="1.5" fill="var(--muted)"/><line x1="48" y1="85" x2="48" y2="92" stroke="var(--muted)" stroke-width="2.5"/><line x1="72" y1="85" x2="72" y2="92" stroke="var(--muted)" stroke-width="2.5"/>';
+ g+='<path d="M'+pt(P.sl)+'L'+pt(P.sr)+'M'+pt(nk)+'L'+pt(P.p)+'M'+pt(P.p)+'L'+pt(P.kl)+'L'+pt(P.fl)+'M'+pt(P.p)+'L'+pt(P.kr)+'L'+pt(P.fr)+'" '+L+' opacity=".9"/>';
+ g+='<path d="M'+pt(P.sl)+'L'+pt(P.el)+'L'+pt(P.hl)+'M'+pt(P.sr)+'L'+pt(P.er)+'L'+pt(P.hr)+'" '+L+'/>';
+ g+='<circle cx="'+P.h[0].toFixed(1)+'" cy="'+P.h[1].toFixed(1)+'" r="6.2" fill="var(--ink)"/>';
+ if(ex.bottle)[P.hl,P.hr].forEach(h=>{g+='<rect x="'+(h[0]-2.6).toFixed(1)+'" y="'+(h[1]-1).toFixed(1)+'" width="5.2" height="10" rx="1.6" fill="#7fb8e0" stroke="#3d6aa8" stroke-width=".8"/>'});
+ // target muscle glow on the working shoulder(s)
+ if(!mini&&ex.k!=="warm"&&ex.k!=="stretch"){const on=P._k>.5;[ex.k==="wallL"?[P.sl]:ex.k==="wallR"?[P.sr]:[P.sl,P.sr]][0].forEach(s=>{g+='<circle cx="'+s[0].toFixed(1)+'" cy="'+s[1].toFixed(1)+'" r="'+(on?6:4.5)+'" fill="var(--chalk)" opacity="'+(on?.75:.4)+'"/>'})}
+ return g}
+function shCfg(){return Object.assign({bottle:1,rounds:2,work:30},cfg.sh||{})}
+function shPlan(){const o=shCfg(),q=[];const W=SH.find(x=>x.k==="warm"),S=SH.find(x=>x.k==="stretch");
+ const round=SH.filter(x=>!["warm","stretch"].includes(x.k)&&(!x.bottle||o.bottle));
+ q.push({ex:W,ph:"prep",d:5},{ex:W,ph:"work",d:W.fixed});
+ for(let r=1;r<=o.rounds;r++)round.forEach((ex,i)=>{const d=ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work;
+  q.push({ex,ph:"rest",d:i===0&&r===1?10:(ex.k==="wallR"?10:20),r});q.push({ex,ph:"work",d,r})});
+ q.push({ex:S,ph:"rest",d:10},{ex:S,ph:"work",d:S.fixed});return q}
+function renderShList(){const o=shCfg(),el=$("shList");el.innerHTML="";const tot=shPlan().reduce((a,b)=>a+b.d,0);
+ SH.forEach(ex=>{const off=ex.bottle&&!o.bottle;const it=document.createElement("div");it.className="sh-it"+(off?" off":"");
+  const P=ex.A?ex.A:poseAt(ex,0.3);const P2=ex.B?Object.assign({},ex.B,{_k:1}):poseAt(ex,1);
+  it.innerHTML='<svg viewBox="0 0 120 96" aria-hidden="true">'+drawFig(ex,ex.A?P2:P,1)+'</svg><div><b></b><span></span></div><span class="d"></span>';
+  it.querySelector("b").textContent=ex.n;it.querySelector("div span").textContent=off?"생수병 없음: 건너뜀":ex.sub;
+  it.querySelector(".d").textContent=ex.fixed?ex.fixed+"초":(ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work)+"초"+(["warm","stretch"].includes(ex.k)?"":" ×"+o.rounds);el.appendChild(it)});
+ $("shStart").textContent="시작!  ("+Math.round(tot/60)+"분)";
+ [["optBottle","bottle"],["optRounds","rounds"],["optWork","work"]].forEach(([id,k])=>{$(id).querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(o[k])===b.dataset.v?"true":"false");
+  b.onclick=()=>{cfg.sh=Object.assign(shCfg(),{[k]:Number(b.dataset.v)});saveCfg();renderShList()}})})}
+// ---- player engine ----
+let PL=null,actx=null,wake=null;
+function beep(f,ms){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.18,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+ms/1000);o.start();o.stop(actx.currentTime+ms/1000)}catch(e){}}
+async function lockWake(){try{wake=await navigator.wakeLock.request("screen")}catch(e){wake=null}}
+function startPlayer(){const q=shPlan();PL={q,i:0,t0:performance.now(),paused:false,pausedAt:0,lastSec:-1,raf:0};
+ try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume&&actx.resume()}catch(e){}
+ closeSheets();$("player").hidden=false;lockWake();showStep();PL.raf=requestAnimationFrame(loop)}
+function showStep(){const s=PL.q[PL.i],ex=s.ex;$("plName").textContent=(s.ph==="work"?"":"다음: ")+ex.n;
+ $("plPhase").textContent=s.ph==="work"?(s.r?"라운드 "+s.r+" · 운동":"운동"):s.ph==="prep"?"준비":"휴식";$("plPhase").className="pl-phase"+(s.ph==="work"?" work":"");
+ $("plTempo").textContent=ex.tempo||"";const ul=$("plCue");ul.innerHTML="";ex.c.forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)});
+ const works=PL.q.filter(x=>x.ph==="work").length,done=PL.q.slice(0,PL.i).filter(x=>x.ph==="work").length;
+ $("plStep").textContent="동작 "+Math.min(done+(s.ph==="work"?1:0),works)+" / "+works;$("plProg").style.width=Math.round(PL.i/PL.q.length*100)+"%";
+ $("plRing").setAttribute("stroke",s.ph==="work"?"var(--chalk)":"var(--slate)");PL.lastSec=-1}
+function loop(now){if(!PL)return;if(PL.paused){PL.raf=requestAnimationFrame(loop);return}
+ const s=PL.q[PL.i],el=(now-PL.t0)/1000,left=Math.max(0,s.d-el);
+ const P=poseAt(s.ex,s.ph==="work"?el:el*.6);$("plAnim").innerHTML=drawFig(s.ex,P,0);
+ const sec=Math.ceil(left);if(sec!==PL.lastSec){PL.lastSec=sec;$("plNum").textContent=sec;if(sec<=3&&sec>0)beep(s.ph==="work"?660:880,120)}
+ $("plRing").setAttribute("stroke-dashoffset",(106.8*(1-left/s.d)).toFixed(1));
+ if(left<=0){nextStep();}PL&&(PL.raf=requestAnimationFrame(loop))}
+function nextStep(){if(!PL)return;const was=PL.q[PL.i];PL.i++;
+ if(PL.i>=PL.q.length){finishPlayer();return}
+ const s=PL.q[PL.i];if(s.ph==="work"){beep(1046,350);buzz([40,40,40])}else{beep(523,250);buzz(60)}
+ PL.t0=performance.now();showStep()}
+function finishPlayer(){cancelAnimationFrame(PL.raf);PL=null;$("player").hidden=true;try{wake&&wake.release()}catch(e){}beep(1046,200);setTimeout(()=>beep(1318,400),220);buzz([60,60,120]);
+ const h=cfg.habits.find(x=>x.id==="str")||cfg.habits.find(x=>/근력|어깨/.test(x.name));
+ if(h&&editableDay(TODAY)){const before=totalXP();const dd=edit(TODAY);if(!dd.checks[h.id]){dd.checks[h.id]=true;saveDay(TODAY)}const g=totalXP()-before;viewDate=TODAY;renderToday();toast("어깨 루틴 완료!"+(g?" +"+g+" XP":""));announce()}
+ else toast("어깨 루틴 완료!")}
+function stopPlayer(){if(!PL)return;cancelAnimationFrame(PL.raf);PL=null;$("player").hidden=true;try{wake&&wake.release()}catch(e){}toast("다음에 이어서 해요")}
+$("plPause").onclick=()=>{if(!PL)return;if(!PL.paused){PL.paused=true;PL.pausedAt=performance.now();$("plPause").textContent="계속"}else{PL.t0+=performance.now()-PL.pausedAt;PL.paused=false;$("plPause").textContent="일시정지"}};
+$("plSkip").onclick=()=>{if(!PL)return;if(PL.paused){PL.paused=false;$("plPause").textContent="일시정지"}nextStep()};
+$("plClose").onclick=stopPlayer;
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&PL)lockWake()});
+$("shStart").onclick=startPlayer;
+$("openWo").onclick=()=>{renderShList();openSheet("woSheet");$("woSheet").scrollTop=0};
 $("closeWo").onclick=()=>{closeSheets()};
-$("woDone").onclick=()=>{const h=cfg.habits.find(x=>x.id==="str")||cfg.habits.find(x=>/근력/.test(x.name));if(!h){toast("'근력' 습관이 없어요. 설정에서 추가해 주세요");return}
- if(!editableDay(TODAY)){toast("100일 기간 밖이에요");return}
- const before=totalXP();const dd=edit(TODAY);if(!dd.checks[h.id]){dd.checks[h.id]=true;saveDay(TODAY);toast(h.name+" 완료 +"+(totalXP()-before)+" XP")}else toast("이미 체크되어 있어요");
- stopTimer();closeSheets();viewDate=TODAY;renderToday();announce()};
 
 /* ---------- sheets ---------- */
 function openSheet(id){$("scrim").hidden=false;$(id).hidden=false}
