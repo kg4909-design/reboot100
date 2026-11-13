@@ -223,6 +223,13 @@ svg.spark{width:100%;height:64px;display:block}
 .sh-it span{font-size:11.5px;color:var(--muted)}
 .sh-it .d{font-family:var(--f-mono);font-size:12px;color:var(--slate);font-weight:600}
 .sh-it.off{opacity:.45}
+.sh-d summary{list-style:none;cursor:pointer}.sh-d summary::-webkit-details-marker{display:none}
+.sh-d[open] .sh-it{border-color:var(--slate);border-bottom-left-radius:0;border-bottom-right-radius:0}
+.sh-x{border:1px solid var(--slate);border-top:none;border-radius:0 0 12px 12px;padding:8px 12px 10px;display:flex;flex-direction:column;gap:2px;font-size:12.5px}
+.sh-x b{font-size:12px;color:var(--slate);margin-top:4px}
+.sh-x ol,.sh-x ul{margin:0;padding-left:18px;line-height:1.5}
+.pl-label{font-size:12px;font-weight:700;color:var(--slate);text-align:center;margin-bottom:-6px}
+.pl-bad{text-align:center;font-size:12.5px;color:var(--danger);margin:0}
 .opt{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .seg button{border:none;background:transparent;padding:6px 12px;font-size:13px;color:var(--muted);min-height:34px}
@@ -266,7 +273,7 @@ svg.spark{width:100%;height:64px;display:block}
     <button class="goalbtn" id="goalBtn"><span>목표</span><b id="goalText"></b><span class="ed">수정</span></button>
     <button class="banner" id="catchup" hidden></button>
     <div class="tiles" id="tiles"></div>
-    <button class="linkbtn" id="openWo" hidden>어깨 루틴 10분 <b>›</b></button>
+    <button class="linkbtn" id="openWo" hidden>어깨 루틴 시작 <b>›</b></button>
     <div class="stack" style="gap:8px">
       <div class="moodrow" id="moods" role="group" aria-label="오늘 기분"></div>
       <button class="logbtn" id="openLog"><span class="lb">감사·한 줄</span><span class="pv" id="logPv">탭해서 기록</span></button>
@@ -369,11 +376,11 @@ svg.spark{width:100%;height:64px;display:block}
 <!-- shoulder routine sheet -->
 <div class="sheet" id="woSheet" hidden role="dialog" aria-modal="true" aria-labelledby="woTitle">
   <div class="grab"></div>
-  <div class="sec-h"><h2 id="woTitle">어깨 넓히기 10분</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
+  <div class="sec-h"><h2 id="woTitle">어깨 넓히기 루틴</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
   <div class="opt"><span>코스</span><div class="seg" id="optCourse"><button data-v="dip">치닝디핑 기초</button><button data-v="bottle">생수병 포함</button></div></div>
   <p class="note"><span id="shNote"></span>. 시작을 누르면 운동, 휴식, 다음 운동이 타이머로 자동 진행돼요.</p>
   <div class="sh-list" id="shList"></div>
-  <div class="opt"><span>라운드</span><div class="seg" id="optRounds"><button data-v="2">2회</button><button data-v="3">3회</button></div></div>
+  <div class="opt"><span>라운드</span><div class="seg" id="optRounds"><button data-v="1">1회</button><button data-v="2">2회</button><button data-v="3">3회</button></div></div>
   <div class="opt"><span>운동 시간</span><div class="seg" id="optWork"><button data-v="30">30초</button><button data-v="40">40초</button><button data-v="45">45초</button></div></div>
   <button class="btn bigstart" id="shStart">시작!</button>
   <details class="note"><summary style="font-weight:600;cursor:pointer">왜 이 운동들인가요?</summary>
@@ -390,7 +397,9 @@ svg.spark{width:100%;height:64px;display:block}
   <span class="pl-phase" id="plPhase">준비</span>
   <h2 class="pl-name" id="plName"></h2>
   <div class="pl-tempo" id="plTempo"></div>
+  <div class="pl-label" id="plLabel">자세 잡기</div>
   <ul class="pl-cue" id="plCue"></ul>
+  <p class="pl-bad" id="plBad"></p>
   <div class="pl-time"><svg class="pl-ring" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="var(--c0)" stroke-width="4"/><circle id="plRing" cx="20" cy="20" r="17" fill="none" stroke="var(--slate)" stroke-width="4" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="0" transform="rotate(-90 20 20)"/></svg><span class="n" id="plNum">5</span></div>
   <div class="pl-btns"><button class="btn ghost" id="plPause">일시정지</button><button class="btn ghost" id="plSkip">건너뛰기</button></div>
 </div>
@@ -725,9 +734,10 @@ $("openGear").onclick=openGear;$("closeGear").onclick=closeSheets;
 const PROPS={
  wall:'<line x1="22" y1="4" x2="22" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
  floor:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
- dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="22" y1="62" x2="40" y2="62" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="30" y1="62" x2="30" y2="92" stroke="var(--muted)" stroke-width="3"/>',
- bar:'<line x1="14" y1="8" x2="106" y2="8" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
- rowbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="28" y1="48" x2="50" y2="48" stroke="var(--muted)" stroke-width="3.5" stroke-linecap="round"/><line x1="40" y1="48" x2="40" y2="92" stroke="var(--muted)" stroke-width="3"/>',
+ dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="46" y1="10" x2="46" y2="92" stroke="var(--muted)" stroke-width="3"/><rect x="30" y="47" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 54L36 55L31 61" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M33.5 58L29.5 63.5" stroke="var(--ink)" stroke-width="5.5" stroke-linecap="round"/>',
+ bar:'<path d="M14 14Q18 8 28 8H92Q102 8 106 14" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/><line x1="20" y1="9" x2="20" y2="52" stroke="#c8323a" stroke-width="3"/><line x1="100" y1="9" x2="100" y2="52" stroke="#c8323a" stroke-width="3"/><line x1="20" y1="52" x2="20" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="100" y1="52" x2="100" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
+ rowbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="46" y1="6" x2="46" y2="92" stroke="var(--muted)" stroke-width="3"/><rect x="30" y="34" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 41L37 42L32 48" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.5 45L30.5 50.5" stroke="var(--ink)" stroke-width="5.5" stroke-linecap="round"/>',
+ pbars:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><path d="M22 92Q30 78 38 92" stroke="var(--muted)" stroke-width="3" fill="none"/><line x1="25" y1="84" x2="35" y2="84" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>',
  door:'<line x1="62" y1="4" x2="62" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>'};
 const SH=[
  {k:"warm",n:"팔 크게 돌리기",sub:"워밍업",fixed:30,tempo:"천천히 큰 원",view:"circle",props:"floor",
@@ -749,9 +759,13 @@ const SH=[
   A:{h:[60,24],sl:[50,24],sr:[70,24],el:[49,16],hl:[48,8],er:[71,16],hr:[72,8],p:[60,54],kl:[52,68],kr:[68,68],fl:[54,80],fr:[66,80]},
   B:{h:[60,30],sl:[50,32],sr:[70,32],el:[49,20],hl:[48,8],er:[71,20],hr:[72,8],p:[60,60],kl:[52,72],kr:[68,72],fl:[54,80],fr:[66,80]},
   c:["의자에 발을 올려 체중 절반은 발로 받친다","팔은 편 채로 날개뼈만 아래로 당겨 가슴을 연다","손가락이 아프면 엄지까지 감싸 쥐고 발에 더 기대기"]},
+ {k:"kneepush",n:"푸시업바 무릎 푸시업",sub:"가슴·앞 어깨",tempo:"내려가기 2초 · 밀기 1초",t:[2,.3,1,.6],props:"pbars",
+  A:{h:[24,62],sl:[32,64],sr:[32,64],el:[31,74],hl:[30,84],er:[31,74],hr:[30,84],p:[60,76],kl:[82,90],kr:[82,90],fl:[98,80],fr:[98,80]},
+  B:{h:[25,76],sl:[34,78],sr:[34,78],el:[44,76],hl:[30,84],er:[44,76],hr:[30,84],p:[60,83],kl:[82,90],kr:[82,90],fl:[98,82],fr:[98,82]},
+  c:["가슴이 손잡이 높이까지 2초 동안 내려간다","바닥을 밀어내듯 1초에 올라온다","힘들면 내려가는 깊이를 반만"]},
  {k:"row",n:"딥스바 로우 (무릎 굽혀)",sub:"뒤쪽 어깨 · 입체감",tempo:"당기기 1초 · 내리기 2초",t:[1,.6,2,.4],props:"rowbar",
-  A:{h:[34,70],sl:[42,68],sr:[42,68],el:[41,58],hl:[40,48],er:[41,58],hr:[40,48],p:[64,75],kl:[80,70],kr:[80,70],fl:[88,92],fr:[88,92]},
-  B:{h:[33,56],sl:[42,56],sr:[42,56],el:[55,49],hl:[40,48],er:[55,49],hr:[40,48],p:[64,66],kl:[80,66],kr:[80,66],fl:[88,92],fr:[88,92]},
+  A:{h:[27,70],sl:[35,68],sr:[35,68],el:[34,58],hl:[32,48],er:[34,58],hr:[32,48],p:[64,75],kl:[80,70],kr:[80,70],fl:[88,92],fr:[88,92]},
+  B:{h:[27,56],sl:[36,56],sr:[36,56],el:[48,50],hl:[32,48],er:[48,50],hr:[32,48],p:[64,66],kl:[80,66],kr:[80,66],fl:[88,92],fr:[88,92]},
   c:["딥스 손잡이 아래로 들어가 손잡이를 잡고 무릎을 세운다","팔꿈치를 양옆으로 벌리며 가슴을 손잡이 쪽으로","어려우면 발을 몸 쪽으로 당겨 상체를 더 세운다"]},
  {k:"support",n:"서포트 홀드 (발끝 보조)",sub:"어깨 안정 · 자세",tempo:"어깨 내리고 버티기",t:[1.5,2,1.5,.5],props:"dipbar",fixedMax:20,
   A:{h:[31,40],sl:[31,46],sr:[31,46],el:[31,54],hl:[31,62],er:[31,54],hr:[31,62],p:[33,68],kl:[38,80],kr:[38,80],fl:[30,92],fr:[30,92]},
@@ -761,6 +775,7 @@ const SH=[
   A:{h:[47,20],sl:[50,30],sr:[50,30],el:[62,30],hl:[62,14],er:[46,44],hr:[48,56],p:[48,58],kl:[54,74],kr:[42,75],fl:[58,92],fr:[38,92]},
   B:{h:[60,22],sl:[60,32],sr:[60,32],el:[62,30],hl:[62,14],er:[56,46],hr:[58,58],p:[54,58],kl:[64,74],kr:[46,76],fl:[68,92],fr:[40,92]},
   c:["문틀에 팔을 ㄴ자로 대고 한 발 앞으로","가슴이 문 안으로 들어가게 천천히 기댄다","20초 후 반대쪽 팔"]}];
+const SETUP={"warm": {"s": ["발을 어깨너비로 벌리고 선다", "팔을 옆으로 쭉 편다", "배에 살짝 힘을 준다"], "b": ["어깨를 으쓱 올린 채 돌리기"]}, "wallL": {"s": ["벽을 왼쪽에 두고 한 걸음 떨어져 선다", "왼팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다 (팔꿈치는 어깨 높이)", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "wallR": {"s": ["벽을 오른쪽에 두고 한 걸음 떨어져 선다", "오른팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "pike": {"s": ["기구 바깥쪽에서 기구를 마주 보고 선다", "앞으로 꺾여 나온 딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "발을 뒤로 걸어가 엉덩이를 높이 들어 몸을 ㅅ자로 만든다"], "b": ["허리가 둥글게 말리는 것", "팔꿈치가 양옆으로 활짝 벌어지는 것 (몸통과 45°)"]}, "kneepush": {"s": ["푸시업바 2개를 어깨너비보다 조금 넓게 나란히 놓는다", "손잡이를 잡고 무릎을 바닥에 댄다 (무릎 밑에 수건)", "머리부터 무릎까지 일자가 되게 엉덩이 높이를 맞춘다"], "b": ["엉덩이가 들리거나 처지는 것", "팔꿈치가 옆으로 90° 벌어지는 것"]}, "row": {"s": ["기구를 손으로 흔들어 보고, 흔들리면 뒤 받침대에 무거운 것을 올린다", "딥스바 손잡이 두 개 사이 아래로 들어가 누워 양손으로 손잡이 끝을 잡는다", "무릎을 세우고 발바닥을 바닥에 붙여 어깨~무릎을 일자로"], "b": ["엉덩이가 처지는 것", "목만 앞으로 내미는 것"]}, "scap": {"s": ["빨간 기둥 구멍으로 턱걸이 바를 낮출 수 있으면 발이 바닥에 닿는 높이로", "낮출 수 없으면 기구 안에 의자를 놓고 발을 올린다", "바를 어깨너비로 잡고 엄지까지 감싸 쥔다"], "b": ["팔을 굽혀 당기는 것 (팔은 계속 편다)", "발에서 체중을 전부 빼는 것"]}, "support": {"s": ["기구 안쪽에서 등받이를 등지고 선다", "딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "팔을 펴서 몸을 들고, 발끝은 바닥에 살짝 댄다"], "b": ["어깨가 귀 쪽으로 솟는 것", "팔꿈치가 굽혀지는 것"]}, "raise": {"s": ["생수병을 양손에 쥐고 발은 어깨너비", "팔꿈치를 살짝 굽힌다", "상체를 아주 살짝 앞으로 숙인다"], "b": ["반동으로 휘두르기", "어깨 높이보다 높이 올리기"]}, "stretch": {"s": ["문틀 옆에 서서 한쪽 팔꿈치를 어깨 높이로 문틀에 댄다", "같은 쪽 발을 한 걸음 앞으로 내딛는다", "가슴을 펴고 천천히 기댄다"], "b": ["허리를 꺾어서 기대기"]}};
 SH.find(x=>x.k==="wallR").A=mirrorPose(SH.find(x=>x.k==="wallL").A);SH.find(x=>x.k==="wallR").B=mirrorPose(SH.find(x=>x.k==="wallL").B);SH.find(x=>x.k==="wallR").t=[1,.6,3,.4];
 function mirrorPose(P){const o={};const sw={sl:"sr",sr:"sl",el:"er",er:"el",hl:"hr",hr:"hl",kl:"kr",kr:"kl",fl:"fr",fr:"fl"};for(const k in P){o[sw[k]||k]=[120-P[k][0],P[k][1]]}return o}
 const lerp=(a,b,t)=>a+(b-a)*t, ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
@@ -780,22 +795,26 @@ function drawFig(ex,P,mini){const L='stroke="var(--ink)" stroke-width="'+(mini?3
  // target muscle glow on the working shoulder(s)
  if(!mini&&ex.k!=="warm"&&ex.k!=="stretch"){const on=P._k>.5;[ex.k==="wallL"?[P.sl]:ex.k==="wallR"?[P.sr]:[P.sl,P.sr]][0].forEach(s=>{g+='<circle cx="'+s[0].toFixed(1)+'" cy="'+s[1].toFixed(1)+'" r="'+(on?6:4.5)+'" fill="var(--chalk)" opacity="'+(on?.75:.4)+'"/>'})}
  return g}
-const COURSES={dip:{n:"치닝디핑 기초",keys:["wallL","wallR","pike","row","scap","support"],note:"치닝디핑과 벽만 있으면 됩니다"},
+const COURSES={dip:{n:"치닝디핑 기초",keys:["wallL","wallR","pike","kneepush","row","scap","support"],note:"치닝디핑, 푸시업바, 벽만 있으면 됩니다"},
  bottle:{n:"생수병 포함",keys:["wallL","wallR","pike","raise","scap"],note:"생수병 2개가 있으면 측면 어깨에 가장 효과적"}};
 function shCfg(){const o=Object.assign({course:"dip",rounds:2,work:30},cfg.sh||{});if(!COURSES[o.course])o.course="dip";return o}
 function shPlan(){const o=shCfg(),q=[];const W=SH.find(x=>x.k==="warm"),S=SH.find(x=>x.k==="stretch");
  const round=COURSES[o.course].keys.map(k=>SH.find(x=>x.k===k));
- q.push({ex:W,ph:"prep",d:5},{ex:W,ph:"work",d:W.fixed});
+ q.push({ex:W,ph:"prep",d:8},{ex:W,ph:"work",d:W.fixed});
  for(let r=1;r<=o.rounds;r++)round.forEach((ex,i)=>{const d=ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work;
-  q.push({ex,ph:"rest",d:i===0&&r===1?10:(ex.k==="wallR"?10:20),r});q.push({ex,ph:"work",d,r})});
+  q.push({ex,ph:"rest",d:ex.k==="wallR"?10:(r===1?25:20),r});q.push({ex,ph:"work",d,r})});
  q.push({ex:S,ph:"rest",d:10},{ex:S,ph:"work",d:S.fixed});return q}
 function renderShList(){const o=shCfg(),el=$("shList");el.innerHTML="";const tot=shPlan().reduce((a,b)=>a+b.d,0);
  $("shNote").textContent=COURSES[o.course].note;
  ["warm"].concat(COURSES[o.course].keys,["stretch"]).map(k=>SH.find(x=>x.k===k)).forEach(ex=>{const off=false;const it=document.createElement("div");it.className="sh-it";
   const P=ex.A?ex.A:poseAt(ex,0.3);const P2=ex.B?Object.assign({},ex.B,{_k:1}):poseAt(ex,1);
   it.innerHTML='<svg viewBox="0 0 120 96" aria-hidden="true">'+drawFig(ex,ex.A?P2:P,1)+'</svg><div><b></b><span></span></div><span class="d"></span>';
-  it.querySelector("b").textContent=ex.n;it.querySelector("div span").textContent=off?"생수병 없음: 건너뜀":ex.sub;
-  it.querySelector(".d").textContent=ex.fixed?ex.fixed+"초":(ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work)+"초"+(["warm","stretch"].includes(ex.k)?"":" ×"+o.rounds);el.appendChild(it)});
+  it.querySelector("b").textContent=ex.n;it.querySelector("div span").textContent=ex.sub+" · 눌러서 자세 보기";
+  it.querySelector(".d").textContent=ex.fixed?ex.fixed+"초":(ex.fixedMax?Math.min(o.work,ex.fixedMax):o.work)+"초"+(["warm","stretch"].includes(ex.k)?"":" ×"+o.rounds);
+  const det=document.createElement("details");det.className="sh-d";const sm=document.createElement("summary");sm.appendChild(it);det.appendChild(sm);
+  const x=document.createElement("div");x.className="sh-x";const st=SETUP[ex.k]||{s:[],b:[]};
+  const sec=(t,arr,cls)=>{if(!arr.length)return;const h=document.createElement("b");h.textContent=t;const ol=document.createElement(cls==="ol"?"ol":"ul");arr.forEach(a=>{const li=document.createElement("li");li.textContent=a;ol.appendChild(li)});x.append(h,ol)};
+  sec("① 자세 잡기",st.s,"ol");sec("② 동작",ex.c,"ul");sec("주의",st.b,"ul");det.appendChild(x);el.appendChild(det)});
  $("shStart").textContent="시작!  ("+Math.round(tot/60)+"분)";
  [["optCourse","course"],["optRounds","rounds"],["optWork","work"]].forEach(([id,k])=>{$(id).querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(o[k])===b.dataset.v?"true":"false");
   b.onclick=()=>{const v=k==="course"?b.dataset.v:Number(b.dataset.v);cfg.sh=Object.assign(shCfg(),{[k]:v});saveCfg();renderShList()}})})}
@@ -808,7 +827,9 @@ function startPlayer(){const q=shPlan();PL={q,i:0,t0:performance.now(),paused:fa
  closeSheets();$("player").hidden=false;lockWake();showStep();PL.raf=requestAnimationFrame(loop)}
 function showStep(){const s=PL.q[PL.i],ex=s.ex;$("plName").textContent=(s.ph==="work"?"":"다음: ")+ex.n;
  $("plPhase").textContent=s.ph==="work"?(s.r?"라운드 "+s.r+" · 운동":"운동"):s.ph==="prep"?"준비":"휴식";$("plPhase").className="pl-phase"+(s.ph==="work"?" work":"");
- $("plTempo").textContent=ex.tempo||"";const ul=$("plCue");ul.innerHTML="";ex.c.forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)});
+ $("plTempo").textContent=ex.tempo||"";const ul=$("plCue");ul.innerHTML="";const st=SETUP[ex.k]||{s:[],b:[]};const work=s.ph==="work";
+ $("plLabel").textContent=work?"동작":"자세 잡기";(work?ex.c:(st.s.length?st.s:ex.c)).forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)});
+ $("plBad").textContent=st.b.length?"주의: "+st.b.join(" · "):"";
  const works=PL.q.filter(x=>x.ph==="work").length,done=PL.q.slice(0,PL.i).filter(x=>x.ph==="work").length;
  $("plStep").textContent="동작 "+Math.min(done+(s.ph==="work"?1:0),works)+" / "+works;$("plProg").style.width=Math.round(PL.i/PL.q.length*100)+"%";
  $("plRing").setAttribute("stroke",s.ph==="work"?"var(--chalk)":"var(--slate)");PL.lastSec=-1}
