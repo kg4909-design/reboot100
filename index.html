@@ -252,6 +252,9 @@ svg.spark{width:100%;height:64px;display:block}
 .pl-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
 .vidbtn{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--chalk);color:var(--chalk-ink);text-decoration:none;font-weight:700;font-size:13px;border-radius:999px;padding:7px 13px;margin:2px 0}
 .vidbtn svg{width:14px;height:14px}
+.vidbtn.ghost{background:transparent;color:var(--slate);border:1.5px solid var(--slate)}
+.vsave{display:flex;flex-direction:column;gap:6px;padding:6px 0 4px;border-bottom:1px dashed var(--line);margin-bottom:2px}
+.vlink{background:none;border:none;color:var(--slate);font-size:12.5px;font-weight:600;text-decoration:underline;padding:0;align-self:flex-start}
 .vidwrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
 .vidwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
@@ -413,7 +416,7 @@ svg.spark{width:100%;height:64px;display:block}
   <div class="popc" style="max-width:520px;align-items:stretch;text-align:left">
     <div class="vidwrap" id="vidFrame"></div>
     <div style="padding:10px 14px 0;display:flex;flex-direction:column;gap:4px"><b id="vidTitle" style="font-size:14px"></b>
-      <span class="note">기구 모양은 달라도 동작은 같아요. 영상이 안 나오면 <a id="vidLink" href="#" target="_blank" rel="noopener" style="color:var(--slate)">유튜브에서 열기</a></span></div>
+      <span class="note">영상이 안 나오면 <a id="vidLink" href="#" target="_blank" rel="noopener" style="color:var(--slate)">유튜브에서 열기</a></span></div>
     <button class="btn" id="vidClose">닫고 계속하기</button>
   </div>
 </div>
@@ -791,27 +794,34 @@ const SH=[
   c:["문틀에 팔을 ㄴ자로 대고 한 발 앞으로","가슴이 문 안으로 들어가게 천천히 기댄다","20초 후 반대쪽 팔"]}];
 const SETUP={"warm": {"s": ["발을 어깨너비로 벌리고 선다", "팔을 옆으로 쭉 편다", "배에 살짝 힘을 준다"], "b": ["어깨를 으쓱 올린 채 돌리기"]}, "wallL": {"s": ["벽을 왼쪽에 두고 한 걸음 떨어져 선다", "왼팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다 (팔꿈치는 어깨 높이)", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "wallR": {"s": ["벽을 오른쪽에 두고 한 걸음 떨어져 선다", "오른팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "pike": {"s": ["기구 바깥쪽에서 기구를 마주 보고 선다", "앞으로 꺾여 나온 딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "발을 뒤로 걸어가 엉덩이를 높이 들어 몸을 ㅅ자로 만든다"], "b": ["허리가 둥글게 말리는 것", "팔꿈치가 양옆으로 활짝 벌어지는 것 (몸통과 45°)"]}, "kneepush": {"s": ["푸시업바 2개를 어깨너비보다 조금 넓게 나란히 놓는다", "손잡이를 잡고 무릎을 바닥에 댄다 (무릎 밑에 수건)", "머리부터 무릎까지 일자가 되게 엉덩이 높이를 맞춘다"], "b": ["엉덩이가 들리거나 처지는 것", "팔꿈치가 옆으로 90° 벌어지는 것"]}, "row": {"s": ["기구를 손으로 흔들어 보고, 흔들리면 뒤 받침대에 무거운 것을 올린다", "딥스바 손잡이 두 개 사이 아래로 들어가 누워 양손으로 손잡이 끝을 잡는다", "무릎을 세우고 발바닥을 바닥에 붙여 어깨~무릎을 일자로"], "b": ["엉덩이가 처지는 것", "목만 앞으로 내미는 것"]}, "scap": {"s": ["빨간 기둥 구멍으로 턱걸이 바를 낮출 수 있으면 발이 바닥에 닿는 높이로", "낮출 수 없으면 기구 안에 의자를 놓고 발을 올린다", "바를 어깨너비로 잡고 엄지까지 감싸 쥔다"], "b": ["팔을 굽혀 당기는 것 (팔은 계속 편다)", "발에서 체중을 전부 빼는 것"]}, "support": {"s": ["기구 안쪽에서 등받이를 등지고 선다", "딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "팔을 펴서 몸을 들고, 발끝은 바닥에 살짝 댄다"], "b": ["어깨가 귀 쪽으로 솟는 것", "팔꿈치가 굽혀지는 것"]}, "raise": {"s": ["생수병을 양손에 쥐고 발은 어깨너비", "팔꿈치를 살짝 굽힌다", "상체를 아주 살짝 앞으로 숙인다"], "b": ["반동으로 휘두르기", "어깨 높이보다 높이 올리기"]}, "stretch": {"s": ["문틀 옆에 서서 한쪽 팔꿈치를 어깨 높이로 문틀에 댄다", "같은 쪽 발을 한 걸음 앞으로 내딛는다", "가슴을 펴고 천천히 기댄다"], "b": ["허리를 꺾어서 기대기"]}};
 SH.find(x=>x.k==="wallR").A=mirrorPose(SH.find(x=>x.k==="wallL").A);SH.find(x=>x.k==="wallR").B=mirrorPose(SH.find(x=>x.k==="wallL").B);SH.find(x=>x.k==="wallR").t=[1,.6,3,.4];
-const VIDEOS={
- wallL:{id:"wjta09Aymy4",t:"Sliding Lateral Raise on Wall (영어, 벽 사이드 레이즈)"},
- wallR:{id:"wjta09Aymy4",t:"Sliding Lateral Raise on Wall (영어, 벽 사이드 레이즈)"},
- pike:{id:"HbkkQyykYZo",t:"파이크 푸쉬업 완벽 정리! 어깨운동 1등 공신"},
- kneepush:{id:"yyrXZBQmBuw",t:"[혼자서 하는 셀프 PT] 무릎 대고 푸시업 자세"},
- row:{id:"0d02iGjYS24",t:"[헬스초보 17편] 치닝디핑 인버티드로우 자세 꿀팁"},
- scap:{id:"z2aBRft1tAE",t:"'스카풀라 풀업' 단계별 교육"},
- support:{id:"QZ6b53-Uprk",t:"How To Do Dip Support Hold (영어, 짧은 영상)"},
- raise:{id:"jHxSeYl-7AU",t:"초보자 어깨 측면운동 방법 / 사이드 레터럴 레이즈"},
- stretch:{id:"Yh5HQiz8Bkw",t:"Guided Motion: Doorway Pec Stretch (영어)"}};
+// Videos: Claude cannot watch videos, so none are pre-picked. The app offers a precise YouTube search,
+// and the user saves the one they checked themselves (stored per exercise in cfg.vids).
+const VQ={wallL:"wall slide lateral raise 벽 사이드 레이즈",wallR:"wall slide lateral raise 벽 사이드 레이즈",pike:"인클라인 파이크 푸시업 incline pike push up",
+ kneepush:"푸시업바 무릎 푸시업",row:"치닝디핑 인버티드로우",scap:"foot assisted scapular pull up 발 딛고 견갑 풀업",support:"딥스 서포트 홀드 dip support hold",
+ raise:"생수병 사이드 레터럴 레이즈",stretch:"문틀 가슴 스트레칭 doorway pec stretch"};
 const ytUrl=id=>"https://www.youtube.com/watch?v="+id;
-function openVideo(k){const v=VIDEOS[k];if(!v)return;
- if(!window.__PWA__){toast("유튜브에서 영상을 엽니다");return}
+const ytSearch=k=>"https://www.youtube.com/results?search_query="+encodeURIComponent(VQ[k]||"");
+function ytId(u){u=(u||"").trim();let m=u.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];if(/^[A-Za-z0-9_-]{11}$/.test(u))return u;return null}
+const myVid=k=>(cfg.vids||{})[k]||null;
+function openVideo(k){const id=myVid(k);if(!id)return;
+ if(!window.__PWA__){window.open?null:null;return}
  if(PL&&!PL.paused)$("plPause").click();
- $("vidTitle").textContent=v.t;$("vidLink").href=ytUrl(v.id);
- $("vidFrame").innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.id+'?rel=0&playsinline=1" title="'+v.t.replace(/"/g,"")+'" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+ $("vidTitle").textContent="내가 고른 시범 영상";$("vidLink").href=ytUrl(id);
+ $("vidFrame").innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?rel=0&playsinline=1" title="시범 영상" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
  $("vidModal").hidden=false}
 function closeVideo(){$("vidFrame").innerHTML="";$("vidModal").hidden=true}
-function vidButton(k){const v=VIDEOS[k];if(!v)return null;const a=document.createElement("a");a.className="vidbtn";a.href=ytUrl(v.id);a.target="_blank";a.rel="noopener";
- a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>실제 사람 시범 영상';
- a.onclick=e=>{if(window.__PWA__){e.preventDefault();openVideo(k)}};return a}
+function vidButton(k){if(!VQ[k])return null;const id=myVid(k);const a=document.createElement("a");a.className="vidbtn"+(id?"":" ghost");a.target="_blank";a.rel="noopener";
+ if(id){a.href=ytUrl(id);a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>내가 고른 시범 영상';a.onclick=e=>{if(window.__PWA__){e.preventDefault();openVideo(k)}}}
+ else{a.href=ytSearch(k);a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>유튜브에서 이 동작 찾기'}
+ return a}
+function vidSaver(k){if(!VQ[k])return null;const w=document.createElement("div");w.className="vsave";const id=myVid(k);
+ if(id){w.innerHTML='<span class="note">직접 확인하고 저장한 영상이에요.</span>';const sb=document.createElement("a");sb.href=ytSearch(k);sb.target="_blank";sb.rel="noopener";sb.textContent="다른 영상 찾기";sb.className="vlink";
+  const rm=document.createElement("button");rm.type="button";rm.className="vlink";rm.textContent="영상 지우기";rm.onclick=()=>{const v=Object.assign({},cfg.vids||{});delete v[k];cfg.vids=v;saveCfg();renderShList();toast("영상을 지웠어요")};w.append(sb,rm);return w}
+ w.innerHTML='<span class="note">찾은 영상이 우리 기구·동작과 맞으면 링크를 붙여 넣어 저장하세요. 다음부터 바로 열려요.</span>';
+ const row=document.createElement("div");row.className="row";const inp=document.createElement("input");inp.type="text";inp.id="vin-"+k;inp.placeholder="유튜브 링크 붙여넣기";inp.style.flex="1";inp.style.minWidth="0";inp.style.fontSize="14px";inp.style.padding="8px 10px";
+ const bt=document.createElement("button");bt.type="button";bt.className="btn ghost";bt.textContent="저장";bt.style.minHeight="38px";bt.style.padding="6px 12px";
+ bt.onclick=()=>{const v=ytId(inp.value);if(!v){toast("유튜브 링크가 아니에요");return}cfg.vids=Object.assign({},cfg.vids||{},{[k]:v});saveCfg();renderShList();toast("영상을 저장했어요")};
+ row.append(inp,bt);w.appendChild(row);return w}
 function mirrorPose(P){const o={};const sw={sl:"sr",sr:"sl",el:"er",er:"el",hl:"hr",hr:"hl",kl:"kr",kr:"kl",fl:"fr",fr:"fl"};for(const k in P){o[sw[k]||k]=[120-P[k][0],P[k][1]]}return o}
 const lerp=(a,b,t)=>a+(b-a)*t, ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 function poseAt(ex,sec){if(ex.view==="circle"){const a=sec*Math.PI*1.2;const sl=[50,30],sr=[70,30],r=24;
@@ -849,7 +859,7 @@ function renderShList(){const o=shCfg(),el=$("shList");el.innerHTML="";const tot
   const det=document.createElement("details");det.className="sh-d";const sm=document.createElement("summary");sm.appendChild(it);det.appendChild(sm);
   const x=document.createElement("div");x.className="sh-x";const st=SETUP[ex.k]||{s:[],b:[]};
   const sec=(t,arr,cls)=>{if(!arr.length)return;const h=document.createElement("b");h.textContent=t;const ol=document.createElement(cls==="ol"?"ol":"ul");arr.forEach(a=>{const li=document.createElement("li");li.textContent=a;ol.appendChild(li)});x.append(h,ol)};
-  const vb=vidButton(ex.k);if(vb)x.appendChild(vb);
+  const vb=vidButton(ex.k);if(vb)x.appendChild(vb);const vs=vidSaver(ex.k);if(vs)x.appendChild(vs);
   sec("① 자세 잡기",st.s,"ol");sec("② 동작",ex.c,"ul");sec("주의",st.b,"ul");det.appendChild(x);el.appendChild(det)});
  $("shStart").textContent="시작!  ("+Math.round(tot/60)+"분)";
  [["optCourse","course"],["optRounds","rounds"],["optWork","work"]].forEach(([id,k])=>{$(id).querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(o[k])===b.dataset.v?"true":"false");
