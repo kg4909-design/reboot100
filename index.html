@@ -384,15 +384,16 @@ svg.spark{width:100%;height:64px;display:block}
 <div class="sheet" id="woSheet" hidden role="dialog" aria-modal="true" aria-labelledby="woTitle">
   <div class="grab"></div>
   <div class="sec-h"><h2 id="woTitle">어깨 넓히기 루틴</h2><button class="daybtn" id="closeWo" aria-label="닫기">✕</button></div>
-  <div class="opt"><span>코스</span><div class="seg" id="optCourse"><button data-v="dip">치닝디핑 기초</button><button data-v="bottle">생수병 포함</button></div></div>
+  <div class="opt"><span>코스</span><div class="seg" id="optCourse"><button data-v="beginner">왕초보 10초</button><button data-v="dip">치닝디핑 기초</button><button data-v="bottle">생수병 포함</button></div></div>
   <p class="note"><span id="shNote"></span>. 시작을 누르면 운동, 휴식, 다음 운동이 타이머로 자동 진행돼요.</p>
   <div class="sh-list" id="shList"></div>
   <div class="opt"><span>라운드</span><div class="seg" id="optRounds"><button data-v="1">1회</button><button data-v="2">2회</button><button data-v="3">3회</button></div></div>
   <div class="opt"><span>운동 시간</span><div class="seg" id="optWork"><button data-v="30">30초</button><button data-v="40">40초</button><button data-v="45">45초</button></div></div>
   <button class="btn bigstart" id="shStart">시작!</button>
-  <details class="note"><summary style="font-weight:600;cursor:pointer">왜 이 운동들인가요?</summary>
-    <p class="note" style="margin-top:6px">어깨를 옆으로 넓어 보이게 하는 건 <b>측면 삼각근</b>입니다. 측면 삼각근에 가장 잘 들어가는 동작은 <b>사이드 레이즈</b>라서 생수병 레이즈를 핵심으로 넣었습니다. 맨몸으로는 <b>벽 사이드 레이즈</b>가 같은 방향의 힘을 씁니다. <b>파이크 푸시업</b>은 머리 위로 미는 동작이라 어깨 전체를 키우고, <b>딥스바 로우</b>는 팔꿈치를 옆으로 벌려 당겨서 뒤쪽 어깨를 채워 옆에서 봐도 두툼하게 만들고, <b>발 딛고 견갑 당기기</b>는 말린 어깨를 펴서 같은 근육이라도 더 넓어 보이게 합니다. 매달리기 10초는 처음 시작할 때 흔한 수준이고, 발로 체중을 나누면 손가락 부담이 줄어듭니다.</p>
-    <p class="note">쉬워지면 순서대로 바꿔 보세요: 운동 시간 30→40→45초, 그다음 라운드 3회, 그다음 생수병을 무겁게.</p>
+  <details class="note"><summary style="font-weight:600;cursor:pointer">왜 이 운동들인가요? (매달리기 10초 왕초보 원리)</summary>
+    <p class="note" style="margin-top:6px"><b>[퍼스트 프린시플 분석]</b> 상단 바 매달리기가 10초밖에 안 되는 이유는 어깨 근육이 없어서가 아니라 <b>악력(손아귀 힘)의 한계</b>가 먼저 오고, 체중 100%를 지탱할 <b>견갑골 안정근</b>이 아직 깨어나지 않았기 때문입니다. 따라서 처음에는 <b>① 손으로 매달리지 않고 중단 빨간 팔걸이 패드에 팔뚝을 올려 악력 소모를 0%로 만들거나, ② 두 발을 바닥에 딛어 체중 부하를 30~50%로 낮춘 상태</b>에서 치닝디핑 기구의 상·중·하단 구조물을 지렛대로 삼아 어깨만 고립해 밀고 당겨야 부상 없이 어깨 프레임이 넓어집니다.</p>
+    <p class="note">어깨를 옆으로 넓어 보이게 하는 건 <b>측면 삼각근</b>(벽·생수병 사이드 레이즈), 앞뒤로 두툼하게 키우는 건 <b>전면·후면 삼각근</b>(중단 딥스바 발 딛고 밀기, 하단 바 무릎 파이크 푸시업, 딥스바 로우), 숨은 어깨 프레임을 펴주는 건 <b>견갑 하강·안정근</b>(빨간 패드 팔뚝 누르기, 까치발 보조 매달리기)입니다.</p>
+    <p class="note">쉬워지면 순서대로 단계를 올려 보세요: <b>왕초보 10초 코스</b> → <b>치닝디핑 기초 코스</b> → <b>생수병 포함 코스</b> (운동 시간 30→40→45초, 라운드 2→3회).</p>
     <p class="wo-src">참고: <a href="https://builtwithscience.com/shoulder" target="_blank" rel="noopener">삼각근 근전도 비교 (Built With Science)</a>, <a href="https://red.bismuth.it/r/bodyweightfitness/comments/1g8pm3f/lateral_raise_alternatives" target="_blank" rel="noopener">맨몸 사이드 레이즈 대안 (r/bodyweightfitness)</a>, <a href="https://deadhangs-com.pages.dev/beginner-deadhang" target="_blank" rel="noopener">초보 매달리기 가이드</a>, <a href="https://www.unm.edu/~lkravitz/Article%20folder/ACSMGuidelinesUNM.pdf" target="_blank" rel="noopener">ACSM 가이드라인</a>. 어깨에 날카로운 통증이 오면 멈추고 전문가와 상의하세요.</p>
   </details>
 </div>
@@ -751,19 +752,38 @@ $("openGear").onclick=openGear;$("closeGear").onclick=closeSheets;
 const PROPS={
  wall:'<line x1="22" y1="4" x2="22" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
  floor:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
- dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="46" y1="10" x2="46" y2="92" stroke="var(--muted)" stroke-width="3"/><rect x="30" y="47" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 54L36 55L31 61" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M33.5 58L29.5 63.5" stroke="var(--ink)" stroke-width="5.5" stroke-linecap="round"/>',
- bar:'<path d="M14 14Q18 8 28 8H92Q102 8 106 14" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/><line x1="20" y1="9" x2="20" y2="52" stroke="#c8323a" stroke-width="3"/><line x1="100" y1="9" x2="100" y2="52" stroke="#c8323a" stroke-width="3"/><line x1="20" y1="52" x2="20" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="100" y1="52" x2="100" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>',
- rowbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="46" y1="6" x2="46" y2="92" stroke="var(--muted)" stroke-width="3"/><rect x="30" y="34" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 41L37 42L32 48" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.5 45L30.5 50.5" stroke="var(--ink)" stroke-width="5.5" stroke-linecap="round"/>',
- pbars:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><path d="M22 92Q30 78 38 92" stroke="var(--muted)" stroke-width="3" fill="none"/><line x1="25" y1="84" x2="35" y2="84" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>',
+ // 정면 치닝디핑 기구 (중단 빨간 팔걸이 패드 강조)
+ cd_pad:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><path d="M20 92L26 84H94L100 92" stroke="var(--muted)" stroke-width="2.5" fill="none"/><line x1="26" y1="50" x2="26" y2="90" stroke="var(--muted)" stroke-width="3"/><line x1="94" y1="50" x2="94" y2="90" stroke="var(--muted)" stroke-width="3"/><line x1="26" y1="74" x2="94" y2="74" stroke="var(--muted)" stroke-width="2"/><line x1="26" y1="10" x2="26" y2="50" stroke="#c8323a" stroke-width="3"/><line x1="94" y1="10" x2="94" y2="50" stroke="#c8323a" stroke-width="3"/><path d="M14 14Q20 8 30 9H90Q100 8 106 14" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="52" y="32" width="16" height="16" rx="2" fill="var(--ink)" opacity=".8"/><rect x="21" y="45" width="16" height="5.5" rx="1.5" fill="#ef4444" stroke="var(--chalk)" stroke-width="1.5"/><rect x="83" y="45" width="16" height="5.5" rx="1.5" fill="#ef4444" stroke="var(--chalk)" stroke-width="1.5"/><line x1="25" y1="36" x2="25" y2="45" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><line x1="95" y1="36" x2="95" y2="45" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>',
+ // 측면 치닝디핑 기구 (중단 딥스 손잡이 강조)
+ dipbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><path d="M14 92L22 86H48L44 92" stroke="var(--muted)" stroke-width="2.5" fill="none"/><path d="M20 92Q25 80 30 92" stroke="var(--muted)" stroke-width="2" fill="none"/><line x1="46" y1="48" x2="46" y2="90" stroke="var(--muted)" stroke-width="3"/><path d="M46 48V15Q46 8 36 8" stroke="#c8323a" stroke-width="3" fill="none"/><path d="M28 10L38 7L48 9" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="41" y="33" width="5" height="12" rx="1.5" fill="var(--ink)" opacity=".75"/><rect x="30" y="46" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 53L36 54L30 61" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 57.5L29 63.5" stroke="var(--chalk)" stroke-width="6.5" stroke-linecap="round"/><path d="M34 57.5L29 63.5" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/><line x1="33" y1="38" x2="33" y2="46" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>',
+ // 정면 치닝디핑 기구 (상단 풀업 바 강조)
+ bar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="22" y1="50" x2="22" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="98" y1="50" x2="98" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="22" y1="74" x2="98" y2="74" stroke="var(--muted)" stroke-width="2"/><line x1="22" y1="10" x2="22" y2="50" stroke="#c8323a" stroke-width="3"/><line x1="98" y1="10" x2="98" y2="50" stroke="#c8323a" stroke-width="3"/><rect x="52" y="34" width="16" height="15" rx="2" fill="var(--ink)" opacity=".7"/><rect x="18" y="46" width="14" height="4.5" rx="1.5" fill="#c8323a"/><rect x="88" y="46" width="14" height="4.5" rx="1.5" fill="#c8323a"/><path d="M14 14Q18 8 28 8H92Q102 8 106 14" stroke="var(--chalk)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M14 14Q18 8 28 8H92Q102 8 106 14" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round"/>',
+ // 측면 치닝디핑 기구 (로우용 딥스 손잡이 강조)
+ rowbar:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><path d="M14 92L22 86H48L44 92" stroke="var(--muted)" stroke-width="2.5" fill="none"/><line x1="46" y1="40" x2="46" y2="90" stroke="var(--muted)" stroke-width="3"/><path d="M46 40V12Q46 6 36 6" stroke="#c8323a" stroke-width="3" fill="none"/><rect x="30" y="34" width="16" height="4.5" rx="1.5" fill="#c8323a"/><path d="M46 41L37 42L32 48" stroke="var(--muted)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34.5 45L30.5 50.5" stroke="var(--chalk)" stroke-width="6.5" stroke-linecap="round"/><path d="M34.5 45L30.5 50.5" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>',
+ // 측면 치닝디핑 기구 (하단 바닥 푸시업 바 강조)
+ pbars:'<line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/><line x1="46" y1="48" x2="46" y2="92" stroke="var(--muted)" stroke-width="2.5" opacity=".5"/><path d="M46 48V16Q46 9 36 9" stroke="#c8323a" stroke-width="2.5" fill="none" opacity=".5"/><rect x="32" y="46" width="14" height="4" rx="1.2" fill="#c8323a" opacity=".5"/><path d="M22 92Q30 78 38 92" stroke="var(--muted)" stroke-width="3" fill="none"/><line x1="24" y1="84" x2="36" y2="84" stroke="var(--chalk)" stroke-width="7" stroke-linecap="round"/><line x1="25" y1="84" x2="35" y2="84" stroke="var(--ink)" stroke-width="4.5" stroke-linecap="round"/>',
  door:'<line x1="62" y1="4" x2="62" y2="92" stroke="var(--muted)" stroke-width="3"/><line x1="8" y1="92" x2="112" y2="92" stroke="var(--line)" stroke-width="2"/>'};
+
 const SH=[
  {k:"warm",n:"팔 크게 돌리기",sub:"워밍업",fixed:30,tempo:"천천히 큰 원",view:"circle",props:"floor",
   c:["팔을 쭉 펴고 큰 원을 그린다","앞으로 15초, 뒤로 15초","어깨가 따뜻해지면 준비 끝"]},
+ {k:"padpress",n:"빨간 패드 팔뚝 누르기 (역쉬러그)",sub:"중단 빨간 패드 · 악력 소모 0%",tempo:"누르기 1초 · 버티기 3초",t:[1,2.5,1.2,.5],props:"cd_pad",
+  A:{h:[60,25],sl:[48,27],sr:[72,27],el:[32,45],hl:[25,37],er:[88,45],hr:[95,37],p:[60,60],kl:[54,76],kr:[66,76],fl:[54,92],fr:[66,92]},
+  B:{h:[60,15],sl:[46,22],sr:[74,22],el:[32,45],hl:[25,37],er:[88,45],hr:[95,37],p:[60,53],kl:[55,73],kr:[65,73],fl:[54,92],fr:[66,92]},
+  c:["양 팔뚝을 중단 빨간 팔걸이 패드에 올리고 앞 수직 손잡이를 잡는다","두 발은 바닥에 편히 딛고 서서 체중 부담을 줄인다","팔꿈치로 빨간 패드를 꾹 누르며 귀와 어깨가 멀어지게 상체를 위로 세운다"]},
  {k:"wallL",n:"벽 사이드 레이즈 · 왼쪽",sub:"측면 삼각근 (맨몸)",tempo:"밀기 1초 · 내려가기 3초",t:[1,.6,3,.4],props:"wall",
   A:{h:[47,22],sl:[42,32],sr:[60,34],el:[24,34],hl:[24,18],er:[64,50],hr:[66,62],p:[56,60],kl:[56,76],kr:[63,76],fl:[58,92],fr:[66,92]},
   B:{h:[38,30],sl:[34,40],sr:[52,40],el:[24,46],hl:[24,30],er:[56,56],hr:[59,66],p:[53,62],kl:[56,77],kr:[63,77],fl:[58,92],fr:[66,92]},
   c:["벽 옆에 서서 팔꿈치를 90°로 굽혀 아래팔을 벽에 댄다","몸을 벽 쪽으로 기울였다가","팔 윗부분으로 벽을 밀어 몸을 세운다 (허리 말고 어깨로)"]},
  {k:"wallR",n:"벽 사이드 레이즈 · 오른쪽",sub:"반대쪽도 똑같이",tempo:"밀기 1초 · 내려가기 3초",t:[1,.6,3,.4],props:"wall",mirror:1,c:["반대편 팔을 벽에 대고 같은 방법으로","발은 벽에서 한 걸음 떨어진 곳에","멀리 설수록 어려워져요"]},
+ {k:"dippress",n:"중단 딥스바 발 딛고 밀기",sub:"중단 딥스 손잡이 · 앞·옆 어깨",tempo:"내려가기 2초 · 밀기 1초",t:[2,.4,1.2,.4],props:"dipbar",
+  A:{h:[48,28],sl:[52,38],sr:[52,38],el:[41,50],hl:[31,60],er:[41,50],hr:[31,60],p:[68,62],kl:[76,77],kr:[76,77],fl:[84,92],fr:[84,92]},
+  B:{h:[32,38],sl:[37,47],sr:[37,47],el:[43,58],hl:[31,60],er:[43,58],hr:[31,60],p:[60,66],kl:[72,79],kr:[72,79],fl:[84,92],fr:[84,92]},
+  c:["기구 앞에 서서 앞으로 튀어나온 중단 딥스 손잡이를 잡는다","두 발을 바닥에 딛은 채 상체를 숙여 어깨를 손잡이 쪽으로 내린다","어깨 앞쪽과 윗가슴 힘으로 손잡이를 강하게 밀어낸다"]},
+ {k:"lowpike",n:"하단 바 무릎 파이크 푸시업",sub:"맨 아래 푸시업바 · 어깨 전체 뽕",tempo:"내려가기 2초 · 밀기 1초",t:[2,.4,1.2,.4],props:"pbars",
+  A:{h:[38,66],sl:[44,58],sr:[44,58],el:[37,71],hl:[30,84],er:[37,71],hr:[30,84],p:[64,42],kl:[80,66],kr:[80,66],fl:[94,92],fr:[94,92]},
+  B:{h:[24,78],sl:[33,68],sr:[33,68],el:[43,75],hl:[30,84],er:[43,75],hr:[30,84],p:[60,46],kl:[78,68],kr:[78,68],fl:[94,92],fr:[94,92]},
+  c:["기구 맨 아래 바닥 푸시업 손잡이를 잡고 엉덩이를 높이 든다","무릎을 살짝 굽혀 체중 부담을 줄인 뒤 정수리를 손잡이 앞쪽으로 내린다","어깨 힘으로 푸시업바를 바닥 쪽으로 밀어 올라온다"]},
  {k:"pike",n:"인클라인 파이크 푸시업",sub:"어깨 전체",tempo:"내려가기 2초 · 밀기 1초",t:[2,.3,1,.6],props:"dipbar",
   A:{h:[36,50],sl:[40,44],sr:[40,44],el:[35,53],hl:[30,62],er:[35,53],hr:[30,62],p:[72,28],kl:[86,60],kr:[86,60],fl:[100,92],fr:[100,92]},
   B:{h:[25,60],sl:[33,54],sr:[33,54],el:[43,55],hl:[30,62],er:[43,55],hr:[30,62],p:[68,32],kl:[85,61],kr:[85,61],fl:[100,92],fr:[100,92]},
@@ -772,6 +792,10 @@ const SH=[
   A:{h:[60,16],sl:[51,28],sr:[69,28],el:[47,44],hl:[46,57],er:[73,44],hr:[74,57],p:[60,56],kl:[56,74],kr:[64,74],fl:[55,92],fr:[65,92]},
   B:{h:[60,16],sl:[51,28],sr:[69,28],el:[37,30],hl:[25,33],er:[83,30],hr:[95,33],p:[60,56],kl:[56,74],kr:[64,74],fl:[55,92],fr:[65,92]},
   c:["팔꿈치를 살짝 굽힌 채 옆으로 어깨 높이까지","새끼손가락 쪽이 살짝 위로 가게","내릴 때 3초, 끝까지 떨어뜨리지 말기"]},
+ {k:"scaphang",n:"상단 바 까치발 보조 매달리기",sub:"상단 풀업바 · 매달리기 10초 돌파",tempo:"어깨 내리고 2초 버티기",t:[1,2.2,1.2,.6],props:"bar",chair:1,fixedMax:20,
+  A:{h:[60,24],sl:[50,24],sr:[70,24],el:[49,16],hl:[48,8],er:[71,16],hr:[72,8],p:[60,54],kl:[52,68],kr:[68,68],fl:[54,80],fr:[66,80]},
+  B:{h:[60,30],sl:[50,32],sr:[70,32],el:[49,20],hl:[48,8],er:[71,20],hr:[72,8],p:[60,60],kl:[52,72],kr:[68,72],fl:[54,80],fr:[66,80]},
+  c:["상단 바를 잡고 의자나 까치발로 체중의 40%를 다리에 남겨 둔다","팔꿈치는 쭉 편 채로 어깨만 아래로 끌어내려 귀와 멀어지게 한다","손아귀가 풀리지 않는 선에서 15~20초 동안 견갑골 힘으로 버틴다"]},
  {k:"scap",n:"발 딛고 견갑 당기기",sub:"말린 어깨 펴기",tempo:"내리기 1초 · 버티기 2초",t:[1,2,1.5,.5],props:"bar",chair:1,fixedMax:30,
   A:{h:[60,24],sl:[50,24],sr:[70,24],el:[49,16],hl:[48,8],er:[71,16],hr:[72,8],p:[60,54],kl:[52,68],kr:[68,68],fl:[54,80],fr:[66,80]},
   B:{h:[60,30],sl:[50,32],sr:[70,32],el:[49,20],hl:[48,8],er:[71,20],hr:[72,8],p:[60,60],kl:[52,72],kr:[68,72],fl:[54,80],fr:[66,80]},
@@ -792,13 +816,28 @@ const SH=[
   A:{h:[47,20],sl:[50,30],sr:[50,30],el:[62,30],hl:[62,14],er:[46,44],hr:[48,56],p:[48,58],kl:[54,74],kr:[42,75],fl:[58,92],fr:[38,92]},
   B:{h:[60,22],sl:[60,32],sr:[60,32],el:[62,30],hl:[62,14],er:[56,46],hr:[58,58],p:[54,58],kl:[64,74],kr:[46,76],fl:[68,92],fr:[40,92]},
   c:["문틀에 팔을 ㄴ자로 대고 한 발 앞으로","가슴이 문 안으로 들어가게 천천히 기댄다","20초 후 반대쪽 팔"]}];
-const SETUP={"warm": {"s": ["발을 어깨너비로 벌리고 선다", "팔을 옆으로 쭉 편다", "배에 살짝 힘을 준다"], "b": ["어깨를 으쓱 올린 채 돌리기"]}, "wallL": {"s": ["벽을 왼쪽에 두고 한 걸음 떨어져 선다", "왼팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다 (팔꿈치는 어깨 높이)", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "wallR": {"s": ["벽을 오른쪽에 두고 한 걸음 떨어져 선다", "오른팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]}, "pike": {"s": ["기구 바깥쪽에서 기구를 마주 보고 선다", "앞으로 꺾여 나온 딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "발을 뒤로 걸어가 엉덩이를 높이 들어 몸을 ㅅ자로 만든다"], "b": ["허리가 둥글게 말리는 것", "팔꿈치가 양옆으로 활짝 벌어지는 것 (몸통과 45°)"]}, "kneepush": {"s": ["푸시업바 2개를 어깨너비보다 조금 넓게 나란히 놓는다", "손잡이를 잡고 무릎을 바닥에 댄다 (무릎 밑에 수건)", "머리부터 무릎까지 일자가 되게 엉덩이 높이를 맞춘다"], "b": ["엉덩이가 들리거나 처지는 것", "팔꿈치가 옆으로 90° 벌어지는 것"]}, "row": {"s": ["기구를 손으로 흔들어 보고, 흔들리면 뒤 받침대에 무거운 것을 올린다", "딥스바 손잡이 두 개 사이 아래로 들어가 누워 양손으로 손잡이 끝을 잡는다", "무릎을 세우고 발바닥을 바닥에 붙여 어깨~무릎을 일자로"], "b": ["엉덩이가 처지는 것", "목만 앞으로 내미는 것"]}, "scap": {"s": ["빨간 기둥 구멍으로 턱걸이 바를 낮출 수 있으면 발이 바닥에 닿는 높이로", "낮출 수 없으면 기구 안에 의자를 놓고 발을 올린다", "바를 어깨너비로 잡고 엄지까지 감싸 쥔다"], "b": ["팔을 굽혀 당기는 것 (팔은 계속 편다)", "발에서 체중을 전부 빼는 것"]}, "support": {"s": ["기구 안쪽에서 등받이를 등지고 선다", "딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "팔을 펴서 몸을 들고, 발끝은 바닥에 살짝 댄다"], "b": ["어깨가 귀 쪽으로 솟는 것", "팔꿈치가 굽혀지는 것"]}, "raise": {"s": ["생수병을 양손에 쥐고 발은 어깨너비", "팔꿈치를 살짝 굽힌다", "상체를 아주 살짝 앞으로 숙인다"], "b": ["반동으로 휘두르기", "어깨 높이보다 높이 올리기"]}, "stretch": {"s": ["문틀 옆에 서서 한쪽 팔꿈치를 어깨 높이로 문틀에 댄다", "같은 쪽 발을 한 걸음 앞으로 내딛는다", "가슴을 펴고 천천히 기댄다"], "b": ["허리를 꺾어서 기대기"]}};
+
+const SETUP={
+ "warm": {"s": ["발을 어깨너비로 벌리고 선다", "팔을 옆으로 쭉 편다", "배에 살짝 힘을 준다"], "b": ["어깨를 으쓱 올린 채 돌리기"]},
+ "padpress": {"s": ["기구 안쪽에 서서 등받이를 등진다", "중단 빨간 팔걸이 패드 위에 양 팔뚝을 올리고 수직 손잡이를 가볍게 잡는다", "두 발은 바닥에서 떼지 말고 편안하게 서서 체중의 절반을 다리에 둔다"], "b": ["발을 바닥에서 떼어 억지로 몸을 띄우는 것", "팔꿈치를 굽혔다 폈다 하는 것 (팔뚝은 패드에 고정)"]},
+ "wallL": {"s": ["벽을 왼쪽에 두고 한 걸음 떨어져 선다", "왼팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다 (팔꿈치는 어깨 높이)", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]},
+ "wallR": {"s": ["벽을 오른쪽에 두고 한 걸음 떨어져 선다", "오른팔을 ㄴ자로 굽혀 팔꿈치~손을 벽에 붙인다", "발을 모으고 몸을 일자로 벽 쪽에 기댄다"], "b": ["엉덩이를 빼서 허리로 밀기", "어깨가 귀 쪽으로 솟는 것"]},
+ "dippress": {"s": ["기구 바깥쪽에서 기구를 마주 보고 한 걸음 떨어져 선다", "중단에 앞으로 튀어나온 딥스 가로 손잡이를 양손으로 잡는다", "두 발을 바닥에 단단히 딛고 상체를 대각선으로 살짝 숙인다"], "b": ["팔꿈치가 양옆으로 90° 활짝 벌어지는 것", "어깨가 귀 쪽으로 으쓱 솟는 것"]},
+ "lowpike": {"s": ["기구 맨 아래 바닥 프레임에 달린 푸시업 손잡이를 양손으로 잡는다", "발을 뒤로 빼고 엉덩이를 하늘로 높이 들어 몸을 ㅅ자로 만든다", "왕초보는 무릎을 살짝 굽혀 뒤꿈치를 들면 어깨 부담이 확 줄어든다"], "b": ["턱을 치켜들어 목 뒤가 꺾이는 것 (시선은 기구 바닥 프레임)", "손잡이 바로 위로 수직으로 내려가는 것 (정수리가 손잡이 앞쪽으로)"]},
+ "pike": {"s": ["기구 바깥쪽에서 기구를 마주 보고 선다", "앞으로 꺾여 나온 딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "발을 뒤로 걸어가 엉덩이를 높이 들어 몸을 ㅅ자로 만든다"], "b": ["허리가 둥글게 말리는 것", "팔꿈치가 양옆으로 활짝 벌어지는 것 (몸통과 45°)"]},
+ "kneepush": {"s": ["기구 하단 푸시업 손잡이를 양손으로 잡는다", "무릎을 바닥에 댄다 (무릎 밑에 수건이나 매트 깔기)", "머리부터 무릎까지 일자가 되게 엉덩이 높이를 맞춘다"], "b": ["엉덩이가 들리거나 처지는 것", "팔꿈치가 옆으로 90° 벌어지는 것"]},
+ "row": {"s": ["기구를 손으로 흔들어 보고, 흔들리면 뒤 받침대에 무거운 것을 올린다", "딥스바 손잡이 두 개 사이 아래로 들어가 누워 양손으로 손잡이 끝을 잡는다", "무릎을 세우고 발바닥을 바닥에 붙여 어깨~무릎을 일자로"], "b": ["엉덩이가 처지는 것", "목만 앞으로 내미는 것"]},
+ "scaphang": {"s": ["기구 안에 낮은 의자(또는 두꺼운 책)를 놓거나 기둥 높이를 낮춘다", "상단 풀업 바를 어깨너비로 잡고 발끝을 의자·바닥에 대어 체중을 나눈다", "매달리기 10초 초보자는 절대 발을 완전히 떼지 않는다"], "b": ["발을 완전히 떼서 손아귀 힘부터 빠지는 것", "팔꿈치를 구부려 당기는 것 (팔은 쭉 편 상태 유지)"]},
+ "scap": {"s": ["빨간 기둥 구멍으로 턱걸이 바를 낮출 수 있으면 발이 바닥에 닿는 높이로", "낮출 수 없으면 기구 안에 의자를 놓고 발을 올린다", "바를 어깨너비로 잡고 엄지까지 감싸 쥔다"], "b": ["팔을 굽혀 당기는 것 (팔은 계속 편다)", "발에서 체중을 전부 빼는 것"]},
+ "support": {"s": ["기구 안쪽에서 등받이를 등지고 선다", "딥스바 손잡이 끝 스펀지를 양손으로 잡는다", "팔을 펴서 몸을 들고, 발끝은 바닥에 살짝 댄다"], "b": ["어깨가 귀 쪽으로 솟는 것", "팔꿈치가 굽혀지는 것"]},
+ "raise": {"s": ["생수병을 양손에 쥐고 발은 어깨너비", "팔꿈치를 살짝 굽힌다", "상체를 아주 살짝 앞으로 숙인다"], "b": ["반동으로 휘두르기", "어깨 높이보다 높이 올리기"]},
+ "stretch": {"s": ["문틀 옆에 서서 한쪽 팔꿈치를 어깨 높이로 문틀에 댄다", "같은 쪽 발을 한 걸음 앞으로 내딛는다", "가슴을 펴고 천천히 기댄다"], "b": ["허리를 꺾어서 기대기"]}};
+
 SH.find(x=>x.k==="wallR").A=mirrorPose(SH.find(x=>x.k==="wallL").A);SH.find(x=>x.k==="wallR").B=mirrorPose(SH.find(x=>x.k==="wallL").B);SH.find(x=>x.k==="wallR").t=[1,.6,3,.4];
-// Videos: Claude cannot watch videos, so none are pre-picked. The app offers a precise YouTube search,
-// and the user saves the one they checked themselves (stored per exercise in cfg.vids).
-const VQ={wallL:"wall slide lateral raise 벽 사이드 레이즈",wallR:"wall slide lateral raise 벽 사이드 레이즈",pike:"인클라인 파이크 푸시업 incline pike push up",
- kneepush:"푸시업바 무릎 푸시업",row:"치닝디핑 인버티드로우",scap:"foot assisted scapular pull up 발 딛고 견갑 풀업",support:"딥스 서포트 홀드 dip support hold",
- raise:"생수병 사이드 레터럴 레이즈",stretch:"문틀 가슴 스트레칭 doorway pec stretch"};
+const VQ={padpress:"치닝디핑 역쉬러그 견갑 하강",wallL:"wall slide lateral raise 벽 사이드 레이즈",wallR:"wall slide lateral raise 벽 사이드 레이즈",
+ dippress:"인클라인 푸시업 어깨 치닝디핑",lowpike:"파이크 푸시업 초보 무릎",pike:"인클라인 파이크 푸시업 incline pike push up",
+ kneepush:"푸시업바 무릎 푸시업",row:"치닝디핑 인버티드로우",scaphang:"발 딛고 견갑 풀업 스카풀라 행",scap:"foot assisted scapular pull up 발 딛고 견갑 풀업",
+ support:"딥스 서포트 홀드 dip support hold",raise:"생수병 사이드 레터럴 레이즈",stretch:"문틀 가슴 스트레칭 doorway pec stretch"};
 const ytUrl=id=>"https://www.youtube.com/watch?v="+id;
 const ytSearch=k=>"https://www.youtube.com/results?search_query="+encodeURIComponent(VQ[k]||"");
 function ytId(u){u=(u||"").trim();let m=u.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];if(/^[A-Za-z0-9_-]{11}$/.test(u))return u;return null}
@@ -837,12 +876,13 @@ function drawFig(ex,P,mini){const L='stroke="var(--ink)" stroke-width="'+(mini?3
  g+='<path d="M'+pt(P.sl)+'L'+pt(P.el)+'L'+pt(P.hl)+'M'+pt(P.sr)+'L'+pt(P.er)+'L'+pt(P.hr)+'" '+L+'/>';
  g+='<circle cx="'+P.h[0].toFixed(1)+'" cy="'+P.h[1].toFixed(1)+'" r="6.2" fill="var(--ink)"/>';
  if(ex.bottle)[P.hl,P.hr].forEach(h=>{g+='<rect x="'+(h[0]-2.6).toFixed(1)+'" y="'+(h[1]-1).toFixed(1)+'" width="5.2" height="10" rx="1.6" fill="#7fb8e0" stroke="#3d6aa8" stroke-width=".8"/>'});
- // target muscle glow on the working shoulder(s)
  if(!mini&&ex.k!=="warm"&&ex.k!=="stretch"){const on=P._k>.5;[ex.k==="wallL"?[P.sl]:ex.k==="wallR"?[P.sr]:[P.sl,P.sr]][0].forEach(s=>{g+='<circle cx="'+s[0].toFixed(1)+'" cy="'+s[1].toFixed(1)+'" r="'+(on?6:4.5)+'" fill="var(--chalk)" opacity="'+(on?.75:.4)+'"/>'})}
  return g}
-const COURSES={dip:{n:"치닝디핑 기초",keys:["wallL","wallR","pike","kneepush","row","scap","support"],note:"치닝디핑, 푸시업바, 벽만 있으면 됩니다"},
+const COURSES={
+ beginner:{n:"왕초보 10초",keys:["padpress","wallL","wallR","dippress","lowpike","row","scaphang"],note:"매달리기 10초 초보 맞춤 · 두 발을 바닥에 딛고 우리 집 치닝디핑 기구를 100% 활용합니다"},
+ dip:{n:"치닝디핑 기초",keys:["wallL","wallR","pike","kneepush","row","scap","support"],note:"치닝디핑, 푸시업바, 벽만 있으면 됩니다"},
  bottle:{n:"생수병 포함",keys:["wallL","wallR","pike","raise","scap"],note:"생수병 2개가 있으면 측면 어깨에 가장 효과적"}};
-function shCfg(){const o=Object.assign({course:"dip",rounds:2,work:30},cfg.sh||{});if(!COURSES[o.course])o.course="dip";return o}
+function shCfg(){const o=Object.assign({course:"beginner",rounds:2,work:30},cfg.sh||{});if(!COURSES[o.course])o.course="beginner";return o}
 function shPlan(){const o=shCfg(),q=[];const W=SH.find(x=>x.k==="warm"),S=SH.find(x=>x.k==="stretch");
  const round=COURSES[o.course].keys.map(k=>SH.find(x=>x.k===k));
  q.push({ex:W,ph:"prep",d:8},{ex:W,ph:"work",d:W.fixed});
