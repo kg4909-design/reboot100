@@ -297,6 +297,20 @@ svg.spark{width:100%;height:64px;display:block}
 .cnt.ok{color:var(--slate);font-weight:600}
 .evi{font-size:11.5px;color:var(--muted);line-height:1.5}
 .evi b{color:var(--ink)}
+.figbox{background:#f3f1ec;border-radius:14px;display:flex;justify-content:center;padding:4px}
+.ppfig{width:100%;height:auto;max-height:24vh;display:block}
+.exfig{width:100%;height:auto;max-height:34vh;display:block}
+.zline{text-align:center;font-size:12.5px;color:var(--muted);margin:0;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+.zline b{color:var(--ink)}
+.zdot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e5484d;opacity:.8}
+.exframes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.exframes figure{margin:0;display:flex;flex-direction:column;gap:4px;background:#f3f1ec;border-radius:12px;padding:6px;min-width:0}
+.exframes svg{width:100%;height:auto;max-height:22vh;display:block}
+.exframes figcaption{font-size:11.5px;color:#3d4642;line-height:1.35}
+.exh{font-size:13px;color:var(--slate)}
+.exl{margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.5}
+button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.pp-target{font-size:48px}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
 .toast.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
 .sync{font-size:11.5px;color:var(--muted);text-align:center}
@@ -507,6 +521,19 @@ svg.spark{width:100%;height:64px;display:block}
   <label class="fl" for="bPh">정면 사진 (선택) <span style="font-weight:400">같은 곳에서 상체가 나오게</span><input type="file" id="bPh" accept="image/*" capture="user"></label>
   <button class="btn" id="bSave">저장</button>
 </div>
+<!-- exercise explain sheet -->
+<div class="sheet" id="exSheet" hidden role="dialog" aria-modal="true" aria-labelledby="exTitle">
+  <div class="grab"></div>
+  <div class="sec-h"><h2 id="exTitle">동작</h2><button class="daybtn" id="exClose" aria-label="닫기">✕</button></div>
+  <p class="note" id="exWhy" style="margin-top:-6px"></p>
+  <div class="figbox"><svg class="exfig" id="exFig" viewBox="0 0 160 120" role="img"></svg></div>
+  <p class="zline" id="exZones"></p>
+  <div class="exframes" id="exFrames"></div>
+  <div><b class="exh">① 자세 잡기</b><ol class="exl" id="exSet"></ol></div>
+  <div><b class="exh">② 동작</b><ul class="exl" id="exCue"></ul></div>
+  <div id="exLinks" style="display:flex;flex-direction:column;gap:6px"></div>
+  <p class="note">그림은 이해를 돕기 위해 제가 그린 것이라 실제 사람보다 단순해요. 빨갛게 빛나는 곳에 힘이 들어가는지 느끼면서 하세요.</p>
+</div>
 <!-- program player -->
 <div class="player" id="pplayer" hidden role="dialog" aria-modal="true" aria-labelledby="ppName">
   <div class="pl-top"><span id="ppStep"></span><button class="daybtn" id="ppClose" aria-label="그만하기">✕</button></div>
@@ -514,6 +541,8 @@ svg.spark{width:100%;height:64px;display:block}
   <span class="pl-phase" id="ppPhase">준비</span>
   <h2 class="pl-name" id="ppName"></h2>
   <p class="pp-sub" id="ppSet"></p>
+  <div class="figbox"><svg class="ppfig" id="ppFig" viewBox="0 0 160 120" role="img"></svg></div>
+  <p class="zline" id="ppZones"></p>
   <div class="pp-target" id="ppTarget"></div>
   <div id="ppVid" style="display:flex;flex-direction:column;align-items:center;gap:6px"></div>
   <div class="pl-label" id="ppLabel">자세 잡기</div>
@@ -1059,7 +1088,7 @@ $("closeWo").onclick=()=>{closeSheets()};
 
 /* ---------- sheets ---------- */
 function openSheet(id){$("scrim").hidden=false;$(id).hidden=false}
-function closeSheets(){["goalSheet","gearSheet","woSheet","writeSheet","bodySheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
+function closeSheets(){["goalSheet","gearSheet","woSheet","writeSheet","bodySheet","exSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSheets()}});
 
 /* ---------- goal editing ---------- */
@@ -1091,6 +1120,137 @@ function nextPop(){const it=popQ.shift();if(!it){popOpen=false;$("pop").hidden=t
   c.querySelector("h3").textContent=it.name;c.querySelector("p").textContent=it.desc;buzz([15,40,15])}
  $("pop").hidden=false;$("popOk").focus();$("popOk").onclick=()=>{c.innerHTML="";nextPop()}}
 $("pop").addEventListener("click",e=>{if(e.target.id==="pop"){$("popc").innerHTML="";nextPop()}});
+
+/* Exercise illustration library: side-view figure (facing left unless dir:-1), chin-dip station props, target-muscle glow */
+const FIG=(function(){
+const C={skin:"#efc39b",hair:"#2b2420",shirt:"#3f6fa8",shirt2:"#2f5687",pants:"#2a3348",pants2:"#1e2536",shoe:"#4a3a30",post:"#3a3f45",red:"#c8323a",foam:"#1f2328",zone:"#e5484d"};
+const STATION=(o)=>{o=o||{};const bar=o.bar||14;let g='';
+ g+='<line x1="64" y1="112" x2="132" y2="112" stroke="'+C.post+'" stroke-width="3" stroke-linecap="round"/>';
+ g+='<line x1="104" y1="'+(bar-4)+'" x2="104" y2="112" stroke="'+C.post+'" stroke-width="3.2"/>';
+ g+='<line x1="104" y1="'+(bar-4)+'" x2="104" y2="46" stroke="'+C.red+'" stroke-width="3.2"/>';
+ g+='<path d="M104 '+(bar-2)+'Q96 '+(bar-4)+' 86 '+bar+'" stroke="'+C.post+'" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="84" cy="'+bar+'" r="3.4" fill="'+C.foam+'"/>';
+ g+='<rect x="101" y="28" width="6" height="16" rx="2" fill="'+C.foam+'"/>';
+ if(!o.noPad)g+='<rect x="78" y="46" width="24" height="4.5" rx="1.6" fill="'+C.red+'"/><line x1="78" y1="40" x2="78" y2="47" stroke="'+C.foam+'" stroke-width="3.4" stroke-linecap="round"/>';
+ g+='<path d="M104 54H84L77 60" stroke="'+C.post+'" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M80 57L75 62.5" stroke="'+C.foam+'" stroke-width="5.5" stroke-linecap="round"/>';
+ if(o.chair)g+='<rect x="'+o.chair+'" y="86" width="20" height="3.5" rx="1.2" fill="#8a6d4b"/><line x1="'+(o.chair+2)+'" y1="89" x2="'+(o.chair+2)+'" y2="112" stroke="#8a6d4b" stroke-width="2.2"/><line x1="'+(o.chair+18)+'" y1="89" x2="'+(o.chair+18)+'" y2="112" stroke="#8a6d4b" stroke-width="2.2"/>';
+ return g};
+const FLOOR='<line x1="4" y1="112" x2="156" y2="112" stroke="#9aa39e" stroke-width="1.6"/>';
+const PBARS=(x)=>'<path d="M'+(x-7)+' 112Q'+x+' 100 '+(x+7)+' 112" stroke="'+C.post+'" stroke-width="2.6" fill="none"/><line x1="'+(x-5)+'" y1="104" x2="'+(x+5)+'" y2="104" stroke="'+C.foam+'" stroke-width="4.5" stroke-linecap="round"/>';
+const lerp=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+function zonePos(z,P,f){const s=P.s,p=P.p,e=P.e,w=P.w;switch(z){
+ case"fdelt":return [s[0]-2.5*f,s[1]+1.5];case"rdelt":return [s[0]+2.8*f,s[1]+1.5];
+ case"lat":{const m=lerp(s,p,.32);return [m[0]+3.2*f,m[1]]}
+ case"trap":{const m=lerp(s,p,.14);return [m[0]+3*f,m[1]]}
+ case"tri":{const m=lerp(s,e,.5);return [m[0]+2*f,m[1]+1]}
+ case"bi":{const m=lerp(s,e,.5);return [m[0]-2*f,m[1]]}
+ case"fore":return lerp(e,w,.45);case"chest":{const m=lerp(s,p,.18);return [m[0]-3.2*f,m[1]+1]}
+ case"core":{const m=lerp(s,p,.62);return [m[0]-3*f,m[1]]}}}
+function person(P,f,zones,kk){const L=(a,b,col,w,op)=>'<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+b[0].toFixed(1)+'" y2="'+b[1].toFixed(1)+'" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"'+(op?' opacity="'+op+'"':'')+'/>';
+ const e2=P.e2||[P.e[0]+1.5,P.e[1]],w2=P.w2||[P.w[0]+1.5,P.w[1]],k2=P.k2||[P.k[0]+2,P.k[1]],f2=P.f2||[P.f[0]+2,P.f[1]];
+ let g='';
+ // far limbs
+ g+=L(P.p,k2,C.pants2,8.5)+L(k2,f2,C.pants2,7.5)+'<ellipse cx="'+(f2[0]-2.5*f).toFixed(1)+'" cy="'+(f2[1]-1).toFixed(1)+'" rx="4.6" ry="2.4" fill="'+C.shoe+'" opacity=".8"/>';
+ g+=L(P.s,e2,C.shirt2,6.5)+L(e2,w2,"#d9a983",5.5);
+ // torso + neck + head
+ const nk=lerp(P.s,P.h,.45);g+=L(P.s,nk,C.skin,5.5);
+ g+=L(P.s,P.p,C.shirt,14);
+ g+=L(P.p,P.k,C.pants,9)+L(P.k,P.f,C.pants,8)+'<ellipse cx="'+(P.f[0]-2.5*f).toFixed(1)+'" cy="'+(P.f[1]-1).toFixed(1)+'" rx="4.8" ry="2.5" fill="'+C.shoe+'"/>';
+ g+='<circle cx="'+P.h[0].toFixed(1)+'" cy="'+P.h[1].toFixed(1)+'" r="7" fill="'+C.skin+'"/>';
+ const hx=P.h[0],hy=P.h[1],ang=P.ha||0;g+='<path d="M'+(hx-6.8)+' '+(hy-1)+'A7 7 0 0 1 '+(hx+6.8)+' '+(hy-1)+'L'+(hx+6.8*f)+' '+(hy+2)+'Z" fill="'+C.hair+'" transform="rotate('+ang+' '+hx+' '+hy+')"/>';
+ g+='<circle cx="'+(hx-3.6*f).toFixed(1)+'" cy="'+(hy+.2).toFixed(1)+'" r=".9" fill="'+C.hair+'" transform="rotate('+ang+' '+hx+' '+hy+')"/>';
+ // near arm
+ g+=L(P.s,P.e,C.shirt,7)+L(P.e,P.w,C.skin,6)+'<circle cx="'+P.w[0].toFixed(1)+'" cy="'+P.w[1].toFixed(1)+'" r="3" fill="'+C.skin+'"/>';
+ // zones
+ (zones||[]).forEach(z=>{const q=zonePos(z,P,f);if(!q)return;g+='<circle class="fz" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(4.6+2.4*(kk==null?1:kk))+'" fill="'+C.zone+'" opacity="'+(0.35+0.4*(kk==null?1:kk)).toFixed(2)+'"/>'});
+ return g}
+function arrow(a,b,col){const dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l;const h1=[b[0]-ux*5-uy*3.5,b[1]-uy*5+ux*3.5],h2=[b[0]-ux*5+uy*3.5,b[1]-uy*5-ux*3.5];
+ return '<path d="M'+a.join(" ")+'L'+b.join(" ")+'M'+h1.map(v=>v.toFixed(1)).join(" ")+'L'+b.join(" ")+'L'+h2.map(v=>v.toFixed(1)).join(" ")+'" stroke="'+(col||"#e8a317")+'" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function poseAt(D,k){const P={};for(const j in D.A){const a=D.A[j];const b=D.B[j]||a;if(Array.isArray(a)&&Array.isArray(b))P[j]=[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k];else P[j]=a}return P}
+function scene(D,k,opt){opt=opt||{};const f=D.dir||1;let g='';
+ g+=D.props==="station"?STATION(D.po):D.props==="pbars"?FLOOR+PBARS(D.pbx||60):FLOOR;
+ if(D.props==="station")g+=FLOOR;
+ const P=poseAt(D,k);g+=person(P,f,D.zones,opt.still?1:k);
+ if(D.arrow&&!opt.noArrow)g+=arrow(D.arrow[0],D.arrow[1]);
+ return g}
+function svg(D,k,cls,opt){return '<svg class="'+(cls||"")+'" viewBox="'+(D.vb||"0 0 160 120")+'" role="img" aria-label="'+(D.label||"")+'">'+scene(D,k,opt)+'</svg>'}
+// tempo-driven key k(t): [up, hold, down, hold]
+function kAt(D,t){const T=D.t||[1.5,1,1.5,.8],S=T[0]+T[1]+T[2]+T[3];let x=t%S;if(x<T[0])return ease(x/T[0]);x-=T[0];if(x<T[1])return 1;x-=T[1];if(x<T[2])return 1-ease(x/T[2]);return 0}
+return {svg,scene,kAt,C};
+})();
+
+const ZL={fdelt:"앞쪽 어깨",rdelt:"뒤쪽 어깨",lat:"광배근(등 옆선)",trap:"날개뼈 아래",tri:"팔 뒤(삼두)",bi:"팔 앞(이두)",fore:"손아귀·아래팔",chest:"가슴",core:"복부"};
+const STD={h:[90,20],s:[92,33],e:[92,48],w:[88,60],p:[93,62],k:[92,86],f:[92,111]};
+const DRAW={
+ hang00:{props:"station",po:{},zones:["trap","lat"],t:[1,2.5,1.2,.6],label:"빨간 패드에 팔뚝을 올리고 어깨를 내리는 동작",
+  A:{h:[92,26],s:[94,35],e:[94,46],w:[80,44],p:[95,64],k:[93,88],f:[94,111],e2:[95.5,46],w2:[81.5,44]},
+  B:{h:[92,17],s:[94,29],e:[94,46],w:[80,44],p:[95,59],k:[94,85],f:[94,111],e2:[95.5,46],w2:[81.5,44]},
+  arrow:[[112,26],[112,40]],steps:["① 어깨가 귀 쪽으로 올라간 상태","② 팔꿈치로 패드를 눌러 몸을 위로, 어깨는 아래로"]},
+ hang0:{props:"station",po:{chair:44},zones:["fore","lat"],t:[1,3,1,.6],label:"의자에 발을 걸치고 매달리기",
+  A:{h:[80,24],s:[85,29],e:[84,21],w:[84,14],p:[88,58],k:[72,68],f:[56,84],e2:[85.5,21],w2:[85.5,14]},
+  B:{h:[80,27],s:[85,32],e:[84.5,23],w:[84,14],p:[88,60],k:[72,69],f:[56,84],e2:[86,23],w2:[85.5,14]},
+  arrow:[[66,22],[66,34]],steps:["① 바를 잡고 발을 의자에 걸친다","② 팔은 편 채로 어깨만 살짝 끌어내리고 버틴다"]},
+ hang1:{props:"station",po:{},zones:["fore","lat"],t:[1,3,1,.6],label:"매달리기",
+  A:{h:[80,24],s:[85,29],e:[84,21],w:[84,14],p:[87,58],k:[85,80],f:[88,100]},
+  B:{h:[80,27],s:[85,32],e:[84.5,23],w:[84,14],p:[87,60],k:[85,82],f:[88,102]},
+  arrow:[[66,22],[66,34]],steps:["① 발을 떼고 매달린다","② 어깨를 살짝 끌어내린 채 버틴다"]},
+ pull0:{props:"station",po:{chair:44},zones:["lat","bi"],t:[1.2,.4,2,.6],label:"발 딛고 턱걸이",
+  A:{h:[80,30],s:[85,34],e:[84.5,24],w:[84,14],p:[88,62],k:[72,70],f:[56,84]},
+  B:{h:[79,13],s:[86,21],e:[93,27],w:[84,14],p:[88,50],k:[72,62],f:[56,84]},
+  arrow:[[64,40],[64,22]],steps:["① 발을 의자에 걸치고 팔을 편다","② 팔꿈치를 옆구리로 끌어내리며 턱을 바 쪽으로"]},
+ pull1:{props:"station",po:{chair:72},zones:["lat","bi"],t:[.6,.4,3,.6],label:"네거티브 턱걸이",
+  A:{h:[79,13],s:[86,21],e:[93,27],w:[84,14],p:[88,50],k:[87,74],f:[90,86]},
+  B:{h:[80,30],s:[85,34],e:[84.5,24],w:[84,14],p:[88,62],k:[87,86],f:[90,100]},
+  arrow:[[64,22],[64,42]],steps:["① 의자를 딛고 턱이 바 위에 온 자세","② 3초 동안 천천히 팔이 다 펴질 때까지 내려온다"]},
+ pull2:{props:"station",po:{},zones:["lat","bi"],t:[1.2,.4,2,.6],label:"턱걸이",
+  A:{h:[80,30],s:[85,34],e:[84.5,24],w:[84,14],p:[88,62],k:[86,86],f:[89,104]},
+  B:{h:[79,13],s:[86,21],e:[93,27],w:[84,14],p:[88,50],k:[86,74],f:[89,92]},
+  arrow:[[64,40],[64,22]],steps:["① 팔을 편 채 매달린다","② 쇄골을 바 쪽으로 당겨 턱이 바를 넘는다"]},
+ row0:{props:"station",po:{noPad:1},zones:["rdelt","lat"],t:[1,.6,2,.4],label:"딥스바 로우 (무릎 굽혀)",
+  A:{h:[84,92],s:[76,90],e:[76,76],w:[77,62],p:[52,98],k:[36,84],f:[28,111]},
+  B:{h:[84,74],s:[76,72],e:[88,70],w:[77,62],p:[52,90],k:[36,80],f:[28,111]},
+  arrow:[[62,100],[62,84]],steps:["① 손잡이 아래 누워 팔을 편다 (무릎 세움)","② 팔꿈치를 옆으로 벌리며 가슴을 손잡이로"]},
+ row1:{props:"station",po:{noPad:1},zones:["rdelt","lat"],t:[1,.6,2,.4],label:"딥스바 로우 (다리 펴고)",
+  A:{h:[84,92],s:[76,90],e:[76,76],w:[77,62],p:[50,100],k:[30,105],f:[10,110]},
+  B:{h:[84,74],s:[76,72],e:[88,70],w:[77,62],p:[50,90],k:[30,100],f:[10,110]},
+  arrow:[[62,102],[62,86]],steps:["① 다리를 펴고 몸을 일자로","② 팔꿈치를 옆으로 벌리며 가슴을 손잡이로"]},
+ sup0:{props:"station",po:{noPad:1},zones:["tri","fdelt","trap"],t:[1.5,2.5,1.5,.6],label:"서포트 홀드 (발끝 보조)",
+  A:{h:[78,23],s:[81,31],e:[79,47],w:[77,62],p:[84,60],k:[78,84],f:[90,108]},
+  B:{h:[78,17],s:[81,28],e:[79,45],w:[77,62],p:[84,57],k:[78,82],f:[90,106]},
+  arrow:[[60,22],[60,36]],steps:["① 기구 안쪽에서 손잡이 끝을 잡고 팔을 편다 (발끝은 바닥)","② 어깨를 귀에서 멀리 내리고 버틴다"]},
+ sup1:{props:"station",po:{noPad:1},zones:["tri","fdelt","trap"],t:[1.5,2.5,1.5,.6],label:"서포트 홀드",
+  A:{h:[78,23],s:[81,31],e:[79,47],w:[77,62],p:[84,60],k:[80,82],f:[92,94]},
+  B:{h:[78,17],s:[81,28],e:[79,45],w:[77,62],p:[84,57],k:[80,80],f:[92,92]},
+  arrow:[[60,22],[60,36]],steps:["① 발을 바닥에서 떼고 팔을 편다","② 어깨를 내린 채 흔들림 없이 버틴다"]},
+ sup2:{props:"station",po:{noPad:1},zones:["fdelt","chest","tri"],t:[.6,.3,3,.6],label:"네거티브 딥스",
+  A:{h:[78,17],s:[81,28],e:[79,45],w:[77,62],p:[84,57],k:[80,80],f:[92,92]},
+  B:{h:[62,40],s:[67,47],e:[83,46],w:[77,62],p:[77,72],k:[80,94],f:[93,100]},
+  arrow:[[52,30],[52,50]],steps:["① 팔을 편 서포트 자세에서 시작","② 3초 동안 팔꿈치 90°까지만 내려간다"]},
+ sup3:{props:"station",po:{noPad:1},zones:["fdelt","chest","tri"],t:[2,.3,1.2,.6],label:"딥스",
+  A:{h:[78,17],s:[81,28],e:[79,45],w:[77,62],p:[84,57],k:[80,80],f:[92,92]},
+  B:{h:[62,40],s:[67,47],e:[83,46],w:[77,62],p:[77,72],k:[80,94],f:[93,100]},
+  arrow:[[52,30],[52,50]],steps:["① 팔을 편 서포트 자세","② 팔꿈치 90°까지 내려갔다가 밀어 올린다"]},
+ pike0:{props:"station",po:{noPad:1},dir:-1,zones:["fdelt","tri"],t:[2,.3,1.2,.6],label:"손잡이 파이크 푸시업 (얕게)",
+  A:{h:[64,40],s:[58,36],e:[67,50],w:[76,61],p:[34,30],k:[24,70],f:[14,111],e2:[68,51],w2:[77,62]},
+  B:{h:[70,50],s:[63,46],e:[64,58],w:[76,61],p:[36,34],k:[25,72],f:[14,111],e2:[65,59],w2:[77,62]},
+  arrow:[[52,22],[58,34]],steps:["① 기구 바깥에서 손잡이 끝을 잡고 엉덩이를 높이 (ㅅ자)","② 머리를 손 앞쪽으로 반만 내렸다 밀어 올린다"]},
+ pike1:{props:"station",po:{noPad:1},dir:-1,zones:["fdelt","tri"],t:[2,.3,1.2,.6],label:"손잡이 파이크 푸시업 (깊게)",
+  A:{h:[64,40],s:[58,36],e:[67,50],w:[76,61],p:[38,26],k:[29,68],f:[22,111],e2:[68,51],w2:[77,62]},
+  B:{h:[76,58],s:[67,52],e:[62,62],w:[76,61],p:[41,30],k:[30,70],f:[22,111],e2:[63,63],w2:[77,62]},
+  arrow:[[56,22],[64,40]],steps:["① 엉덩이를 더 높이, 발을 한 걸음 앞으로","② 머리가 손 높이까지 내려갔다 밀어 올린다"]},
+ pike2:{props:"pbars",pbx:62,dir:-1,zones:["fdelt","tri"],t:[2,.3,1.2,.6],label:"바닥 파이크 푸시업",
+  A:{h:[56,84],s:[50,78],e:[56,91],w:[62,104],p:[30,58],k:[20,86],f:[10,111],e2:[57,92],w2:[63,104]},
+  B:{h:[66,100],s:[57,95],e:[52,103],w:[62,104],p:[32,64],k:[21,88],f:[10,111],e2:[53,104],w2:[63,104]},
+  arrow:[[42,62],[50,76]],steps:["① 푸시업바를 잡고 엉덩이를 높이 (ㅅ자)","② 머리를 손 앞쪽 바닥으로 내렸다 밀어 올린다"]},
+ yr0:{props:"floor",zones:["rdelt","trap"],t:[1,1,1.5,.6],label:"엎드려 Y 레이즈",
+  A:{h:[38,102],s:[48,106],e:[32,108],w:[18,109],p:[88,107],k:[112,108],f:[136,108],ha:-80},
+  B:{h:[38,101],s:[48,105],e:[33,101],w:[19,96],p:[88,107],k:[112,108],f:[136,108],ha:-80},
+  arrow:[[14,104],[14,92]],steps:["① 엎드려 팔을 머리 위로 Y자 (엄지 위로)","② 팔을 바닥에서 살짝 들어 1초 멈춘다"]},
+ yr1:{props:"floor",zones:["rdelt","trap"],t:[1,3,1.5,.6],label:"엎드려 Y 레이즈 (3초 멈춤)",
+  A:{h:[38,102],s:[48,106],e:[32,108],w:[18,109],p:[88,107],k:[112,108],f:[136,108],ha:-80},
+  B:{h:[38,101],s:[48,105],e:[33,101],w:[19,96],p:[88,107],k:[112,108],f:[136,108],ha:-80},
+  arrow:[[14,104],[14,92]],steps:["① 엎드려 팔을 Y자","② 들어 올려 3초 멈췄다 내린다"]}
+};
 
 /* =====================================================================
    ① Shoulder 100-day program: A (pull: lats + rear delts) / B (push: delts)
@@ -1125,6 +1285,38 @@ const DAYTRACKS={A:["hang","pull","row"],B:["sup","pike","yr"]};
 const DAYNAME={A:"A일 · 등 넓이",B:"B일 · 어깨"};
 Object.values(TRACKS).forEach(t=>t.lv.forEach(l=>{VQ[l.k]=VQ[l.k]||l.n}));
 Object.assign(VQ,{hang00:"치닝디핑 역쉬러그 견갑 하강 레그레이즈 패드",hang0:"feet assisted dead hang 발 보조 매달리기",hang1:"데드행 매달리기 초보",pull0:"feet assisted pull up 발 딛고 턱걸이",pull1:"네거티브 풀업 초보",pull2:"턱걸이 자세 초보",row0:"치닝디핑 인버티드로우",row1:"인버티드 로우 다리 펴고",row2:"인버티드 로우 정지",sup0:"딥스 서포트 홀드 발 보조",sup1:"dip support hold",sup2:"네거티브 딥스 초보",sup3:"딥스 자세 초보",pike0:"인클라인 파이크 푸시업",pike1:"incline pike push up deep",pike2:"파이크 푸시업 자세",yr0:"prone Y raise 엎드려 Y 레이즈",yr1:"prone Y raise hold"});
+
+const VBOX={"hang00": "36 0 84 114", "hang0": "36 0 84 114", "hang1": "36 0 84 114", "pull0": "36 0 84 114", "pull1": "36 0 84 114", "pull2": "36 0 84 114", "row0": "14 40 104 74", "row1": "4 40 114 74", "sup0": "40 2 80 112", "sup1": "40 2 80 112", "sup2": "40 2 80 112", "sup3": "40 2 80 112", "pike0": "6 16 108 98", "pike1": "6 16 108 98", "pike2": "4 48 80 66", "yr0": "6 78 140 36", "yr1": "6 78 140 36"};Object.keys(VBOX).forEach(k=>{if(DRAW[k])DRAW[k].vb=VBOX[k]});
+const REF={
+ hang0:["https://www.caliverse.app/exercises/dead-hang-1067","Dead Hang (매달리기)"],hang1:["https://www.caliverse.app/exercises/dead-hang-1067","Dead Hang (매달리기)"],
+ pull0:["https://www.caliverse.app/exercises/assisted-pull-up-511","Assisted Pull Up (낮은 바, 발 딛고 턱걸이)"],
+ pull1:["https://www.caliverse.app/exercises/pull-up-negative-109","Pull Up Negative (네거티브 턱걸이)"],pull2:["https://www.caliverse.app/exercises/pull-up-73","Pull Up (턱걸이)"],
+ row0:["https://www.caliverse.app/exercises/inverted-row-1065","Inverted Row (쉽게: 무릎 굽히기)"],row1:["https://www.caliverse.app/exercises/inverted-row-1065","Inverted Row"],row2:["https://www.caliverse.app/exercises/inverted-row-hold-1582","Inverted Row Hold"],
+ sup0:["https://www.caliverse.app/exercises/parallel-bar-support-hold-128","Parallel Bar Support Hold (서포트 홀드)"],sup1:["https://www.caliverse.app/exercises/parallel-bar-support-hold-128","Parallel Bar Support Hold (서포트 홀드)"],
+ sup2:["https://www.caliverse.app/exercises/130","Parallel Bar Dip Negative (네거티브 딥스)"],sup3:["https://www.caliverse.app/exercises/parallel-bar-dips-90","Parallel Bar Dips (딥스)"],
+ pike0:["https://www.caliverse.app/exercises/17","Pike Push Up (손을 바닥에 두는 기본형)"],pike1:["https://www.caliverse.app/exercises/17","Pike Push Up (손을 바닥에 두는 기본형)"],pike2:["https://www.caliverse.app/exercises/17","Pike Push Up"],
+ yr0:["https://www.caliverse.app/exercises/lying-ytw-1060","Lying YTW (이 중 Y 자세만)"],yr1:["https://www.caliverse.app/exercises/lying-ytw-1060","Lying YTW (이 중 Y 자세만)"]};
+const RM=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
+const ANIMS=new Set();let animRaf=0;
+function figInto(el,k){const D=DRAW[k];if(!D){el.innerHTML="";el.hidden=true;return null}el.hidden=false;el.setAttribute("viewBox",D.vb||"0 0 160 120");el.setAttribute("aria-label",D.label+" 자세 그림");el.innerHTML=FIG.scene(D,1);
+ const a={el,D,t0:performance.now()};if(!RM){ANIMS.add(a);if(!animRaf)animRaf=requestAnimationFrame(animTick)}return a}
+function animTick(now){animRaf=0;ANIMS.forEach(a=>{if(!a.el.isConnected||a.el.closest("[hidden]")){ANIMS.delete(a);return}a.el.innerHTML=FIG.scene(a.D,FIG.kAt(a.D,(now-a.t0)/1000))});if(ANIMS.size)animRaf=requestAnimationFrame(animTick)}
+function stopAnim(el){ANIMS.forEach(a=>{if(a.el===el)ANIMS.delete(a)})}
+function zoneText(k){const D=DRAW[k];return D?(D.zones||[]).map(z=>ZL[z]).join(" · "):""}
+function refLink(k){const r=REF[k];if(!r)return null;const a=document.createElement("a");a.className="vidbtn";a.href=r[0];a.target="_blank";a.rel="noopener";
+ a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>실제 사람 시범 보기';a.title=r[1];return a}
+// exercise explain sheet
+function openEx(trackKey,lvKey){const T=TRACKS[trackKey];const L=T.lv.find(l=>l.k===lvKey)||levelOf(trackKey);const D=DRAW[L.k];
+ $("exTitle").textContent=L.n;$("exWhy").textContent=T.why;stopAnim($("exFig"));figInto($("exFig"),L.k);
+ const fr=$("exFrames");fr.innerHTML="";if(D){[0,1].forEach(i=>{const f=document.createElement("figure");f.innerHTML='<svg viewBox="'+(D.vb||"0 0 160 120")+'" aria-hidden="true">'+FIG.scene(D,i,{still:1})+'</svg><figcaption></figcaption>';f.querySelector("figcaption").textContent=(D.steps||[])[i]||"";fr.appendChild(f)})}
+ $("exZones").innerHTML='<i class="zdot"></i> 자극이 와야 하는 곳: <b></b>';$("exZones").querySelector("b").textContent=zoneText(L.k)||"표시 없음";
+ const ul=(id,arr)=>{const u=$(id);u.innerHTML="";(arr||[]).forEach(c=>{const li=document.createElement("li");li.textContent=c;u.appendChild(li)})};ul("exSet",L.set);ul("exCue",L.cue);
+ const lk=$("exLinks");lk.innerHTML="";const r=refLink(L.k);if(r){lk.appendChild(r);const n=document.createElement("p");n.className="note";n.textContent="Caliverse(영어) 동작 페이지예요. 페이지 설명으로 같은 동작인지 확인했고, 기구 모양은 우리 집과 다를 수 있어요. 영상 자체는 제가 직접 보지 못했어요.";lk.appendChild(n)}
+ else{const n=document.createElement("p");n.className="note";n.textContent="이 동작은 우리 집 기구에만 있는 방식이라 확인된 시범 영상이 없어요. 위 그림을 기준으로 해 주세요.";lk.appendChild(n)}
+ const vb=vidButton(L.k);if(vb)lk.appendChild(vb);const vs=vidSaver(L.k);if(vs)lk.appendChild(vs);
+ openSheet("exSheet");$("exSheet").scrollTop=0}
+$("exClose").onclick=()=>{stopAnim($("exFig"));closeSheets()};
+
 function progState(){const p=cfg.prog=cfg.prog||{};p.t=p.t||{};Object.keys(TRACKS).forEach(k=>{if(!p.t[k])p.t[k]={lv:0,val:TRACKS[k].lv[0].a,fail:0}});return p}
 const unitTxt=(u,v)=>u==="s"?v+"초":v+"회";
 function levelOf(k){const st=progState().t[k],L=TRACKS[k].lv;return L[Math.min(st.lv,L.length-1)]}
@@ -1140,10 +1332,11 @@ function renderProgCard(){const card=$("pcard");if(!cfg.habits.some(h=>h.id==="s
  if(!isT){$("pcTitle").textContent="오늘의 어깨";list.innerHTML='<span class="note">오늘 날짜에서 시작할 수 있어요</span>';$("pcStart").hidden=true;return}
  if(!t){$("pcTitle").textContent="일요일 · 회복일";list.innerHTML='<span class="note">근육이 자라는 날이에요. 걷기만 해도 충분해요.</span>';$("pcStart").textContent="그래도 하기 (A일)";$("pcStart").onclick=()=>{const p=progState();p.ov={d:TODAY,t:"A"};saveCfg();renderToday()};return}
  $("pcTitle").textContent="오늘 "+DAYNAME[t];
- DAYTRACKS[t].forEach(k=>{const L=levelOf(k),st=progState().t[k],it=document.createElement("div");it.className="pc-it";
+ DAYTRACKS[t].forEach(k=>{const L=levelOf(k),st=progState().t[k],it=document.createElement("button");it.type="button";it.className="pc-it";
   let delta="";if(done&&done.r[k]){const r=done.r[k];delta=r.ok?"✓ 다음 "+unitTxt(L.u,st.val):"다음에 다시"}else{const lr=lastResult(k);if(lr&&lr.ok)delta="지난번보다 +1";else if(!lr)delta="첫 기록"}
   const shown=done&&done.r[k]?done.r[k].val:st.val,uu=done&&done.r[k]?done.r[k].u:L.u;
-  it.innerHTML='<span></span><b></b><i></i>';it.querySelector("span").textContent=done&&done.r[k]?done.r[k].n:L.n;it.querySelector("b").textContent=unitTxt(uu,shown)+" ×2";it.querySelector("i").textContent=delta;list.appendChild(it)});
+  it.innerHTML='<span></span><b></b><i></i>';it.querySelector("span").textContent=done&&done.r[k]?done.r[k].n:L.n;it.querySelector("b").textContent=unitTxt(uu,shown)+" ×2";it.querySelector("i").textContent=delta||"그림 보기";const lk2=done&&done.r[k]?(TRACKS[k].lv[done.r[k].lv]||L).k:L.k;it.onclick=()=>openEx(k,lk2);it.setAttribute("aria-label",(it.querySelector("span").textContent)+" 자세 그림 보기");list.appendChild(it)});
+ if(!done){const hint=document.createElement("span");hint.className="note";hint.style.width="100%";hint.textContent="동작 이름을 누르면 자세 그림과 자극 부위가 나와요";list.appendChild(hint)}
  if(done){$("pcStart").hidden=true;$("pcDone").hidden=false;const ok=Object.values(done.r).filter(r=>r.ok).length;$("pcDone").textContent="오늘 완료 ✓ "+ok+"/"+Object.keys(done.r).length+"개 목표 달성";}
  else{$("pcStart").textContent="시작 (약 7분)";$("pcStart").onclick=()=>startProg(t)}}
 $("pcSwap").onclick=()=>{const p=progState(),cur=dayTypeFor(TODAY)||"B";p.ov={d:TODAY,t:cur==="A"?"B":"A"};saveCfg();renderToday();toast(DAYNAME[p.ov.t]+"로 바꿨어요")};
@@ -1156,11 +1349,12 @@ function startProg(t){const steps=[];const ks=DAYTRACKS[t];
  $("pplayer").hidden=false;lockWake();ppShow()}
 function ppCue(arr,label){$("ppLabel").textContent=label;const ul=$("ppCue");ul.innerHTML="";arr.forEach(c=>{const li=document.createElement("li");li.textContent=c;ul.appendChild(li)})}
 function ppBtns(defs){const b=$("ppBtns");b.innerHTML="";b.style.gridTemplateColumns="repeat("+defs.length+",1fr)";defs.forEach(([txt,cls,fn])=>{const x=document.createElement("button");x.className="btn"+(cls?" "+cls:"");x.textContent=txt;x.onclick=fn;b.appendChild(x)})}
-function ppShow(){clearInterval(PP.timer);const s=PP.steps[PP.i];$("ppRes").hidden=true;$("ppCue").hidden=false;$("ppLabel").hidden=false;
+function ppShow(){clearInterval(PP.timer);$("ppFig").parentNode.hidden=false;const s=PP.steps[PP.i];$("ppRes").hidden=true;$("ppCue").hidden=false;$("ppLabel").hidden=false;
  const works=PP.steps.filter(x=>x.ph==="work").length,done=PP.steps.slice(0,PP.i).filter(x=>x.ph==="work").length;
  $("ppStep").textContent=DAYNAME[PP.t]+" · "+Math.min(done+1,works)+"/"+works;$("ppProg").style.width=Math.round(PP.i/PP.steps.length*100)+"%";
  $("ppName").textContent=s.L.n;$("ppSet").textContent=TRACKS[s.k].why+" · "+s.si+"/2세트";
- const vp=$("ppVid");vp.innerHTML="";const vb=vidButton(s.L.k);if(vb)vp.appendChild(vb);
+ const vp=$("ppVid");vp.innerHTML="";const rl=refLink(s.L.k);if(rl)vp.appendChild(rl);const vb=vidButton(s.L.k);if(vb)vp.appendChild(vb);
+ if(PP._figK!==s.L.k){stopAnim($("ppFig"));figInto($("ppFig"),s.L.k);PP._figK=s.L.k}$("ppZones").innerHTML=zoneText(s.L.k)?'<i class="zdot"></i> 자극: <b></b>':"";if(zoneText(s.L.k))$("ppZones").querySelector("b").textContent=zoneText(s.L.k);
  if(s.ph==="prep"){$("ppPhase").textContent=s.si===1?"자세 잡기":"휴식";$("ppPhase").className="pl-phase";ppCue(s.L.set,"자세 잡기");
   let left=s.d;$("ppTarget").innerHTML=left+"<small>초</small>";
   ppBtns([["바로 시작","",()=>ppNext()]]);
@@ -1182,7 +1376,7 @@ function ppFinish(){clearInterval(PP.timer);const p=progState(),r={},ups=[];
  if(p.ov&&p.ov.d===TODAY)delete p.ov;updateProgNext();saveDay(TODAY);saveCfg();
  // results screen
  $("ppPhase").textContent="완료";$("ppPhase").className="pl-phase work";$("ppName").textContent="오늘도 해냈어요";$("ppSet").textContent=DAYNAME[PP.t];$("ppTarget").innerHTML="";$("ppVid").innerHTML="";
- $("ppCue").hidden=true;$("ppLabel").hidden=true;const box=$("ppRes");box.innerHTML="";box.hidden=false;
+ $("ppCue").hidden=true;$("ppLabel").hidden=true;stopAnim($("ppFig"));$("ppFig").parentNode.hidden=true;$("ppZones").innerHTML="";const box=$("ppRes");box.innerHTML="";box.hidden=false;
  Object.keys(r).forEach(k=>{const x=r[k],st=p.t[k],L=levelOf(k),row=document.createElement("div");row.className="pp-row";
   row.innerHTML='<span></span><b></b>';row.querySelector("span").textContent=x.n+" "+unitTxt(x.u,x.val);
   row.querySelector("b").textContent=x.ok?"✓ 다음 "+unitTxt(L.u,st.val):"다음에 "+unitTxt(L.u,st.val);box.appendChild(row)});
@@ -1191,7 +1385,7 @@ function ppFinish(){clearInterval(PP.timer);const p=progState(),r={},ups=[];
  beep(1046,200);setTimeout(()=>beep(1318,400),220);buzz([60,60,120])}
 function stopProg(){if(PP)clearInterval(PP.timer);PP=null;$("pplayer").hidden=true;try{wake&&wake.release()}catch(e){}}
 $("ppClose").onclick=()=>{if(PP&&PP.steps.slice(0,PP.i).some(x=>x.ph==="work")){if(PP._confirm){ppFinish();return}PP._confirm=1;toast("한 번 더 누르면 여기까지 기록하고 끝내요");setTimeout(()=>{if(PP)PP._confirm=0},2500);return}stopProg()};
-function vidChanged(){if(!$("woSheet").hidden)renderShList();if(PP&&!$("pplayer").hidden){const s=PP.steps[PP.i];if(s){const vp=$("ppVid");vp.innerHTML="";const vb=vidButton(s.L.k);if(vb)vp.appendChild(vb)}}}
+function vidChanged(){if(!$("woSheet").hidden)renderShList();if(PP&&!$("pplayer").hidden){const s=PP.steps[PP.i];if(s){const vp=$("ppVid");vp.innerHTML="";const rl=refLink(s.L.k);if(rl)vp.appendChild(rl);const vb=vidButton(s.L.k);if(vb)vp.appendChild(vb)}}if(!$("exSheet").hidden){const t=$("exTitle").textContent;const tk=Object.keys(TRACKS).find(k=>TRACKS[k].lv.some(l=>l.n===t));if(tk)openEx(tk,TRACKS[tk].lv.find(l=>l.n===t).k)}}
 const _ov=openVideo;openVideo=function(k){if(PP)clearInterval(PP.timer);_ov(k)};
 const _cv=closeVideo;closeVideo=function(){_cv();if(PP&&!$("pplayer").hidden)ppShow()};
 function renderProgGrowth(){const el=$("progGrowth");el.innerHTML="";const p=progState();let total=0;
