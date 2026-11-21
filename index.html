@@ -114,12 +114,12 @@ textarea{resize:none;min-height:70px}
 /* bottom nav */
 nav.bnav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   padding:0 max(8px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(8px,env(safe-area-inset-left,0px))}
-nav.bnav .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--nav-h)}
+nav.bnav .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--nav-h)}
 nav.bnav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:11.5px;font-weight:600}
 nav.bnav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
 nav.bnav a[aria-current="page"]{color:var(--slate)}
 nav.bnav a[aria-current="page"] .ic{background:var(--slate-soft)}
-nav.bnav .ic{display:grid;place-items:center;width:52px;height:28px;border-radius:999px}
+nav.bnav .ic{display:grid;place-items:center;width:46px;height:28px;border-radius:999px}
 
 /* map */
 .legend{display:flex;gap:8px 12px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);align-items:center}
@@ -314,6 +314,43 @@ button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inher
 .toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .25s, transform .25s}
 .toast.hide{opacity:0;transform:translate(-50%,8px);pointer-events:none}
 .sync{font-size:11.5px;color:var(--muted);text-align:center}
+/* roadmap */
+.rtask{display:grid;grid-template-columns:36px 1fr;gap:8px;align-items:start;padding:9px 0;border-top:1px solid var(--line)}
+.rtask:first-child{border-top:none}
+.rchk{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:transparent;font-weight:800;font-size:15px;color:transparent;padding:0;cursor:pointer}
+.rchk[aria-pressed="true"]{background:var(--slate);border-color:var(--slate);color:var(--bg)}
+.rtt{font-size:14px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}
+.rtask[data-done="1"] .rtt{color:var(--muted);text-decoration:line-through}
+.rmeta{font-size:12px;color:var(--muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.rpri{font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px;background:var(--slate-soft);color:var(--slate)}
+.rpri.top{background:var(--chalk);color:var(--chalk-ink)}
+.rlate{font-size:11px;font-weight:700;color:var(--danger)}
+.rtask details{margin-top:4px}
+.rtask summary{font-size:12.5px;color:var(--slate);cursor:pointer;font-weight:600}
+.rtask details p{margin:6px 0 0;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+details.phase>summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+details.phase>summary::-webkit-details-marker{display:none}
+.ph-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ph-top b{font-size:15px}
+.ph-goal{font-size:12.5px;color:var(--muted)}
+.ph-now{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:var(--slate);color:var(--bg)}
+.ph-past{font-size:11px;font-weight:700;color:var(--muted)}
+.mbar{height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--slate);border-radius:999px;transition:width .3s}
+.wkchips{display:flex;flex-wrap:wrap;gap:6px}
+.wkchip{border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:12.5px;background:var(--surface);color:var(--ink);min-height:36px;cursor:pointer}
+.wkchip b{font-family:ui-monospace,monospace;margin-left:4px}
+.wkchip.ok{border-color:var(--slate);background:var(--slate-soft)}
+.wkchip.today{box-shadow:inset 0 0 0 1.5px var(--slate)}
+.mission{font-size:13px;line-height:1.5;margin:0;padding:10px 12px;border-radius:12px;background:var(--slate-soft);color:var(--ink)}
+.mission b{color:var(--slate);margin-right:6px}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-weight:400}
+.flags button{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);padding:6px 10px;font-size:12.5px;min-height:34px}
+.flags.g button[aria-pressed="true"]{background:var(--slate);border-color:var(--slate);color:var(--bg)}
+.flags.r button[aria-pressed="true"]{background:var(--danger);border-color:var(--danger);color:#fff}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);padding:10px 12px;font-size:13.5px;text-align:left;margin-top:6px}
+.mrow.warn{border-color:var(--danger)}
+.mrow small{color:var(--muted);font-size:12px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style></head><body>
 
@@ -341,6 +378,12 @@ button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inher
       <button class="btn" id="pcStart">시작</button>
     </section>
     <div class="tiles" id="tiles"></div>
+    <p class="mission" id="mission" hidden></p>
+    <section class="card" id="roadCard" hidden aria-label="이번 주 로드맵">
+      <div class="sec-h"><h2 style="font-size:15px">지금 할 로드맵</h2><a class="muted" href="#road" id="roadCardSum" style="font-size:12.5px;text-decoration:none"></a></div>
+      <div id="roadCardList"></div>
+      <div class="wkchips" id="wkChipsToday"></div>
+    </section>
     <button class="linkbtn" id="openWo" hidden>가벼운 어깨 루틴 (왕초보 10초 코스 등) <b>›</b></button>
     <div class="stack" style="gap:8px">
       <div class="moodrow" id="moods" role="group" aria-label="오늘 기분"></div>
@@ -355,6 +398,28 @@ button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inher
       <div class="hero-info"><div class="t"><b id="heroTitle">Lv.1</b><span id="heroNext"></span></div><button class="btn ghost" id="openGear">성장 도감</button></div>
     </section>
     <div class="sync" id="sync"></div>
+  </main>
+
+  <!-- ROADMAP -->
+  <main id="v-road" class="stack" hidden>
+    <section class="card">
+      <div class="sec-h"><h2 id="rmTitle" style="font-size:15px;word-break:keep-all">로드맵</h2><span class="pill chalk" id="rmPct">0%</span></div>
+      <p class="note" id="rmWhy" style="margin:-4px 0 0"></p>
+      <div class="mbar"><i id="rmBar" style="width:0"></i></div>
+      <p class="note" id="rmMsg" hidden></p>
+      <button class="btn ghost" id="rmReload" hidden>로드맵 다시 불러오기</button>
+    </section>
+    <section class="card" id="rmWeekly" hidden>
+      <div class="sec-h"><h2 style="font-size:15px">반복 루틴</h2><span class="note">누르면 오늘 1회</span></div>
+      <div class="wkchips" id="wkChips"></div>
+      <p class="note">매일 하는 스킨 2분·구강 3분, 대화 연습은 '오늘' 습관에서 체크해요.</p>
+    </section>
+    <div id="rmPhases" class="stack"></div>
+    <section class="card">
+      <div class="sec-h"><h2 style="font-size:15px">만남 복기</h2><button class="btn ghost" id="meetNew" style="min-height:36px;padding:6px 12px;font-size:13px">새 기록</button></div>
+      <p class="note" style="margin:-4px 0 0">만남이 끝나면 5분 안에 그린·레드 플래그를 체크해요. 이름 대신 이니셜이나 별칭만 적어 주세요.</p>
+      <div id="meetList"></div>
+    </section>
   </main>
 
   <!-- MAP -->
@@ -424,6 +489,11 @@ button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inher
       <div id="hEdit" class="stack" style="gap:10px"></div>
       <button class="btn ghost" id="addH">습관 추가</button>
       <button class="btn ghost" id="addTrade">추천: 매매일지 습관 추가 (스캐너에서 쓰면 자동 체크)</button>
+    </section>
+    <section class="card">
+      <h2 style="font-size:15px">어깨 프로그램 일정</h2>
+      <div class="flags g" id="progMode" style="margin-top:0"></div>
+      <p class="note" id="progModeNote"></p>
     </section>
     <button class="btn" id="saveSetup">설정 저장</button>
     <section class="card">
@@ -562,11 +632,24 @@ button.pc-it{border:none;text-align:left;cursor:pointer;color:inherit;font:inher
   <button class="btn" id="closeLog">저장하고 닫기</button>
 </div>
 
+<div class="sheet" id="meetSheet" hidden role="dialog" aria-modal="true" aria-labelledby="meetTitle">
+  <div class="grab"></div>
+  <div class="sec-h"><h2 id="meetTitle">만남 복기</h2><button class="btn ghost" id="meetDel" hidden style="min-height:32px;padding:4px 10px;font-size:12.5px">삭제</button></div>
+  <div class="row" style="gap:8px"><label class="fl" for="mtDate" style="flex:1">날짜<input type="date" id="mtDate"></label><label class="fl" for="mtWho" style="flex:1">이니셜·별칭<input type="text" id="mtWho" maxlength="12" placeholder="예: J"></label></div>
+  <div class="fl">상대의 그린 플래그<div class="flags g" id="mtGreen"></div></div>
+  <div class="fl">상대의 레드 플래그<div class="flags r" id="mtRed"></div></div>
+  <div class="fl">내가 잘한 대화<div class="flags g" id="mtMe"></div></div>
+  <div class="fl">한 번 더 만나고 싶나요?<div class="flags g" id="mtAgain"></div></div>
+  <label class="fl" for="mtMemo">메모<textarea id="mtMemo" rows="2" placeholder="좋았던 순간, 다음에 물어볼 것"></textarea></label>
+  <button class="btn" id="meetSave">저장하고 닫기</button>
+</div>
+
 <div class="toast hide" id="toast" role="status" aria-live="polite"></div>
 
 <nav class="bnav" aria-label="화면">
   <div class="in">
     <a href="#today" data-v="today"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.2l2.7 2.7L16.2 9.4"/></svg></span>오늘</a>
+    <a href="#road" data-v="road"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 20v-7"/><path d="M12 13c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6z"/><path d="M12 15c0-3-2.2-5-5-5 0 3 2.2 5 5 5z"/><path d="M7 20h10"/></svg></span>로드맵</a>
     <a href="#map" data-v="map"><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></svg></span>출석부</a>
     <a href="#review" data-v="review"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 19V11M10 19V6M15 19v-5M20 19V9"/></svg></span>돌아보기</a>
     <a href="#setup" data-v="setup"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span>설정</a>
@@ -581,7 +664,7 @@ const MOOD=[["1","힘듦"],["2","처짐"],["3","보통"],["4","괜찮음"],["5",
 const MILES={1:"출발",7:"첫 일주일",21:"3주 돌파",30:"한 달",50:"절반",66:"습관 정착",100:"완주"};
 const MIN_DEFAULT={run:"최소 10분 걷기",str:"최소 1세트씩",sleep:"자정 넘으면 내일 다시",night:"치실만 해도 OK",scalp:"최소 샴푸 꼼꼼히",teeth:"최소 치실 1번",skin:"최소 로션만",talk:"최소 5분",write:"3줄이면 300자",read:"최소 5쪽",grat:"한 줄이면 끝",trade:"한 줄이라도"};
 const AUTO={grat:"감사 쓰면",str:"운동 끝내면",write:"300자 쓰면",sleep:"잘 자요 누르면",talk:"시뮬레이터 하면",trade:"매매일지 쓰면"};
-const XP={habit:10,bonus:10,allClear:30,mood:5,log:5,week:20};
+const XP={habit:10,bonus:10,allClear:30,mood:5,log:5,week:20,road:15};
 const TITLES=[[1,"평범한 하루"],[3,"달라지는 남자"],[5,"자기관리의 남자"],[7,"품격 있는 남자"],[9,"존경받는 선생님"],[11,"여유로운 어른"],[13,"행복한 가장"],[15,"100일의 주인공"]];
 const pad=n=>String(n).padStart(2,"0");
 const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
@@ -589,22 +672,25 @@ function today(){const d=new Date();if(d.getHours()<4)d.setDate(d.getDate()-1);r
 let TODAY=today();
 const V2_HABITS=[
   {id:"str",name:"어깨 100일 프로그램",cat:"body"},{id:"run",name:"슬로우 러닝·걷기 20분",cat:"body"},
-  {id:"sleep",name:"자정 전 '잘 자요'",cat:"body"},{id:"night",name:"밤 관리 (두피·치아·스킨)",cat:"care"},
+  {id:"sleep",name:"자정 전 '잘 자요'",cat:"body"},{id:"night",name:"밤 관리 (스킨 2분·구강 3분)",cat:"care"},
   {id:"talk",name:"대화 연습 (시뮬레이터)",cat:"growth"},{id:"write",name:"글쓰기 300자",cat:"growth"},
   {id:"grat",name:"감사 한 줄",cat:"mind"}];
-const DEFAULT_CFG={v:2,startDate:TODAY,goal:"더 건강하고, 단단하고, 여유 있는 나",habits:JSON.parse(JSON.stringify(V2_HABITS))};
+const DEFAULT_CFG={v:3,startDate:TODAY,goal:"더 건강하고, 단단하고, 여유 있는 나",habits:JSON.parse(JSON.stringify(V2_HABITS))};
 DEFAULT_CFG.habits.forEach(h=>h.min=MIN_DEFAULT[h.id]||"");
 
 let cfg=clone(DEFAULT_CFG), days={}, weeks={}, viewDate=TODAY, week=1;
 const $=id=>document.getElementById(id);
 function clone(o){return JSON.parse(JSON.stringify(o))}
-function migrate(){if((cfg.v||1)>=2)return false;const old=cfg.habits||[];const oldIds=old.map(h=>h.id);
+function migrate(){let ch=false;if((cfg.v||1)<2){migrate1();ch=true}
+ if(cfg.v<3){const n=cfg.habits.find(h=>h.id==="night");if(n&&n.name==="밤 관리 (두피·치아·스킨)")n.name="밤 관리 (스킨 2분·구강 3분)";cfg.v=3;ch=true}
+ return ch}
+function migrate1(){const old=cfg.habits||[];const oldIds=old.map(h=>h.id);
  const known=["run","str","sleep","scalp","teeth","skin","talk","write","read","grat"];
  const extra=old.filter(h=>!known.includes(h.id));
  cfg.habits=JSON.parse(JSON.stringify(V2_HABITS)).map(h=>{h.min=MIN_DEFAULT[h.id]||"";return h}).concat(extra);
  const dd=days[TODAY];if(dd&&dd.checks&&["scalp","teeth","skin"].some(k=>dd.checks[k])){const e=edit(TODAY);e.checks.night=true;saveDay(TODAY)}
  else if(dd){const e=edit(TODAY);saveDay(TODAY)}
- cfg.v=2;return true}
+ cfg.v=2}
 function habits(){return cfg.habits.slice().sort((a,b)=>CAT_ORDER.indexOf(a.cat)-CAT_ORDER.indexOf(b.cat))}
 function minOf(h){return h.min!=null?h.min:(MIN_DEFAULT[h.id]||"")}
 
@@ -637,7 +723,8 @@ function dayXP(date){const d=days[date];if(!d)return 0;let x=0;const hs=cfg.habi
   if(allClear(date))x+=XP.allClear;
   if(d.mood)x+=XP.mood;if((d.grat||"").trim()||(d.memo||"").trim())x+=XP.log;return x}
 function totalXP(){let x=0;const t=Math.min(todayNo(),100);for(let i=1;i<=t;i++)x+=dayXP(dateOf(i));
-  Object.values(weeks).forEach(w=>{if(w&&((w.good||"").trim()||(w.bad||"").trim()||(w.next||"").trim()))x+=XP.week});return x}
+  Object.values(weeks).forEach(w=>{if(w&&((w.good||"").trim()||(w.bad||"").trim()||(w.next||"").trim()))x+=XP.week});
+  x+=Object.keys(cfg.road||{}).length*XP.road;return x}
 const lvNeed=n=>50*n*(n-1); // total XP needed to reach level n
 function lvOf(x){let n=1;while(lvNeed(n+1)<=x)n++;return n}
 function titleOf(n){let t=TITLES[0][1];TITLES.forEach(([k,v])=>{if(n>=k)t=v});return t}
@@ -663,13 +750,13 @@ function toast(msg){const t=$("toast");t.textContent=msg;t.classList.remove("hid
 function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 
 /* ---------- routing ---------- */
-const VIEWS=["today","map","review","setup"];
+const VIEWS=["today","road","map","review","setup"];
 const cur=()=>VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"today";
 function route(){const v=cur();VIEWS.forEach(x=>{$("v-"+x).hidden=x!==v});
   document.querySelectorAll("nav.bnav a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
   if(v==="setup")draft=null;render(v);window.scrollTo(0,0)}
 window.addEventListener("hashchange",route);
-function render(v){v=v||cur();if(v==="today")renderToday();if(v==="map")renderMap();if(v==="review")renderReview();if(v==="setup")renderSetup()}
+function render(v){v=v||cur();if(v==="today")renderToday();if(v==="road")renderRoad();if(v==="map")renderMap();if(v==="review")renderReview();if(v==="setup")renderSetup()}
 
 /* ---- today ---- */
 function editableDay(date){const n=dayNo(date);return n>=1&&n<=100&&date<=TODAY}
@@ -693,7 +780,7 @@ function renderToday(){
     t.setAttribute("aria-pressed",checks[h.id]?"true":"false");t.disabled=!ed;
     const hs=habitStreak(h.id,Math.min(n,100));
     t.innerHTML='<span class="ring" aria-hidden="true">✓</span><span class="tx"><span class="nm"></span><span class="mn"></span></span>'+(AUTO[h.id]?'<span class="auto">자동</span>':'')+(h.id===b?'<span class="bonus">×2</span>':'')+(hs>1?'<span class="st">'+hs+'일</span>':'');
-    t.querySelector(".nm").textContent=h.name;t.querySelector(".mn").textContent=AUTO[h.id]?AUTO[h.id]+" 체크":minOf(h);
+    t.querySelector(".nm").textContent=h.name;t.querySelector(".mn").textContent=(h.id==="str"&&!dayTypeFor(viewDate)&&!(d.prog))?"쉬는 날 · 눌러서 휴식 체크":AUTO[h.id]?AUTO[h.id]+" 체크":minOf(h);
     t.setAttribute("aria-label",h.name+(h.id===b?" (오늘의 보너스 ×2)":"")+(checks[h.id]?" 완료":""));
     t.onclick=()=>toggle(h);box.appendChild(t)});
   if(!ed){const p=document.createElement("p");p.className="note";p.style.gridColumn="1/-1";p.textContent=n<1?"시작일 전입니다. 설정에서 시작일을 확인하세요.":"100일 기간 밖의 날짜입니다.";box.appendChild(p)}
@@ -707,7 +794,7 @@ function renderToday(){
   $("logPv").textContent=pv||"탭해서 기록";$("openLog").classList.toggle("ok",!!pv);$("openLog").disabled=!ed;
   const wl=(d.write||"").replace(/\s/g,"").length;$("writePv").textContent=wl?wl+"자"+(wl>=300?" ✓":""):"300자 쓰면 체크";$("openWrite").classList.toggle("ok",wl>=300);$("openWrite").disabled=!ed;
   $("bedPv").textContent=d.bed?d.bed+" 기록"+(checks.sleep?" ✓":""):"자정 전에 누르기";$("bedBtn").classList.toggle("ok",!!checks.sleep);$("bedBtn").disabled=viewDate!==TODAY||!ed;
-  renderProgCard();renderBodyNag();
+  renderProgCard();renderBodyNag();renderMission(n);renderRoadCard();
   $("goalText").textContent=cfg.goal||"목표를 정해 주세요";renderHero();
   $("openWo").hidden=!cfg.habits.some(x=>x.id==="str");
 }
@@ -789,7 +876,7 @@ let wT=null;
 
 /* ---- setup ---- */
 let draft=null;
-function renderSetup(){if(!draft)draft=clone(cfg);$("sStart").value=draft.startDate;$("sGoal").value=draft.goal||"";
+function renderSetup(){if(!draft)draft=clone(cfg);renderProgMode();$("sStart").value=draft.startDate;$("sGoal").value=draft.goal||"";
   const el=$("hEdit");el.innerHTML="";
   draft.habits.forEach((h,i)=>{const row=document.createElement("div");row.className="hedit";
     const inp=document.createElement("input");inp.type="text";inp.id="hn-"+h.id;inp.value=h.name;inp.maxLength=20;inp.setAttribute("aria-label","습관 이름");inp.oninput=()=>{h.name=inp.value};
@@ -1088,7 +1175,7 @@ $("closeWo").onclick=()=>{closeSheets()};
 
 /* ---------- sheets ---------- */
 function openSheet(id){$("scrim").hidden=false;$(id).hidden=false}
-function closeSheets(){["goalSheet","gearSheet","woSheet","writeSheet","bodySheet","exSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
+function closeSheets(){["goalSheet","gearSheet","woSheet","writeSheet","bodySheet","exSheet","meetSheet"].forEach(i=>{$(i).hidden=true});if($("sheet").hidden)$("scrim").hidden=true}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSheets()}});
 
 /* ---------- goal editing ---------- */
@@ -1263,8 +1350,8 @@ const TRACKS={
   {k:"hang1",n:"매달리기 (발 떼고)",u:"s",a:10,c:40,set:["바를 어깨너비로, 엄지까지 감싸 쥔다","발을 바닥에서 뗀다","무릎은 살짝 굽혀도 OK"],cue:["팔은 쭉 편 채 버틴다","어깨를 살짝 끌어내린 상태 유지","손가락이 아프면 바로 내려오기"]}]},
  pull:{t:"턱걸이 계열",day:"A",why:"광배근 · 등 옆선(V자)",lv:[
   {k:"pull0",n:"발 딛고 턱걸이",u:"r",a:5,c:10,set:["빨간 기둥 구멍으로 바를 가슴~얼굴 높이로 낮춘다 (안 되면 의자)","바를 어깨너비로 잡고 발은 바닥에","몸을 살짝 뒤로 기울인다"],cue:["팔꿈치를 옆구리로 끌어내리듯 당긴다","발은 도와주는 만큼만 민다","내려올 때 2초"]},
-  {k:"pull1",n:"네거티브 턱걸이 (3초)",u:"r",a:3,c:8,set:["의자를 딛고 턱이 바 위에 오게 선다","바를 어깨너비로 잡는다","발을 의자에서 뗄 준비"],cue:["3초 동안 천천히 내려온다","끝까지 내려오면 다시 의자로","팔이 다 펴질 때까지"]},
-  {k:"pull2",n:"턱걸이",u:"r",a:1,c:8,set:["바를 어깨너비로 잡는다","어깨를 먼저 끌어내린다","반동 없이 매달린 자세에서 시작"],cue:["쇄골을 바 쪽으로 당긴다","턱이 바를 넘으면 성공","천천히 끝까지 내려온다"]}]},
+  {k:"pull1",n:"네거티브 턱걸이 (3초)",u:"r",a:3,c:8,set:["의자를 딛고 턱이 바 위에 오게 선다","바를 어깨너비로 잡는다","천장이 낮으면 무릎을 굽혀 발을 뒤로 모은다"],cue:["3초 동안 천천히 내려온다","끝까지 내려오면 다시 의자로","팔이 다 펴질 때까지"]},
+  {k:"pull2",n:"턱걸이",u:"r",a:1,c:8,set:["바를 어깨너비로 잡는다","어깨를 먼저 끌어내린다","천장이 낮으면 무릎을 굽혀 발을 뒤로, 반동 없이 시작"],cue:["쇄골을 바 쪽으로 당긴다","턱이 바를 넘으면 성공","천천히 끝까지 내려온다"]}]},
  row:{t:"딥스바 로우",day:"A",why:"뒤쪽 어깨 · 굽은 등 교정",lv:[
   {k:"row0",n:"딥스바 로우 (무릎 굽혀)",u:"r",a:6,c:12,set:["기구를 흔들어 보고 흔들리면 뒤 받침대에 무거운 것을 올린다","딥스 손잡이 사이 아래에 누워 손잡이 끝을 잡는다","무릎을 세워 어깨~무릎 일자"],cue:["팔꿈치를 양옆으로 벌리며 가슴을 당긴다","날개뼈를 모은다","내려갈 때 2초"]},
   {k:"row1",n:"딥스바 로우 (다리 펴고)",u:"r",a:6,c:12,set:["무릎 굽힌 로우와 같은 자리","다리를 쭉 펴고 발뒤꿈치를 바닥에","머리~발뒤꿈치 일자"],cue:["엉덩이가 처지지 않게","팔꿈치를 옆으로 벌리며 당긴다","내려갈 때 2초"]},
@@ -1281,8 +1368,10 @@ const TRACKS={
  yr:{t:"엎드려 Y 레이즈",day:"B",why:"뒤·아래 어깨 · 자세",lv:[
   {k:"yr0",n:"엎드려 Y 레이즈",u:"r",a:8,c:15,set:["바닥에 엎드린다 (이마 밑에 수건)","팔을 머리 위로 Y자로 뻗는다","엄지를 위로 향하게"],cue:["팔을 바닥에서 살짝 들어 1초","날개뼈를 아래로 모은다","천천히 내린다"]},
   {k:"yr1",n:"엎드려 Y 레이즈 (3초 멈춤)",u:"r",a:6,c:12,set:["같은 자세","팔을 Y자로","엄지 위로"],cue:["들어 올려 3초 멈춘다","목은 힘 빼고","천천히 내린다"]}]}};
-const DAYTRACKS={A:["hang","pull","row"],B:["sup","pike","yr"]};
-const DAYNAME={A:"A일 · 등 넓이",B:"B일 · 어깨"};
+const DAYTRACKS={A:["hang","pull","row"],B:["sup","pike","yr"],AB:["hang","pull","row","sup","pike","yr"]};
+const DAYNAME={A:"A일 · 등 넓이",B:"B일 · 어깨",AB:"A+B · 등과 어깨"};
+const PMODES={ab6:["주 6일 A/B (하루 7분)","월·수·금 A일, 화·목·토 B일, 일요일 쉼"],alt3:["격일 주 3회 (하루 14분)","월·수·금에 A+B를 한 번에. 나머지 날은 러닝·계단 (로드맵 E-07)"]};
+const pmode=()=>(cfg.prog&&cfg.prog.mode==="alt3")?"alt3":"ab6";
 Object.values(TRACKS).forEach(t=>t.lv.forEach(l=>{VQ[l.k]=VQ[l.k]||l.n}));
 Object.assign(VQ,{hang00:"치닝디핑 역쉬러그 견갑 하강 레그레이즈 패드",hang0:"feet assisted dead hang 발 보조 매달리기",hang1:"데드행 매달리기 초보",pull0:"feet assisted pull up 발 딛고 턱걸이",pull1:"네거티브 풀업 초보",pull2:"턱걸이 자세 초보",row0:"치닝디핑 인버티드로우",row1:"인버티드 로우 다리 펴고",row2:"인버티드 로우 정지",sup0:"딥스 서포트 홀드 발 보조",sup1:"dip support hold",sup2:"네거티브 딥스 초보",sup3:"딥스 자세 초보",pike0:"인클라인 파이크 푸시업",pike1:"incline pike push up deep",pike2:"파이크 푸시업 자세",yr0:"prone Y raise 엎드려 Y 레이즈",yr1:"prone Y raise hold"});
 
@@ -1321,16 +1410,16 @@ function progState(){const p=cfg.prog=cfg.prog||{};p.t=p.t||{};Object.keys(TRACK
 const unitTxt=(u,v)=>u==="s"?v+"초":v+"회";
 function levelOf(k){const st=progState().t[k],L=TRACKS[k].lv;return L[Math.min(st.lv,L.length-1)]}
 function scoreOf(k,lv,val){const L=TRACKS[k].lv;let s=0;for(let i=0;i<lv&&i<L.length;i++)s+=L[i].c-L[i].a+1;return s+(val-L[Math.min(lv,L.length-1)].a)}
-function dayTypeFor(date){const p=progState();if(p.ov&&p.ov.d===date)return p.ov.t;const wd=new Date(toUTC(date)).getUTCDay();return wd===0?null:(wd%2===1?"A":"B")}
+function dayTypeFor(date){const p=progState();if(p.ov&&p.ov.d===date)return p.ov.t;const wd=new Date(toUTC(date)).getUTCDay();if(pmode()==="alt3")return wd===1||wd===3||wd===5?"AB":null;return wd===0?null:(wd%2===1?"A":"B")}
 function progNextText(t){return DAYTRACKS[t].map(k=>{const L=levelOf(k),st=progState().t[k];return L.n+" "+unitTxt(L.u,st.val)}).join(" · ")}
 function updateProgNext(){const p=progState();p.next={A:progNextText("A"),B:progNextText("B")}}
 function lastResult(k){const ks=Object.keys(days).sort().reverse();for(const d of ks){const r=days[d]&&days[d].prog&&days[d].prog.r&&days[d].prog.r[k];if(r)return Object.assign({d},r)}return null}
 function renderProgCard(){const card=$("pcard");if(!cfg.habits.some(h=>h.id==="str")){card.hidden=true;return}card.hidden=false;
  const isT=viewDate===TODAY,dd=days[TODAY]||{},done=dd.prog,t=done?done.type:dayTypeFor(TODAY);
- $("pcSwap").hidden=!!done||!isT;
+ $("pcSwap").hidden=!!done||!isT||pmode()==="alt3";
  const list=$("pcList");list.innerHTML="";$("pcDone").hidden=true;$("pcStart").hidden=false;
  if(!isT){$("pcTitle").textContent="오늘의 어깨";list.innerHTML='<span class="note">오늘 날짜에서 시작할 수 있어요</span>';$("pcStart").hidden=true;return}
- if(!t){$("pcTitle").textContent="일요일 · 회복일";list.innerHTML='<span class="note">근육이 자라는 날이에요. 걷기만 해도 충분해요.</span>';$("pcStart").textContent="그래도 하기 (A일)";$("pcStart").onclick=()=>{const p=progState();p.ov={d:TODAY,t:"A"};saveCfg();renderToday()};return}
+ if(!t){const alt=pmode()==="alt3",sun=new Date(toUTC(TODAY)).getUTCDay()===0;$("pcTitle").textContent=(sun?"일요일":"오늘")+" · 회복일";list.innerHTML='<span class="note">'+(alt&&!sun?"근육이 자라는 날이에요. 러닝·계단으로 격일을 채워요.":"근육이 자라는 날이에요. 걷기만 해도 충분해요.")+'</span>';$("pcStart").textContent=alt?"그래도 하기 (A+B)":"그래도 하기 (A일)";$("pcStart").onclick=()=>{const p=progState();p.ov={d:TODAY,t:alt?"AB":"A"};saveCfg();renderToday()};return}
  $("pcTitle").textContent="오늘 "+DAYNAME[t];
  DAYTRACKS[t].forEach(k=>{const L=levelOf(k),st=progState().t[k],it=document.createElement("button");it.type="button";it.className="pc-it";
   let delta="";if(done&&done.r[k]){const r=done.r[k];delta=r.ok?"✓ 다음 "+unitTxt(L.u,st.val):"다음에 다시"}else{const lr=lastResult(k);if(lr&&lr.ok)delta="지난번보다 +1";else if(!lr)delta="첫 기록"}
@@ -1338,7 +1427,7 @@ function renderProgCard(){const card=$("pcard");if(!cfg.habits.some(h=>h.id==="s
   it.innerHTML='<span></span><b></b><i></i>';it.querySelector("span").textContent=done&&done.r[k]?done.r[k].n:L.n;it.querySelector("b").textContent=unitTxt(uu,shown)+" ×2";it.querySelector("i").textContent=delta||"그림 보기";const lk2=done&&done.r[k]?(TRACKS[k].lv[done.r[k].lv]||L).k:L.k;it.onclick=()=>openEx(k,lk2);it.setAttribute("aria-label",(it.querySelector("span").textContent)+" 자세 그림 보기");list.appendChild(it)});
  if(!done){const hint=document.createElement("span");hint.className="note";hint.style.width="100%";hint.textContent="동작 이름을 누르면 자세 그림과 자극 부위가 나와요";list.appendChild(hint)}
  if(done){$("pcStart").hidden=true;$("pcDone").hidden=false;const ok=Object.values(done.r).filter(r=>r.ok).length;$("pcDone").textContent="오늘 완료 ✓ "+ok+"/"+Object.keys(done.r).length+"개 목표 달성";}
- else{$("pcStart").textContent="시작 (약 7분)";$("pcStart").onclick=()=>startProg(t)}}
+ else{$("pcStart").textContent="시작 (약 "+(t==="AB"?14:7)+"분)";$("pcStart").onclick=()=>startProg(t)}}
 $("pcSwap").onclick=()=>{const p=progState(),cur=dayTypeFor(TODAY)||"B";p.ov={d:TODAY,t:cur==="A"?"B":"A"};saveCfg();renderToday();toast(DAYNAME[p.ov.t]+"로 바꿨어요")};
 // ---- program player ----
 let PP=null;
@@ -1466,6 +1555,118 @@ function mergeExternal(){if(mode==="db")return;let o;try{o=JSON.parse(localStora
 window.addEventListener("storage",e=>{if(e.key==="kg.signals")pullSignals();if(e.key===LS)mergeExternal()});
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){mergeExternal();pullSignals()}});
 
+/* ---------- roadmap (personal content lives in the private data repo, never in this code) ---------- */
+const RDK="reboot100.road";let ROAD=null,dbReady=false,rmOpen=null;
+try{const o=JSON.parse(localStorage.getItem(RDK)||"null");if(o&&o.phases&&o.tasks)ROAD=o}catch(e){}
+const MISSIONS=["Fact 대신 Feeling 질문 — \"어떤 장면이 제일 남았어요?\"","상대 말이 끝나면 속으로 3초, 마지막 2~3단어를 부드럽게 되받기","하소연엔 해결책 말고 감정 이름표 — \"~해서 답답하셨겠어요\"","\"맞아요\"로 끝내지 않기: 공감 + 내 작은 에피소드 한 문장 + 감정 질문","목소리 반 옥타브 낮추기 · 정적 4초는 미소와 물 한 모금으로","비판·불평 대신 진심 어린 사소한 칭찬 한 번","내 실수를 먼저 인정하고 상대 체면 세워 주기"];
+const GREEN=["대가 없는 친절","진심 어린 경청","독립적이면서 함께하는 태도","밀당·침묵 없이 솔직한 대화"];
+const RED=["침묵의 벌칙 (수동공격)","모호한 감정 게임","책임 회피·일방적 통제"];
+const MEFLAGS=["Feeling 질문 위주","3초 멈춤·미러링","감정 레이블링","정적 4초 여유","공감+내 에피소드"];
+const AGAIN=["예","고민 중","아니오"];
+const PRI={"최상":0,"상":1,"중":2,"하":3};
+const uymd=ms=>{const t=new Date(ms);return t.getUTCFullYear()+"-"+pad(t.getUTCMonth()+1)+"-"+pad(t.getUTCDate())};
+const md=s=>{const [,m,d]=s.split("-").map(Number);return m+"/"+d};
+function roadMsg(t){const m=$("rmMsg");if(m){m.hidden=!t;m.textContent=t||""}}
+async function loadRoad(){try{let o=null;
+  if(mode==="db"){const s=await db.doc("reboot/roadmap").get();if(s.exists)o=s.data();else if(!ROAD)roadMsg("로드맵 데이터가 아직 없어요.")}
+  else if(ghOn()){const g=await ghApi("roadmap.json");if(g.ok)o=JSON.parse(b64d((await g.json()).content));else if(g.status===404&&!ROAD)roadMsg("비공개 저장소에 roadmap.json이 아직 없어요.")}
+  if(o&&o.phases&&o.tasks){ROAD=o;try{localStorage.setItem(RDK,JSON.stringify(o))}catch(e){}roadMsg("");applyRoadGoal();render()}}
+ catch(e){if(!ROAD)roadMsg("로드맵을 불러오지 못했어요. 인터넷 연결 후 다시 시도해 주세요.")}}
+function applyRoadGoal(){if(!ROAD||!ROAD.goal||cfg.roadGoal)return;if(mode==="db"&&!dbReady)return;
+  if(cfg.goal===DEFAULT_CFG.goal){cfg.goalHistory=(cfg.goalHistory||[]).concat([{d:TODAY,goal:cfg.goal}]).slice(-30);cfg.goal=ROAD.goal;if(ROAD.why)cfg.goalWhy=ROAD.why}
+  cfg.roadGoal=1;saveCfg()}
+const roadDone=id=>!!(cfg.road&&cfg.road[id]);
+function phaseState(p){return p.to<TODAY?"past":p.from>TODAY?"future":"now"}
+function roadNow(){if(!ROAD)return [];const out=[];
+  ROAD.phases.forEach((p,pi)=>{if(p.from>TODAY)return;const late=p.to<TODAY;p.tasks.forEach(id=>{const T=ROAD.tasks[id];if(T&&!roadDone(id))out.push({id,T,late,pi})})});
+  out.sort((a,b)=>(b.late-a.late)||((PRI[a.T.pri]??9)-(PRI[b.T.pri]??9))||(a.pi-b.pi));return out}
+function toggleRoad(id){const before=lvOf(totalXP());cfg.road=Object.assign({},cfg.road||{});
+  if(cfg.road[id])delete cfg.road[id];else cfg.road[id]=TODAY;saveCfg();buzz(cfg.road[id]?[20,30,20]:6);
+  if(cfg.road[id]){const ph=ROAD.phases.find(p=>p.tasks.includes(id));
+    if(ph&&ph.tasks.every(roadDone))toast(ph.label+" 단계 완료! 정원이 한 칸 자랐어요");else toast("로드맵 +"+XP.road+" XP")}
+  render();announce()}
+function taskRow(id,T,o){o=o||{};const row=document.createElement("div");row.className="rtask";row.dataset.done=roadDone(id)?"1":"0";
+  const b=document.createElement("button");b.type="button";b.className="rchk";b.textContent="✓";b.setAttribute("aria-pressed",roadDone(id)?"true":"false");
+  b.setAttribute("aria-label",T.t+(roadDone(id)?" 완료 취소":" 완료"));b.onclick=()=>toggleRoad(id);
+  const body=document.createElement("div");const tt=document.createElement("div");tt.className="rtt";tt.textContent=T.t;
+  const meta=document.createElement("div");meta.className="rmeta";
+  const pr=document.createElement("span");pr.className="rpri"+(T.pri==="최상"?" top":"");pr.textContent=T.pri||"";if(T.pri)meta.appendChild(pr);
+  const wh=document.createElement("span");wh.textContent=T.when||"";meta.appendChild(wh);
+  if(o.late){const l=document.createElement("span");l.className="rlate";l.textContent="지난 단계";meta.appendChild(l)}
+  if(roadDone(id)){const dn=document.createElement("span");dn.textContent=md(cfg.road[id])+" 완료";meta.appendChild(dn)}
+  body.append(tt,meta);
+  if(!o.compact&&(T.how||T.kpi)){const dt=document.createElement("details");const sm=document.createElement("summary");sm.textContent="방법 · 완료 기준";dt.appendChild(sm);
+    if(T.how){const p=document.createElement("p");p.textContent=T.how;dt.appendChild(p)}
+    if(T.kpi){const p=document.createElement("p");p.innerHTML="<b>완료 기준</b> ";p.appendChild(document.createTextNode(T.kpi));dt.appendChild(p)}
+    body.appendChild(dt)}
+  row.append(b,body);return row}
+/* weekly routines: one mark per day, counted in the current Mon–Sun week (or the last 14 days for every-other-week ones) */
+function wkWindow(per){const t=toUTC(TODAY);if(per>7){const a=[];for(let i=per-1;i>=0;i--)a.push(uymd(t-i*864e5));return a}
+  const wd=(new Date(t).getUTCDay()+6)%7,a=[];for(let i=wd;i>=0;i--)a.push(uymd(t-i*864e5));return a}
+const wkMarked=(date,id)=>!!(days[date]&&days[date].wk&&days[date].wk[id]);
+function wkCount(w){return wkWindow(w.per||7).filter(d=>wkMarked(d,w.id)).length}
+function toggleWk(w){const dd=edit(TODAY);dd.wk=Object.assign({},dd.wk||{});if(dd.wk[w.id])delete dd.wk[w.id];else dd.wk[w.id]=1;saveDay(TODAY);buzz(dd.wk[w.id]?12:6);
+  if(dd.wk[w.id]){const n=wkCount(w);toast(w.n+" "+n+"/"+w.target+(n>=w.target?" 이번 목표 달성":""))}render()}
+function wkChips(el,onlyOpen){el.innerHTML="";if(!ROAD||!ROAD.weekly)return 0;let k=0;
+  ROAD.weekly.forEach(w=>{const n=wkCount(w),ok=n>=w.target;if(onlyOpen&&ok&&!wkMarked(TODAY,w.id))return;k++;
+    const b=document.createElement("button");b.type="button";b.className="wkchip"+(ok?" ok":"")+(wkMarked(TODAY,w.id)?" today":"");
+    b.textContent=w.n;const c=document.createElement("b");c.textContent=n+"/"+w.target+((w.per||7)>7?" (2주)":"");b.appendChild(c);
+    b.setAttribute("aria-label",w.n+" "+((w.per||7)>7?"2주":"이번 주")+" "+n+"회 중 목표 "+w.target+"회"+(wkMarked(TODAY,w.id)?", 오늘 함 (누르면 취소)":", 누르면 오늘 1회"));
+    b.onclick=()=>toggleWk(w);el.appendChild(b)});return k}
+function renderMission(n){const m=$("mission");if(!cfg.habits.some(h=>h.id==="talk")||!editableDay(viewDate)){m.hidden=true;return}
+  const i=(((n-1)%MISSIONS.length)+MISSIONS.length)%MISSIONS.length;m.hidden=false;m.innerHTML="<b>오늘의 대화 미션</b>";m.appendChild(document.createTextNode(MISSIONS[i]))}
+function renderRoadCard(){const card=$("roadCard");if(!ROAD||viewDate!==TODAY){card.hidden=true;return}
+  const list=$("roadCardList");list.innerHTML="";const items=roadNow();
+  items.slice(0,3).forEach(x=>list.appendChild(taskRow(x.id,x.T,{compact:1,late:x.late,phase:ROAD.phases[x.pi].label})));
+  const ph=ROAD.phases.find(p=>phaseState(p)==="now");
+  if(!items.length){const p=document.createElement("p");p.className="note";p.style.margin="0";p.textContent=ph?"지금 단계 할 일을 모두 끝냈어요. 다음 단계까지 정원을 가꿔요.":"지금 할 로드맵 과제가 없어요.";list.appendChild(p)}
+  $("roadCardSum").textContent=(items.length>3?"+"+(items.length-3)+"개 더 · ":"")+"전체 ›";
+  const k=wkChips($("wkChipsToday"),true);$("wkChipsToday").hidden=!k;card.hidden=false}
+function renderRoad(){const has=!!ROAD;$("rmWeekly").hidden=!has;$("rmReload").hidden=has||!(ghOn()||mode==="db");
+  const ph=$("rmPhases");ph.innerHTML="";
+  if(!has){$("rmTitle").textContent="로드맵";$("rmWhy").textContent="";$("rmPct").textContent="—";$("rmBar").style.width="0";
+    if($("rmMsg").hidden)roadMsg(window.__PWA__&&!ghOn()?"설정의 'GitHub 자동 백업'을 연결하면 비공개 저장소에서 로드맵을 불러와요. 개인 내용이라 앱 코드에는 넣지 않았어요.":"로드맵을 불러오는 중…")}
+  else{const all=ROAD.phases.flatMap(p=>p.tasks),dn=all.filter(roadDone).length,pct=all.length?Math.round(dn/all.length*100):0;
+    $("rmTitle").textContent=ROAD.title||"로드맵";$("rmWhy").textContent=ROAD.why||"";$("rmPct").textContent=dn+"/"+all.length;$("rmBar").style.width=pct+"%";
+    wkChips($("wkChips"));
+    if(!rmOpen){rmOpen=new Set();ROAD.phases.forEach(p=>{const s=phaseState(p);if(s==="now"||(s==="past"&&!p.tasks.every(roadDone)))rmOpen.add(p.id)})}
+    ROAD.phases.forEach(p=>{const st=phaseState(p),n=p.tasks.filter(roadDone).length;
+      const sec=document.createElement("details");sec.className="card phase";sec.open=rmOpen.has(p.id);sec.ontoggle=()=>{sec.open?rmOpen.add(p.id):rmOpen.delete(p.id)};
+      const sm=document.createElement("summary");sm.innerHTML='<div class="ph-top"><b></b><span></span></div><div class="ph-goal"></div><div class="mbar"><i></i></div>';
+      sm.querySelector("b").textContent=p.label;const tag=sm.querySelector(".ph-top span");
+      if(st==="now"){tag.className="ph-now";tag.textContent="지금 · "+n+"/"+p.tasks.length}else{tag.className="ph-past";tag.textContent=(st==="past"?(n===p.tasks.length?"완료 ":"지남 "):"")+n+"/"+p.tasks.length}
+      sm.querySelector(".ph-goal").textContent=p.goal+" · "+md(p.from)+"~"+md(p.to);sm.querySelector("i").style.width=(p.tasks.length?n/p.tasks.length*100:0)+"%";
+      sec.appendChild(sm);const box=document.createElement("div");
+      p.tasks.forEach(id=>{const T=ROAD.tasks[id];if(T)box.appendChild(taskRow(id,T,{late:st==="past"&&!roadDone(id)}))});
+      sec.appendChild(box);ph.appendChild(sec)})}
+  renderMeets()}
+$("rmReload").onclick=()=>{roadMsg("불러오는 중…");loadRoad()};
+/* meeting review */
+let mtIdx=-1,mtDraft=null;
+function meets(){return Array.isArray(cfg.meets)?cfg.meets:[]}
+function renderMeets(){const el=$("meetList");el.innerHTML="";const L=meets().map((m,i)=>[m,i]).sort((a,b)=>a[0].d<b[0].d?1:-1);
+  if(!L.length){const p=document.createElement("p");p.className="note";p.style.margin="6px 0 0";p.textContent="아직 기록이 없어요. 첫 만남 뒤에 눌러 주세요.";el.appendChild(p);return}
+  L.forEach(([m,i])=>{const b=document.createElement("button");b.type="button";b.className="mrow"+((m.r||[]).length?" warn":"");
+    const a=document.createElement("span");a.textContent=md(m.d)+" · "+(m.who||"익명");const z=document.createElement("small");
+    z.textContent="그린 "+(m.g||[]).length+" · 레드 "+(m.r||[]).length+(m.again!=null?" · 다시: "+AGAIN[m.again]:"");
+    b.append(a,z);b.onclick=()=>openMeet(i);el.appendChild(b)})}
+function flagBtns(elId,labels,key,single){const el=$(elId);el.innerHTML="";labels.forEach((t,i)=>{const b=document.createElement("button");b.type="button";b.textContent=t;
+  const on=single?mtDraft[key]===i:(mtDraft[key]||[]).includes(i);b.setAttribute("aria-pressed",on?"true":"false");
+  b.onclick=()=>{if(single)mtDraft[key]=mtDraft[key]===i?null:i;else{const a=mtDraft[key]=(mtDraft[key]||[]).slice();const k=a.indexOf(i);k<0?a.push(i):a.splice(k,1)}flagBtns(elId,labels,key,single)};el.appendChild(b)})}
+function openMeet(i){mtIdx=i;const m=i>=0?meets()[i]:{d:TODAY,who:"",g:[],r:[],me:[],again:null,memo:""};mtDraft=clone(m);
+  $("mtDate").value=mtDraft.d;$("mtWho").value=mtDraft.who||"";$("mtMemo").value=mtDraft.memo||"";$("meetDel").hidden=i<0;
+  flagBtns("mtGreen",GREEN,"g");flagBtns("mtRed",RED,"r");flagBtns("mtMe",MEFLAGS,"me");flagBtns("mtAgain",AGAIN,"again",true);openSheet("meetSheet")}
+$("meetNew").onclick=()=>openMeet(-1);
+$("meetSave").onclick=()=>{mtDraft.d=$("mtDate").value||TODAY;mtDraft.who=$("mtWho").value.trim().slice(0,12);mtDraft.memo=$("mtMemo").value;
+  const L=meets().slice();if(mtIdx>=0)L[mtIdx]=mtDraft;else L.push(mtDraft);cfg.meets=L;saveCfg();closeSheets();
+  toast((mtDraft.r||[]).length?"저장했어요. 레드 플래그는 호감에 가려 넘기지 말기":"만남 복기를 저장했어요");render()};
+$("meetDel").onclick=()=>{if(mtIdx<0)return;const L=meets().slice();L.splice(mtIdx,1);cfg.meets=L;saveCfg();closeSheets();toast("기록을 지웠어요");render()};
+/* program schedule (setup) */
+function renderProgMode(){const el=$("progMode");el.innerHTML="";Object.keys(PMODES).forEach(k=>{const b=document.createElement("button");b.type="button";b.textContent=PMODES[k][0];
+  b.setAttribute("aria-pressed",pmode()===k?"true":"false");
+  b.onclick=()=>{const p=progState();p.mode=k;if(p.ov)delete p.ov;if(draft){draft.prog=Object.assign({},draft.prog||{},{mode:k})}saveCfg();renderProgMode();toast(PMODES[k][0]+"로 바꿨어요")};el.appendChild(b)});
+  $("progModeNote").textContent=PMODES[pmode()][1]}
+
 /* ---------- GitHub auto-backup (home-screen app only) ---------- */
 const GHK="reboot100.gh";let gh={repo:"kg4909-design/reboot100-data",token:""},ghT=null,ghLast="",ghBusy=false;
 try{Object.assign(gh,JSON.parse(localStorage.getItem(GHK)||"{}"))}catch(e){}
@@ -1501,13 +1702,14 @@ if(window.__PWA__){$("ghCard").hidden=false;$("ghRepo").value=gh.repo;$("ghTok")
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){const t=today();if(t!==TODAY){if(viewDate===TODAY)viewDate=t;TODAY=t;render()}}});
 
 /* ---------- boot ---------- */
-lsLoad();if(migrate()){lsSave()}progState();updateProgNext();route();setTimeout(pullSignals,600);if(window.__PWA__||!window.claude)loadSeen();sync("이 폰에 저장 중 · 설정에서 백업할 수 있어요");
+lsLoad();if(migrate()){lsSave()}progState();updateProgNext();route();setTimeout(loadRoad,900);setTimeout(pullSignals,600);if(window.__PWA__||!window.claude)loadSeen();sync("이 폰에 저장 중 · 설정에서 백업할 수 있어요");
 (async()=>{try{if(!window.claude||!window.claude.use)return;db=await window.claude.use("db");if(!db)return;
   mode="db";sync("동기화 연결 중…");let got=0;const timer=setTimeout(()=>{if(got<2)sync("서버에 아직 연결되지 않았어요",1)},10000);
-  const ok=()=>{got++;if(got>=2){clearTimeout(timer);sync("모든 기기에 자동 저장");if(!seen)loadSeen()}};
+  const ok=()=>{got++;if(got>=2){clearTimeout(timer);sync("모든 기기에 자동 저장");if(!seen)loadSeen();if(!dbReady){dbReady=true;applyRoadGoal()}}};
   db.doc("reboot/config").onSnapshot(s=>{if(s.exists){cfg=Object.assign(clone(DEFAULT_CFG),s.data(),s.data().v?{}:{v:1});if(cur()!=="setup")draft=null;if(migrate()||!cfg.prog){progState();updateProgNext();saveCfg()}}if(!s.metadata.fromCache)ok();render()},()=>{clearTimeout(timer);sync("설정을 불러오지 못했어요",1)});
   db.collection("days").onSnapshot(s=>{const o={};s.docs.forEach(d=>{o[d.id]=d.data()});days=o;if(!s.metadata.fromCache)ok();if($("sheet").hidden&&$("writeSheet").hidden)render()},()=>{clearTimeout(timer);sync("기록을 불러오지 못했어요",1)});
   db.collection("weeks").onSnapshot(s=>{const o={};s.docs.forEach(d=>{o[d.id]=d.data()});weeks=o;render()},()=>{});
+  loadRoad();
 }catch(e){mode="local"}finally{if(mode!=="db"&&!seen)loadSeen()}})();
 if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
